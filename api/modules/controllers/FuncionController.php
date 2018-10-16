@@ -1,5 +1,5 @@
 <?php
-namespace api\controllers;
+namespace api\modules\controllers;
 
 use api\models\FuncionRest;
 use yii\rest\ActiveController;

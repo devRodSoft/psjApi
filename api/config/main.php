@@ -68,13 +68,23 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
-                'GET cartelera/<fecha:\d+>' => 'funcion/index',
-                'GET sala' => 'sala/index',
-                'GET sala/<id:\d+>' => 'sala/view',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'general/user'],
+                'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
+                'GET sala' => 'general/sala/index',
+                'GET sala/<id:\d+>' => 'general/sala/view',
+
+                // OPTIONS
+                'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
+                'OPTIONS sala' => 'general/sala/options',
+                'OPTIONS sala/<id:\d+>' => 'general/sala/options',
             ],
         ],
 
+    ],
+    'modules' => [
+        'general' => [
+            'class' => 'api\modules\general',
+        ],
     ],
     'params' => $params,
 ];
