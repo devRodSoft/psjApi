@@ -18,8 +18,8 @@ class PeliculaSearch extends Pelicula
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['nombre', 'director', 'protagonistas', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'director_id'], 'integer'],
+            [['nombre', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg', 'created_at', 'updated_at'], 'safe'],
             [['calificacion'], 'number'],
         ];
     }
@@ -61,14 +61,13 @@ class PeliculaSearch extends Pelicula
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'director_id' => $this->director_id,
             'calificacion' => $this->calificacion,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'director', $this->director])
-            ->andFilterWhere(['like', 'protagonistas', $this->protagonistas])
             ->andFilterWhere(['like', 'genero', $this->genero])
             ->andFilterWhere(['like', 'clasificacion', $this->clasificacion])
             ->andFilterWhere(['like', 'idioma', $this->idioma])

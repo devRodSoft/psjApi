@@ -19,13 +19,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre') ?>
 
-    <?= $form->field($model, 'director') ?>
-
-    <?= $form->field($model, 'protagonistas') ?>
+    <?= $form->field($model, 'director_id') ?>
 
     <?= $form->field($model, 'genero') ?>
 
-    <?php // echo $form->field($model, 'calificacion') ?>
+    <?= $form->field($model, 'calificacion') ?>
 
     <?php // echo $form->field($model, 'clasificacion') ?>
 

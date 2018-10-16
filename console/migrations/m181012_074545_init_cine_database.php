@@ -80,7 +80,7 @@ class m181012_074545_init_cine_database extends Migration
         $this->execute("CREATE TABLE IF NOT EXISTS `pelicula` (
         `id` int(11) NOT NULL auto_increment,
         `nombre` VARCHAR(150) NOT NULL,
-        `director` int(11) NOT NULL,
+        `director_id` int(11) NOT NULL,
         `genero` tinytext NOT NULL,
         `calificacion` DECIMAL(2,1) NOT NULL,
         `clasificacion` tinytext NOT NULL,
@@ -117,14 +117,6 @@ class m181012_074545_init_cine_database extends Migration
         KEY `iddirectores` (`id`)
         ) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB;");
 
-        $this->execute("CREATE TABLE IF NOT EXISTS `pelicula_director` (
-        `pelicula_id` int(11) NOT NULL,
-        `director_id` int(11) NOT NULL,
-        PRIMARY KEY (`pelicula_id`, `director_id`),
-        UNIQUE KEY `id` (`pelicula_id`, `director_id`),
-        KEY `idpeliculadirector` (`pelicula_id`, `director_id`)
-        ) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB;");
-
         $this->execute("CREATE TABLE IF NOT EXISTS `pelicula_actor` (
         `pelicula_id` int(11) NOT NULL,
         `actor_id` int(11) NOT NULL,
@@ -146,5 +138,9 @@ class m181012_074545_init_cine_database extends Migration
         $this->execute(" DROP TABLE IF EXISTS `asiento`");
         $this->execute(" DROP TABLE IF EXISTS `cine`");
         $this->execute(" DROP TABLE IF EXISTS `pelicula`");
+        $this->execute(" DROP TABLE IF EXISTS `actor`");
+        $this->execute(" DROP TABLE IF EXISTS `director`");
+        $this->execute(" DROP TABLE IF EXISTS `pelicula_director`");
+        $this->execute(" DROP TABLE IF EXISTS `pelicula_actor`");
     }
 }

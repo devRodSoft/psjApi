@@ -39,10 +39,10 @@ class FuncionRest extends \common\models\Funcion
                 return $m->pelicula->nombre;
             },
             'director' => function ($m) {
-                return $m->pelicula->director;
+                return $m->pelicula->director->nombre;
             },
             'reparto' => function ($m) {
-                return $m->pelicula->reparto;
+                return array_column($m->pelicula->reparto, 'nombre');
             },
             'genero' => function ($m) {
                 return $m->pelicula->genero;

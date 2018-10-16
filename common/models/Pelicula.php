@@ -9,8 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $nombre
- * @property string $director
- * @property string $reparto
+ * @property int $director_id
  * @property string $genero
  * @property string $calificacion
  * @property string $clasificacion
@@ -24,6 +23,9 @@ use Yii;
  * @property string $updated_at
  *
  * @property Funcion[] $funcions
+ * @property Director $director
+ * @property PeliculaActor[] $peliculaActors
+ * @property Actor[] $actors
  */
 class Pelicula extends \yii\db\ActiveRecord
 {
@@ -41,11 +43,13 @@ class Pelicula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'director', 'reparto', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'required'],
-            [['director', 'reparto', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
+            [['nombre', 'director_id', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'required'],
+            [['director_id'], 'integer'],
+            [['genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
             [['calificacion'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
+            [['director_id'], 'exist', 'skipOnError' => true, 'targetClass' => Director::className(), 'targetAttribute' => ['director_id' => 'id']],
         ];
     }
 
@@ -57,8 +61,7 @@ class Pelicula extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'director' => 'Director',
-            'reparto' => 'Reparto',
+            'director_id' => 'Director ID',
             'genero' => 'Genero',
             'calificacion' => 'Calificacion',
             'clasificacion' => 'Clasificacion',
@@ -79,6 +82,30 @@ class Pelicula extends \yii\db\ActiveRecord
     public function getFuncions()
     {
         return $this->hasMany(Funcion::className(), ['pelicula_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDirector()
+    {
+        return $this->hasOne(Director::className(), ['id' => 'director_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPeliculaActors()
+    {
+        return $this->hasMany(PeliculaActor::className(), ['pelicula_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReparto()
+    {
+        return $this->hasMany(Actor::className(), ['id' => 'actor_id'])->viaTable('pelicula_actor', ['pelicula_id' => 'id']);
     }
 
     /**
