@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $nombre
  * @property string $director
- * @property string $protagonistas
+ * @property string $reparto
  * @property string $genero
  * @property string $calificacion
  * @property string $clasificacion
@@ -41,8 +41,8 @@ class Pelicula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'director', 'protagonistas', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'required'],
-            [['director', 'protagonistas', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
+            [['nombre', 'director', 'reparto', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'required'],
+            [['director', 'reparto', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
             [['calificacion'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
@@ -58,7 +58,7 @@ class Pelicula extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
             'director' => 'Director',
-            'protagonistas' => 'Protagonistas',
+            'reparto' => 'Reparto',
             'genero' => 'Genero',
             'calificacion' => 'Calificacion',
             'clasificacion' => 'Clasificacion',

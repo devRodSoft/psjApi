@@ -41,8 +41,8 @@ class FuncionRest extends \common\models\Funcion
             'director' => function ($m) {
                 return $m->pelicula->director;
             },
-            'protagonistas' => function ($m) {
-                return $m->pelicula->protagonistas;
+            'reparto' => function ($m) {
+                return $m->pelicula->reparto;
             },
             'genero' => function ($m) {
                 return $m->pelicula->genero;

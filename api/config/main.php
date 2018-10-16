@@ -83,7 +83,7 @@ return [
     ],
     'modules' => [
         'general' => [
-            'class' => 'api\modules\general',
+            'class' => 'api\modules\General',
         ],
     ],
     'params' => $params,
