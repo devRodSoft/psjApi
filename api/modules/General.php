@@ -35,8 +35,7 @@ class General extends \yii\base\Module
             'class' => \yii\filters\Cors::className(),
             'cors' => [
                 // restrict access to
-                'Origin' => ['*'],
-                // 'Access-Control-Allow-Origin' => ['*'],
+                'Access-Control-Allow-Origin' => ['*'],
                 // Allow only POST and PUT methods
                 // 'Access-Control-Request-Method'    => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS'],
