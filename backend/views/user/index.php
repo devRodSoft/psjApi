@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Role;
+use common\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
 
@@ -28,8 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'id',
         'username',
         'email:email',
-        //'role_id',
-        'status',
+        // 'role.nombre',
+        'role_id' => [
+            'label' => 'Role',
+            'value' => function ($model) {
+                return $model->role->nombre;
+            },
+        ],
+        // 'status',
+        'status' => [
+            'label' => 'stat',
+            'value' => function ($model) {
+                return [User::STATUS_DELETED => 'Deleted', User::STATUS_ACTIVE => 'Active'][$model->status];
+            },
+        ],
         //'created_at',
         //'updated_at',
 

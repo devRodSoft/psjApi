@@ -51,10 +51,6 @@ return [
                 ],
             ],
         ],
-        'session' => [
-            // this is the name of the session cookie used for login on the api
-            'name' => 'advanced-api',
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

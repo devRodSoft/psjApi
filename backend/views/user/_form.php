@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Role;
+use common\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,19 +14,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin();?>
 
-    <?php echo $form->field($model, 'username')->textInput(['maxlength' => true])?>
+    <?php echo $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'password')->textInput(['maxlength' => true])?>
+    <?php echo $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
 
 
-    <?php echo $form->field($model, 'email')->textInput(['maxlength' => true])?>
+    <?php echo $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'role_id')->textInput()?>
+    <?php echo $form->field($model, 'role_id')->dropDownList(array_column(Role::Find()->All(), 'nombre', 'id'), ['prompt' => 'Please select a role']) ?>
 
-    <?php echo $form->field($model, 'status')->textInput()?>
+    <?php echo $form->field($model, 'status')->dropDownList([User::STATUS_DELETED => 'Deleted', User::STATUS_ACTIVE => 'Active'], ['prompt' => 'Please select a status']) ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton('Save', ['class' => 'btn btn-success'])?>
+        <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end();?>
