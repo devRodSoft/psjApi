@@ -1,9 +1,9 @@
 <?php
 namespace api\controllers;
 
-use yii\web\Controller;
+use yii\rest\ActiveController;
 
-class PublicController extends Controller
+class BaseController extends ActiveController
 {
     public function behaviors()
     {
@@ -19,7 +19,12 @@ class PublicController extends Controller
             'cors' => [
                 // restrict access to
                 'Access-Control-Allow-Origin' => ['*'],
-                'Origin' => ['*'],
+                'Origin' => [
+                    'http://localhost:8100',
+                    'http://api.rodsoft.com.mx:80',
+                    'https://api.rodsoft.com.mx:443',
+                    'https://localhost:8100',
+                ],
                 // Allow only POST and PUT methods
                 // 'Access-Control-Request-Method'    => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS'],
@@ -47,14 +52,5 @@ class PublicController extends Controller
         // $behaviors['authenticator']['except'] = ['options'];
 
         return $behaviors;
-    }
-    public function actions()
-    {
-        return ['index'];
-    }
-
-    public function actionIndex()
-    {
-        return "Bienvenido a Cine 1.0";
     }
 }

@@ -1,10 +1,10 @@
 <?php
 namespace api\modules\controllers;
 
+use api\controllers\BaseController;
 use api\models\SalaRest;
-use yii\rest\ActiveController;
 
-class SalaController extends ActiveController
+class SalaController extends BaseController
 {
     public $modelClass = 'common\models\sala';
 

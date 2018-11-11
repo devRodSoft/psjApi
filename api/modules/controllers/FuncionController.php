@@ -1,10 +1,10 @@
 <?php
 namespace api\modules\controllers;
 
+use api\controllers\BaseController;
 use api\models\FuncionRest;
-use yii\rest\ActiveController;
 
-class FuncionController extends ActiveController
+class FuncionController extends BaseController
 {
     public $modelClass = 'common\models\Funcion';
 
