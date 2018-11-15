@@ -21,9 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'role_id')->dropDownList(array_column(Role::Find()->All(), 'nombre', 'id'), ['prompt' => 'Please select a role']) ?>
+    <?php echo $form->field($model, 'role_id')->dropDownList(array_column(Role::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un rol']) ?>
 
-    <?php echo $form->field($model, 'status')->dropDownList([User::STATUS_DELETED => 'Deleted', User::STATUS_ACTIVE => 'Active'], ['prompt' => 'Please select a status']) ?>
+    <?php echo $form->field($model, 'status')->dropDownList([User::STATUS_DELETED => 'Deleted', User::STATUS_ACTIVE => 'Active'], ['prompt' => 'selecciona un estatus']) ?>
 
     <div class="form-group">
         <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

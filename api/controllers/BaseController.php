@@ -19,12 +19,7 @@ class BaseController extends ActiveController
             'cors' => [
                 // restrict access to
                 'Access-Control-Allow-Origin' => ['*'],
-                'Origin' => [
-                    'http://localhost:8100',
-                    'http://api.rodsoft.com.mx:80',
-                    'https://api.rodsoft.com.mx:443',
-                    'https://localhost:8100',
-                ],
+                'Origin' => ['*'],
                 // Allow only POST and PUT methods
                 // 'Access-Control-Request-Method'    => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS'],

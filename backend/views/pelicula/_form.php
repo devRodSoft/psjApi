@@ -14,15 +14,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'genero')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'genero')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'calificacion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'calificacion')->dropDownList([1,2,3,4,5], ['prompt' => 'calificación']) ?>
 
-    <?= $form->field($model, 'clasificacion')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'clasificacion')->dropDownList(['AA', 'A', 'B', 'B15', 'C', 'D'], ['prompt' => 'clasificación']) ?>
 
-    <?= $form->field($model, 'idioma')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'idioma')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'duracion')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'duracion')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'sinopsis')->textarea(['rows' => 6]) ?>
 
@@ -31,10 +31,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'trailerUrl')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'trailerImg')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

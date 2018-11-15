@@ -25,12 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'nombre',
-            'director_id',
+            // 'director.nombre',
+            [
+                'label' => 'Director',
+                'value' => function ($model)
+                {
+                    return $model->director->nombre;
+                }
+            ],
             'genero:ntext',
-            'calificacion',
-            //'clasificacion:ntext',
+            // 'calificacion',
+            'clasificacion:ntext',
             //'idioma:ntext',
             //'duracion:ntext',
             //'sinopsis:ntext',
