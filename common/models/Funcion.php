@@ -59,8 +59,8 @@ class Funcion extends \yii\db\ActiveRecord
             'sala_id' => 'Sala ID',
             'precio' => 'Precio',
             'recomendada' => 'Recomendada',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Creado',
+            'updated_at' => 'Actualizado',
         ];
     }
 

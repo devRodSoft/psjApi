@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Asiento */
 
-$this->title = 'Create Asiento';
+$this->title = 'Crear Asiento';
 $this->params['breadcrumbs'][] = ['label' => 'Asientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

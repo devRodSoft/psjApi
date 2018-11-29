@@ -51,6 +51,21 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'funcion_id',
+            'hora' => function ($m) {
+                return \Yii::$app->formatter->asTime($m->hora, 'short');
+            },
+            'fecha',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getFuncion()

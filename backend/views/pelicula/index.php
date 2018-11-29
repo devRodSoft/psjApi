@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Pelicula', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Pelicula', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -35,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->director->nombre;
                 }
             ],
-            'genero:ntext',
-            // 'calificacion',
+            'genero',
+            'calificacion',
             'clasificacion:ntext',
             //'idioma:ntext',
             //'duracion:ntext',

@@ -36,16 +36,17 @@ NavBar::begin([
     ],
 ]);
 $menuItems = [
-    ['label' => 'Home', 'url' => ['/site/index']],
+    ['label' => 'Inicio', 'url' => ['/site/index']],
 ];
 if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    $menuItems[] = ['label' => 'User', 'url' => ['/user']];
+    $menuItems[] = ['label' => 'Admin users', 'url' => ['/user']];
     $menuItems[] = ['label' => 'Salas', 'url' => ['/sala']];
     $menuItems[] = ['label' => 'Asientos', 'url' => ['/asiento']];
-    $menuItems[] = ['label' => 'Cine', 'url' => ['/cine']];
-    $menuItems[] = ['label' => 'Pelicula', 'url' => ['/pelicula']];
+    $menuItems[] = ['label' => 'Cines', 'url' => ['/cine']];
+    $menuItems[] = ['label' => 'Peliculas', 'url' => ['/pelicula']];
+    $menuItems[] = ['label' => 'Funciones', 'url' => ['/funcion']];
     $menuItems[] = '<li>'
     . Html::beginForm(['/site/logout'], 'post')
     . Html::submitButton(

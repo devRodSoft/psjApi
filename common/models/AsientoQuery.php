@@ -9,10 +9,10 @@ namespace common\models;
  */
 class AsientoQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function ordered()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
+        return $this->orderBy(['fila' => 'DESC']);
+    }
 
     /**
      * {@inheritdoc}

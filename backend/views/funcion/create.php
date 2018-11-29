@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Funcion */
 
-$this->title = 'Create Funcion';
+$this->title = 'Crear Funcion';
 $this->params['breadcrumbs'][] = ['label' => 'Funcions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

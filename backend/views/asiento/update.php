@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Asiento */
 
-$this->title = 'Update Asiento: ' . $model->id;
+$this->title = 'Actualizar Asiento: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Asientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="asiento-update">
 

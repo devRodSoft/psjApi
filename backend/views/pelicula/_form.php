@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'genero')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'calificacion')->dropDownList([1,2,3,4,5], ['prompt' => 'calificación']) ?>
+    <?= $form->field($model, 'calificacion')->textInput(['type'=> 'number', "min"=>"0", "max"=>"5"]) ?>
 
     <?= $form->field($model, 'clasificacion')->dropDownList(['AA', 'A', 'B', 'B15', 'C', 'D'], ['prompt' => 'clasificación']) ?>
 
@@ -33,7 +33,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'trailerImg')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

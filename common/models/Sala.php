@@ -50,8 +50,8 @@ class Sala extends \yii\db\ActiveRecord
             'id' => 'ID',
             'cine_id' => 'Cine ID',
             'nombre' => 'Nombre',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Creado',
+            'updated_at' => 'Actualizado',
         ];
     }
 
@@ -84,7 +84,7 @@ class Sala extends \yii\db\ActiveRecord
      */
     public function getAsientos()
     {
-        return $this->hasMany(Asiento::className(), ['id' => 'asiento_id'])->via('salaAsientos');
+        return $this->hasMany(Asiento::className(), ['id' => 'asiento_id'])->via('salaAsientos')->orderBy(['asiento.fila' => SORT_DESC]);
     }
 
     /**

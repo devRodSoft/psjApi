@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?php echo Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Crear Usuario', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php echo GridView::widget([
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'status' => [
             'label' => 'stat',
             'value' => function ($model) {
-                return [User::STATUS_DELETED => 'Deleted', User::STATUS_ACTIVE => 'Active'][$model->status];
+                return [User::STATUS_DELETED => 'Eliminado', User::STATUS_ACTIVE => 'Activo'][$model->status];
             },
         ],
         //'created_at',

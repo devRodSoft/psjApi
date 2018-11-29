@@ -71,8 +71,8 @@ class Pelicula extends \yii\db\ActiveRecord
             'cartelUrl' => 'Cartel Url',
             'trailerUrl' => 'Trailer Url',
             'trailerImg' => 'Trailer Img',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Creado',
+            'updated_at' => 'Actualizado',
         ];
     }
 

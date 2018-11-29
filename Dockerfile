@@ -4,13 +4,13 @@ ENV SERVER "docker"
 
 WORKDIR /tmp
 
-RUN a2enmod rewrite
 RUN apt-get update && apt-get -y install wget git zlib1g-dev sendmail libpng-dev zlib1g-dev unzip
 
 
 RUN docker-php-ext-install pdo pdo_mysql zip mbstring gd
 
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer

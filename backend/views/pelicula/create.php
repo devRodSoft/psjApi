@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Pelicula */
 
-$this->title = 'Create Pelicula';
+$this->title = 'Crear Pelicula';
 $this->params['breadcrumbs'][] = ['label' => 'Peliculas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
