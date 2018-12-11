@@ -2,10 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\Funcion;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Funcion;
 
 /**
  * FuncionSearch represents the model behind the search form of `common\models\Funcion`.
@@ -18,7 +17,7 @@ class FuncionSearch extends Funcion
     public function rules()
     {
         return [
-            [['id', 'cine_id', 'pelicula_id', 'sala_id'], 'integer'],
+            [['id', 'cine_id', 'pelicula_id'], 'integer'],
             [['precio'], 'number'],
             [['recomendada', 'created_at', 'updated_at'], 'safe'],
         ];
@@ -63,7 +62,6 @@ class FuncionSearch extends Funcion
             'id' => $this->id,
             'cine_id' => $this->cine_id,
             'pelicula_id' => $this->pelicula_id,
-            'sala_id' => $this->sala_id,
             'precio' => $this->precio,
             'recomendada' => $this->recomendada,
             'created_at' => $this->created_at,

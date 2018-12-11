@@ -3,20 +3,20 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[SalaAsientos]].
+ * This is the ActiveQuery class for [[Boleto]].
  *
- * @see SalaAsientos
+ * @see Boleto
  */
-class SalaAsientosQuery extends \yii\db\ActiveQuery
+class BoletoQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
-    return $this->andWhere('[[status]]=1');
+        return $this->andWhere('[[status]]=1');
     }*/
 
     /**
      * {@inheritdoc}
-     * @return SalaAsientos[]|array
+     * @return Boleto[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class SalaAsientosQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return SalaAsientos|array|null
+     * @return Boleto|array|null
      */
     public function one($db = null)
     {

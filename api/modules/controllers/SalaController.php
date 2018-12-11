@@ -3,6 +3,7 @@ namespace api\modules\controllers;
 
 use api\controllers\BaseController;
 use api\models\SalaRest;
+use common\models\HorarioFuncion;
 
 class SalaController extends BaseController
 {
@@ -29,6 +30,16 @@ class SalaController extends BaseController
     public function actionView($id)
     {
         $data = SalaRest::find()->where(['id' => $id])->all();
+
+        return $data;
+
+    }
+
+    public function actionOcupados($id)
+    {
+
+        $hr   = HorarioFuncion::findOne($id);
+        $data = SalaRest::find()->select(['*', 'horario' => '(select ' . $hr->id . ')'])->where(['id' => $hr->sala_id])->all();
 
         return $data;
 

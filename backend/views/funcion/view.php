@@ -6,38 +6,37 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Funcion */
 
-$this->title = $model->id;
+$this->title                   = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Funcions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="funcion-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Borrar', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro que quieres eliminar este elemento?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php echo Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php echo Html::a('Borrar', ['delete', 'id' => $model->id], [
+    'class' => 'btn btn-danger',
+    'data' => [
+        'confirm' => 'Estas seguro que quieres eliminar este elemento?',
+        'method' => 'post',
+    ],
+]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'cine.nombre',
-            'pelicula.nombre',
-            'sala.nombre',
-            'precio:currency',
-            'recomendada',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+    <?php echo DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'cine.nombre',
+        'pelicula.nombre',
+        'precio:currency',
+        'recomendada',
+        'created_at',
+        'updated_at',
+    ],
+]) ?>
 
 </div>

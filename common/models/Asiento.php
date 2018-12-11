@@ -10,12 +10,15 @@ use Yii;
  * @property int $id
  * @property string $fila
  * @property int $numero
+ * @property int $tipo
  * @property string $arreglo
  *
  * @property SalaAsientos[] $salaAsientos
  */
 class Asiento extends \yii\db\ActiveRecord
 {
+    public $ocupado = null;
+
     /**
      * {@inheritdoc}
      */
@@ -30,8 +33,8 @@ class Asiento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fila', 'numero', 'arreglo'], 'required'],
-            [['numero'], 'integer'],
+            [['fila', 'numero', 'tipo', 'arreglo'], 'required'],
+            [['numero', 'tipo'], 'integer'],
             [['arreglo'], 'string'],
             [['fila'], 'string', 'max' => 1],
         ];
@@ -46,6 +49,7 @@ class Asiento extends \yii\db\ActiveRecord
             'id' => 'ID',
             'fila' => 'Fila',
             'numero' => 'Numero',
+            'tipo' => 'Tipo',
             'arreglo' => 'Arreglo',
         ];
     }
@@ -58,10 +62,13 @@ class Asiento extends \yii\db\ActiveRecord
         return [
             'id',
             'fila',
+            'tipo',
             'numero',
             'nombre' => function ($m) {
                 return sprintf('%s-%s', $m->fila, $m->numero);
             },
+            'ocupado',
+            'arreglo',
         ];
     }
 

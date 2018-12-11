@@ -19,37 +19,20 @@ return [
             // 'identityCookie' => ['name' => '_identity-front', 'httpOnly' => true],
         ],
         'request' => [
-            'csrfParam' => '_csrf-api',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
-        'response' => [
-            'format' => \yii\web\Response::FORMAT_JSON,
-        ],
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-                'facebook' => [
-                    'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => '161770838095524',
-                    'clientSecret' => 'ba3660c38b312053c11103c51b7d18ba',
-                    'attributeNames' => [
-                        'id',
-                        'name',
-                        'first_name',
-                        'last_name',
-                        'about',
-                        'work',
-                        'education',
-                        'gender',
-                        'email',
-                    ],
-                    'scope' => [
-                        'user_location',
-                    ],
+        'i18n' => [
+            'translations' => [
+                'conquer/oauth2' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@conquer/oauth2/messages',
                 ],
             ],
+        ],
+        'response' => [
+            'format' => \yii\web\Response::FORMAT_JSON,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -65,14 +48,18 @@ return [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'general/user'],
+                'GET token' => 'authentication/token',
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
                 'GET sala' => 'general/sala/index',
                 'GET sala/<id:\d+>' => 'general/sala/view',
+                'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
 
                 // OPTIONS
+                'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
                 'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
                 'OPTIONS sala' => 'general/sala/options',
                 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
+                'OPTIONS token' => 'auth/token',
             ],
         ],
 

@@ -26,7 +26,6 @@ class BaseController extends ActiveController
                     'https://localhost:8100',
                 ],
                 // Allow only POST and PUT methods
-                // 'Access-Control-Request-Method'    => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS'],
                 // Allow only headers 'X-Wsse'
                 'Access-Control-Request-Headers' => ['*'],
@@ -46,11 +45,25 @@ class BaseController extends ActiveController
             ],
         ];
 
-        // // re-add authentication filter
-        // $behaviors['authenticator'] = $auth;
-        // // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        // $behaviors['authenticator']['except'] = ['options'];
+        // re-add authentication filter
+        // $behaviors['authenticator'] = [
+        //     'class' => \conquer\oauth2\AuthorizeFilter::className(),
+        // ];
+        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
+        $behaviors['authenticator']['except'] = ['options'];
 
         return $behaviors;
     }
+}
+
+function behaviors()
+{
+    return [
+        /**
+         * Performs authorization by token
+         */
+        'tokenAuth' => [
+            'class' => \conquer\oauth2\TokenAuth::className(),
+        ],
+    ];
 }

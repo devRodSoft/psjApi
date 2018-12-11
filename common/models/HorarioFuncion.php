@@ -9,10 +9,12 @@ use Yii;
  *
  * @property int $id
  * @property int $funcion_id
+ * @property int $sala_id
  * @property string $hora
  * @property string $fecha
  *
  * @property Funcion $funcion
+ * @property Sala $sala
  */
 class HorarioFuncion extends \yii\db\ActiveRecord
 {
@@ -30,10 +32,11 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['funcion_id', 'hora', 'fecha'], 'required'],
-            [['funcion_id'], 'integer'],
+            [['funcion_id', 'sala_id', 'hora', 'fecha'], 'required'],
+            [['funcion_id', 'sala_id'], 'integer'],
             [['hora', 'fecha'], 'safe'],
             [['funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => Funcion::className(), 'targetAttribute' => ['funcion_id' => 'id']],
+            [['sala_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sala::className(), 'targetAttribute' => ['sala_id' => 'id']],
         ];
     }
 
@@ -45,23 +48,9 @@ class HorarioFuncion extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'funcion_id' => 'Funcion ID',
+            'sala_id' => 'Sala ID',
             'hora' => 'Hora',
             'fecha' => 'Fecha',
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function fields()
-    {
-        return [
-            'id',
-            'funcion_id',
-            'hora' => function ($m) {
-                return \Yii::$app->formatter->asTime($m->hora, 'short');
-            },
-            'fecha',
         ];
     }
 
@@ -71,6 +60,14 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     public function getFuncion()
     {
         return $this->hasOne(Funcion::className(), ['id' => 'funcion_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSala()
+    {
+        return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
     }
 
     /**

@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Funcion;
 use backend\models\FuncionSearch;
+use common\models\Funcion;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * FuncionController implements the CRUD actions for Funcion model.
@@ -35,7 +35,7 @@ class FuncionController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FuncionSearch();
+        $searchModel  = new FuncionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

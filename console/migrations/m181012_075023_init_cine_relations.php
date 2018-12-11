@@ -15,8 +15,8 @@ class m181012_075023_init_cine_relations extends Migration
         $this->addForeignKey('funcion_cine', 'funcion', 'cine_id', 'cine', 'id');
         $this->addForeignKey('funcion_pelicula', 'funcion', 'pelicula_id', 'pelicula', 'id');
         $this->addForeignKey('horario_funcion_rel', 'horario_funcion', 'funcion_id', 'funcion', 'id');
-        $this->addForeignKey('funcion_sala', 'funcion', 'sala_id', 'sala', 'id');
 
+        $this->addForeignKey('horarios_sala_rel', 'horario_funcion', 'sala_id', 'sala', 'id');
         $this->addForeignKey('pelicula_director', 'pelicula', 'director_id', 'director', 'id');
         $this->addForeignKey('pelicula_actor_ref', 'pelicula_actor', 'pelicula_id', 'pelicula', 'id');
         $this->addForeignKey('pelicula_actor', 'pelicula_actor', 'actor_id', 'actor', 'id');

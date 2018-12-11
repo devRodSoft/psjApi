@@ -19,7 +19,7 @@ use Yii;
  * @property Cine $cine
  * @property Pelicula $pelicula
  * @property Sala $sala
- * @property HorarioFuncion[] $horarioFuncions
+ * @property HorarioFuncion[] $horarios
  */
 class Funcion extends \yii\db\ActiveRecord
 {
@@ -37,13 +37,12 @@ class Funcion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cine_id', 'pelicula_id', 'sala_id', 'precio'], 'required'],
-            [['cine_id', 'pelicula_id', 'sala_id'], 'integer'],
+            [['cine_id', 'pelicula_id', 'precio'], 'required'],
+            [['cine_id', 'pelicula_id'], 'integer'],
             [['precio'], 'number'],
             [['recomendada', 'created_at', 'updated_at'], 'safe'],
             [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
             [['pelicula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pelicula::className(), 'targetAttribute' => ['pelicula_id' => 'id']],
-            [['sala_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sala::className(), 'targetAttribute' => ['sala_id' => 'id']],
         ];
     }
 
@@ -56,7 +55,6 @@ class Funcion extends \yii\db\ActiveRecord
             'id' => 'ID',
             'cine_id' => 'Cine ID',
             'pelicula_id' => 'Pelicula ID',
-            'sala_id' => 'Sala ID',
             'precio' => 'Precio',
             'recomendada' => 'Recomendada',
             'created_at' => 'Creado',
@@ -83,17 +81,9 @@ class Funcion extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSala()
+    public function getHorarios()
     {
-        return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHorarioFuncions()
-    {
-        return $this->hasMany(HorarioFuncion::className(), ['funcion_id' => 'id']);
+        return $this->hasMany(HorarioFuncion::className(), ['funcion_id' => 'id'])->ordered();
     }
 
     /**

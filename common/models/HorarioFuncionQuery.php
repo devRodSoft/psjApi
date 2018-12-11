@@ -11,7 +11,7 @@ class HorarioFuncionQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
-        return $this->andWhere('[[status]]=1');
+    return $this->andWhere('[[status]]=1');
     }*/
 
     /**
@@ -30,5 +30,10 @@ class HorarioFuncionQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    public function ordered()
+    {
+        return $this->orderBy(['fecha' => 'DESC', 'hora' => 'ASC']);
     }
 }
