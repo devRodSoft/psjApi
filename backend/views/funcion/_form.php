@@ -23,7 +23,13 @@ AppAsset::register($this);
 
     <?php echo $form->field($model, 'precio')->textInput(['maxlength' => true, 'type' => 'number']) ?>
 
-    <?php echo $form->field($model, 'recomendada')->textInput(['type' => 'date']) ?>
+    <?php //echo $form->field($model, 'recomendada')->textInput(['type' => 'date']) ?>
+
+    <div class="alert alert-warning">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">precaucion:</span>
+        Despues de guardar una funcion con horarios para el dia de hoy o el dia de mañana, estos no seran editables.
+    </div>
 
     <table id="myTable" class=" table order-list">
         <thead>
@@ -37,19 +43,31 @@ AppAsset::register($this);
         <tbody>
             <?php foreach ($model->horarios as $key => $horario): ?>
             <tr>
-                <td>
-                    <?php echo Html::textInput('horario[' . $key . '][fecha]', $horario->fecha, ['maxlength' => true, 'type' => 'date', 'class' => 'form-control']) ?>
-                    <?php echo Html::hiddenInput('horario[' . $key . '][id]', $horario->id) ?>
+                <?php if (strtotime($horario->fecha) <= strtotime(date('Y-m-d') . '+1 day')): ?>
+                    <td>
+                    <?php echo $horario->fecha ?>
                 </td>
                 <td>
-                    <?php echo Html::textInput('horario[' . $key . '][hora]', $horario->hora, ['maxlength' => true, 'type' => 'time', 'class' => 'form-control']) ?>
+                    <?php echo $horario->hora ?>
                 </td>
                 <td>
-                    <?php echo Html::dropDownList('horario[' . $key . '][sala]', $horario->sala_id, array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala', 'class' => 'form-control']) ?>
+                    <?php echo $horario->sala->nombre ?>
                 </td>
-                <td><a class="deleteRow"></a>
+                <?php else: ?>
+                    <td>
+                        <?php echo Html::textInput('horario[' . $key . '][fecha]', $horario->fecha, ['maxlength' => true, 'type' => 'date', 'class' => 'form-control', 'min' => date("Y-m-d"), "pattern" => "[0-9]{4}-[0-9]{2}-[0-9]{2}"]) ?>
+                        <?php echo Html::hiddenInput('horario[' . $key . '][id]', $horario->id) ?>
+                    </td>
+                    <td>
+                        <?php echo Html::textInput('horario[' . $key . '][hora]', $horario->hora, ['maxlength' => true, 'type' => 'time', 'class' => 'form-control']) ?>
+                    </td>
+                    <td>
+                        <?php echo Html::dropDownList('horario[' . $key . '][sala]', $horario->sala_id, array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala', 'class' => 'form-control']) ?>
+                    </td>
+                    <td><a class="deleteRow"></a>
 
-                </td>
+                    </td>
+                <?php endif?>
             </tr>
             <?php endforeach?>
         </tbody>
@@ -75,24 +93,24 @@ AppAsset::register($this);
 
 <?php
 $this->registerJs(
-    "$(document) . ready(function () {
-    var counter = $('table.order-list tbody tr') . length;
-    $('#addrow') . on('click', function () {
+    "$(document).ready(function () {
+    var counter = $('table.order-list tbody tr').length;
+    $('#addrow').on('click', function () {
         var newRow = $('<tr>');
         var cols   = '';
 
-        cols += '<td><input type=\"date\" class=\"form-control\" name=\"horario['+counter+'][fecha]\"/></td>';
+        cols += '<td><input type=\"date\" class=\"form-control\" name=\"horario['+counter+'][fecha]\" min=\"" . date("Y-m-d") . "\" pattern=\"[0-9]{4}-[0-9]{2}-[0-9]{2}\"/></td>';
         cols += '<td><input type=\"time\" class=\"form-control\" name=\"horario['+counter+'][hora]\"/></td>';
-        cols += '<td><input type=\"text\" class=\"form-control\" name=\"horario['+counter+'][sala]\"/></td>';
+        cols += '<td>" . str_replace(["\n", 'counter'], ['', "'+counter+'"], Html::dropDownList('horario[counter][sala]', "", array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala', 'class' => 'form-control'])) . "</td>';
 
-        cols += '<td><input type=\"button\" class=\"ibtnDel btn btn-md btn-danger\"  value=\"Delete\"></td>';
-        newRow . append(cols);
-        $('table.order-list') . append(newRow);
+        cols += '<td><input type=\"button\" class=\"ibtnDel btn btn-md btn-danger\"  value=\"Borrar\"></td>';
+        newRow.append(cols);
+        $('table.order-list').append(newRow);
         counter++
     });
 
-    $('table.order-list') . on('click', '.ibtnDel', function (event) {
-        $(this) . closest('tr') . remove();
+    $('table.order-list').on('click', '.ibtnDel', function (event) {
+        $(this).closest('tr').remove();
         counter -= 1;
     });
 });",

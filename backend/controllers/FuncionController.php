@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\FuncionSearch;
 use common\models\Funcion;
+use common\models\HorarioFuncion;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -67,6 +68,27 @@ class FuncionController extends Controller
         $model = new Funcion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            foreach (Yii::$app->request->getBodyParam('horario', []) as $horario) {
+                if (empty($horario['fecha']) || empty($horario['hora']) || empty($horario['sala'])) {
+                    break;
+                }
+                if (isset($horario['id'])) {
+                    $nhr = HorarioFuncion::findOne($horario['id']);
+                    if (!empty($nhr)) {
+                        $nhr->fecha   = $horario['fecha'];
+                        $nhr->hora    = $horario['hora'];
+                        $nhr->sala_id = $horario['sala'];
+                    }
+                } else {
+                    $nhr             = new HorarioFuncion();
+                    $nhr->funcion_id = $model->id;
+                    $nhr->fecha      = $horario['fecha'];
+                    $nhr->hora       = $horario['hora'];
+                    $nhr->sala_id    = $horario['sala'];
+                }
+
+                $nhr->save();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -85,8 +107,30 @@ class FuncionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        // var_dump($_POST);die();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            foreach (Yii::$app->request->getBodyParam('horario', []) as $horario) {
+                if (empty($horario['fecha']) || empty($horario['hora']) || empty($horario['sala'])) {
+                    break;
+                }
+                if (isset($horario['id'])) {
+                    $nhr = HorarioFuncion::findOne($horario['id']);
+                    if (!empty($nhr)) {
+                        $nhr->fecha   = $horario['fecha'];
+                        $nhr->hora    = $horario['hora'];
+                        $nhr->sala_id = $horario['sala'];
+                    }
+                } else {
+                    $nhr             = new HorarioFuncion();
+                    $nhr->funcion_id = $model->id;
+                    $nhr->fecha      = $horario['fecha'];
+                    $nhr->hora       = $horario['hora'];
+                    $nhr->sala_id    = $horario['sala'];
+                }
+
+                $nhr->save();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

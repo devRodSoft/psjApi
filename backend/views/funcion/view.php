@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Funcion */
 
-$this->title                   = $model->id;
+$this->title                   = $model->pelicula->nombre;
 $this->params['breadcrumbs'][] = ['label' => 'Funcions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -33,10 +33,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'cine.nombre',
         'pelicula.nombre',
         'precio:currency',
-        'recomendada',
         'created_at',
         'updated_at',
     ],
 ]) ?>
+
+<table id="myTable" class=" table order-list">
+        <thead>
+            <tr>
+                <td>Fecha</td>
+                <td>Hora</td>
+                <td>Sala</td>
+
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($model->horarios as $key => $horario): ?>
+            <tr>
+                <td>
+                    <?php echo $horario->fecha ?>
+                </td>
+                <td>
+                    <?php echo $horario->hora ?>
+                </td>
+                <td>
+                    <?php echo $horario->sala->nombre ?>
+                </td>
+            </tr>
+            <?php endforeach?>
+        </tbody>
+    </table>
 
 </div>
