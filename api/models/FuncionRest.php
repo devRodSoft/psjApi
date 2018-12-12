@@ -2,6 +2,8 @@
 
 namespace api\models;
 
+use common\models\HorarioFuncion;
+
 /**
  * This is the model class for table "pelicula".
  *
@@ -25,6 +27,7 @@ namespace api\models;
  */
 class FuncionRest extends \common\models\Funcion
 {
+    public $date = null;
     public function fields()
     {
         return [
@@ -71,5 +74,10 @@ class FuncionRest extends \common\models\Funcion
                 return $m->pelicula->trailerImg;
             },
         ];
+    }
+
+    public function getHorarios()
+    {
+        return $this->hasMany(HorarioFuncion::className(), ['funcion_id' => 'id'])->filterWhere(['horario_funcion.fecha' => $this->date])->ordered();
     }
 }

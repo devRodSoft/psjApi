@@ -14,6 +14,10 @@ use Yii;
  * @property int $reclamado
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property FaceUser $faceUser
+ * @property HorarioFuncion $horarioFuncion
+ * @property SalaAsientos $salaAsientos
  */
 class Boleto extends \yii\db\ActiveRecord
 {
@@ -34,6 +38,9 @@ class Boleto extends \yii\db\ActiveRecord
             [['face_user_id', 'horario_funcion_id', 'sala_asientos_id'], 'required'],
             [['face_user_id', 'horario_funcion_id', 'sala_asientos_id', 'reclamado'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
+            [['horario_funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => HorarioFuncion::className(), 'targetAttribute' => ['horario_funcion_id' => 'id']],
+            [['sala_asientos_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalaAsientos::className(), 'targetAttribute' => ['sala_asientos_id' => 'id']],
         ];
     }
 
@@ -44,13 +51,37 @@ class Boleto extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'face_user_id' => 'Face User ID',
-            'horario_funcion_id' => 'Horario Funcion ID',
-            'sala_asientos_id' => 'Sala Asientos ID',
+            'face_user_id' => 'FaceBook user ID',
+            'horario_funcion_id' => 'Horario ID',
+            'sala_asientos_id' => 'Sala ID',
             'reclamado' => 'Reclamado',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFaceUser()
+    {
+        return $this->hasOne(FaceUser::className(), ['id' => 'face_user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHorarioFuncion()
+    {
+        return $this->hasOne(HorarioFuncion::className(), ['id' => 'horario_funcion_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSalaAsientos()
+    {
+        return $this->hasOne(SalaAsientos::className(), ['id' => 'sala_asientos_id']);
     }
 
     /**

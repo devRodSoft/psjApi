@@ -21,7 +21,12 @@ class FuncionController extends BaseController
     public function actionIndex($fecha)
     {
         $ymd  = \DateTime::createFromFormat('Ymd', $fecha)->format('Y-m-d');
-        $data = FuncionRest::find()->joinWith(['horarios'], true, ['INNER JOIN'])->with(['horarios', 'pelicula'])->where(['horario_funcion.fecha' => $ymd])->all();
+        $data = FuncionRest::find()
+            ->select(['*', 'date' => '("' . $ymd . '")'])
+            ->joinWith(['horarios'], true, ['INNER JOIN'])
+            ->joinWith(['horarios'], true, ['INNER JOIN'])
+            ->where(['horario_funcion.fecha' => $ymd])
+            ->all();
 
         return $data;
 
