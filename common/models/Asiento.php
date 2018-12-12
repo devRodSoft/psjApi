@@ -17,7 +17,7 @@ use Yii;
  */
 class Asiento extends \yii\db\ActiveRecord
 {
-    public $ocupado = null;
+    public $ocupadoAsiento = null;
 
     /**
      * {@inheritdoc}
@@ -67,7 +67,9 @@ class Asiento extends \yii\db\ActiveRecord
             'nombre' => function ($m) {
                 return sprintf('%s-%s', $m->fila, $m->numero);
             },
-            'ocupado',
+            'ocupado' => function ($m) {
+                return $m->ocupadoAsiento == null ? null : ($m->ocupadoAsiento == '0' ? false : true);
+            },
             'arreglo',
         ];
     }

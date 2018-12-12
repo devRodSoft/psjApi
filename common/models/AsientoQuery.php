@@ -11,7 +11,7 @@ class AsientoQuery extends \yii\db\ActiveQuery
 {
     public function ordered()
     {
-        return $this->orderBy(['fila' => 'DESC']);
+        return $this->orderBy('CONCAT((fila), (numero)) DESC');
     }
 
     /**

@@ -67,7 +67,7 @@ class SalaAsientos extends \yii\db\ActiveRecord
      */
     public function getAsiento()
     {
-        return $this->hasOne(Asiento::className(), ['id' => 'asiento_id']);
+        return $this->hasOne(Asiento::className(), ['id' => 'asiento_id'])->ordered();
     }
 
     /**
