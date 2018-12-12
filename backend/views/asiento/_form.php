@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <?php echo $form->field($model, 'fila')->textInput(['maxlength' => true]) ?>
     <?php echo $form->field($model, 'numero')->textInput() ?>
 
-    <?php echo $form->field($model, 'tipo')->dropDownList([0 => 'Pasillo', 1 => 'Asiento', 2 => 'Silla de ruedas'], ['prompt' => 'selecciona un tipo']) ?> ?>
+    <?php echo $form->field($model, 'tipo')->dropDownList([0 => 'Pasillo', 1 => 'Asiento', 2 => 'Silla de ruedas'], ['prompt' => 'selecciona un tipo']) ?>
 
     <?php echo $form->field($model, 'arreglo')->textarea(['rows' => 6]) ?>
 
