@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'role_id')->dropDownList(array_column(Role::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un rol']) ?>
 
-    <?php echo $form->field($model, 'status')->dropDownList([User::STATUS_DELETED => 'Borrard', User::STATUS_ACTIVE => 'Active'], ['prompt' => 'selecciona un estatus']) ?>
+    <?php echo $form->field($model, 'status')->dropDownList([User::STATUS_DELETED => 'Eliminado', User::STATUS_ACTIVE => 'Active'], ['prompt' => 'selecciona un estatus']) ?>
 
     <div class="form-group">
         <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

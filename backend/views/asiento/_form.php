@@ -10,18 +10,19 @@ use yii\widgets\ActiveForm;
 
 <div class="asiento-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();?>
 
-    <?= $form->field($model, 'fila')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'fila')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'numero')->textInput() ?>
 
-    <?= $form->field($model, 'numero')->textInput() ?>
+    <?php echo $form->field($model, 'tipo')->dropDownList([0 => 'Pasillo', 1 => 'Asiento', 2 => 'Silla de ruedas'], ['prompt' => 'selecciona un tipo']) ?> ?>
 
-    <?= $form->field($model, 'arreglo')->textarea(['rows' => 6]) ?>
+    <?php echo $form->field($model, 'arreglo')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end();?>
 
 </div>
