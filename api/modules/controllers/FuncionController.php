@@ -34,7 +34,7 @@ class FuncionController extends BaseController
 
     public function actionPing()
     {
-        Yii::error($_POST, 'BTW');
+        Yii::error(Yii::$app->request->getBodyParams(), 'BTW');
 
         return 'pong';
 
