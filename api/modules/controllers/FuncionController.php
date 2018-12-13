@@ -14,6 +14,7 @@ class FuncionController extends BaseController
     {
         return [
             'index',
+            'ping',
             'options' => [
                 'class' => 'yii\rest\OptionsAction',
             ],
