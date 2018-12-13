@@ -10,24 +10,20 @@ use yii\widgets\ActiveForm;
 
 <div class="boleto-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();?>
 
-    <?= $form->field($model, 'face_user_id')->textInput() ?>
+    <?php //echo $form->field($model, 'face_user_id')->textInput() ?>
 
-    <?= $form->field($model, 'horario_funcion_id')->textInput() ?>
+    <?php //echo $form->field($model, 'horario_funcion_id')->textInput() ?>
 
-    <?= $form->field($model, 'sala_asientos_id')->textInput() ?>
+    <?php echo $form->field($model, 'sala_asientos_id')->dropDownList($asientos, ['prompt' => 'selecciona un asiento', 'class' => 'form-control']) ?>
 
-    <?= $form->field($model, 'reclamado')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?php echo $form->field($model, 'reclamado')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end();?>
 
 </div>

@@ -47,19 +47,22 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'general/user'],
                 'GET token' => 'authentication/token',
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
                 'GET sala' => 'general/sala/index',
                 'GET sala/<id:\d+>' => 'general/sala/view',
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
 
+                'POST try' => 'general/funcion/test',
+
                 // OPTIONS
+                'OPTIONS try' => 'general/funcion/options',
                 'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
                 'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
                 'OPTIONS sala' => 'general/sala/options',
                 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
                 'OPTIONS token' => 'auth/token',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'general/user'],
             ],
         ],
 

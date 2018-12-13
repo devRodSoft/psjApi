@@ -49,6 +49,7 @@ class Asiento extends \yii\db\ActiveRecord
             'id' => 'ID',
             'fila' => 'Fila',
             'numero' => 'Numero',
+            'nombre' => 'asiento',
             'tipo' => 'Tipo',
             'arreglo' => 'Arreglo',
         ];
@@ -64,14 +65,20 @@ class Asiento extends \yii\db\ActiveRecord
             'fila',
             'tipo',
             'numero',
-            'nombre' => function ($m) {
-                return sprintf('%s-%s', $m->fila, $m->numero);
-            },
+            'nombre',
             'ocupado' => function ($m) {
                 return $m->ocupadoAsiento == null ? null : ($m->ocupadoAsiento == '0' ? false : true);
             },
             'arreglo',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNombre()
+    {
+        return sprintf('%s-%s', $this->fila, $this->numero);
     }
 
     /**

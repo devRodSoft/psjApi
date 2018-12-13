@@ -90,8 +90,25 @@ class BoletoController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $asientos = (new \yii\db\Query())
+            ->select(['id' => 'sa.id', 'nombre' => 'CONCAT(a.fila, "-", a.numero)'])
+            ->from(['sa' => 'sala_asientos'])
+            ->innerJoin(['ha' => 'horario_funcion'], 'ha.sala_id = sa.sala_id')
+            ->innerJoin(['b' => 'boleto'], 'b.horario_funcion_id = ha.id')
+            ->leftJoin(['b2' => 'boleto'], 'b2.sala_asientos_id = sa.id')
+            ->leftJoin(['a' => 'asiento'], 'a.id = sa.asiento_id')
+            ->where(['b.id' => $model->id])
+            ->andWhere(['in', 'a.tipo', [1, 2]])
+            ->andWhere(['or', ['b2.id' => null], ['=', 'b2.id', $model->id]])
+            ->all();
+
+        if (!empty($asientos)) {
+            $asientos = array_column($asientos, 'nombre', 'id');
+        }
+
         return $this->render('update', [
             'model' => $model,
+            'asientos' => $asientos,
         ]);
     }
 

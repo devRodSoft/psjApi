@@ -51,10 +51,10 @@ class Boleto extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'face_user_id' => 'FaceBook user ID',
-            'horario_funcion_id' => 'Horario ID',
-            'sala_asientos_id' => 'Sala ID',
-            'reclamado' => 'Reclamado',
+            'face_user_id' => 'FaceBook user',
+            'horario_funcion_id' => 'Horario',
+            'sala_asientos_id' => 'Asiento',
+            'reclamado' => 'Usado',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

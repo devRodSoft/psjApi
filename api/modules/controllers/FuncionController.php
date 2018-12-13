@@ -3,6 +3,8 @@ namespace api\modules\controllers;
 
 use api\controllers\BaseController;
 use api\models\FuncionRest;
+use common\models\HorarioFuncion;
+use Yii;
 
 class FuncionController extends BaseController
 {
@@ -23,12 +25,17 @@ class FuncionController extends BaseController
         $ymd  = \DateTime::createFromFormat('Ymd', $fecha)->format('Y-m-d');
         $data = FuncionRest::find()
             ->select(['*', 'date' => '("' . $ymd . '")'])
-            ->joinWith(['horarios'], true, ['INNER JOIN'])
-            ->joinWith(['horarios'], true, ['INNER JOIN'])
-            ->where(['horario_funcion.fecha' => $ymd])
+            ->where(['in', 'id', HorarioFuncion::find()->select('id')->where(['fecha' => $ymd])])
             ->all();
 
         return $data;
+    }
+
+    public function actionTest()
+    {
+        Yii::error(Yii::$app->request->getBodyParams(), 'BTW');
+
+        return ['response' => 'Thanks'];
 
     }
 }
