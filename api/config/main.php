@@ -56,7 +56,7 @@ return [
                 'POST ping' => 'general/funcion/ping',
 
                 // OPTIONS
-                'OPTIONS try' => 'general/funcion/options',
+                'OPTIONS ping' => 'general/funcion/options',
                 'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
                 'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
                 'OPTIONS sala' => 'general/sala/options',
