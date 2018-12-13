@@ -53,7 +53,7 @@ return [
                 'GET sala/<id:\d+>' => 'general/sala/view',
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
 
-                'POST try' => 'general/funcion/test',
+                'POST ping' => 'general/funcion/ping',
 
                 // OPTIONS
                 'OPTIONS try' => 'general/funcion/options',

@@ -31,11 +31,11 @@ class FuncionController extends BaseController
         return $data;
     }
 
-    public function actionTest()
+    public function actionPing()
     {
-        Yii::error(Yii::$app->request->getBodyParams(), 'BTW');
+        Yii::error($_POST, 'BTW');
 
-        return ['response' => 'Thanks'];
+        return 'pong';
 
     }
 }
