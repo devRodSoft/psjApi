@@ -50,6 +50,7 @@ class HorarioFuncion extends \yii\db\ActiveRecord
             'funcion_id' => 'Funcion ID',
             'sala_id' => 'Sala ID',
             'hora' => 'Hora',
+            'fHora' => 'Hora',
             'fecha' => 'Fecha',
         ];
     }
@@ -64,7 +65,7 @@ class HorarioFuncion extends \yii\db\ActiveRecord
             'funcion_id',
             'sala_id',
             'hora' => function ($m) {
-                return Yii::$app->formatter->asTime($m->hora, 'php:h:i A');
+                return $m->getFHora();
             },
             'fecha',
         ];
@@ -84,6 +85,14 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     public function getSala()
     {
         return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFHora()
+    {
+        return Yii::$app->formatter->asTime($this->hora, 'php:h:i A');
     }
 
     /**

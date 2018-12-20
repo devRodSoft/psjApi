@@ -85,6 +85,22 @@ class Boleto extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCode()
+    {
+        return md5(sprintf("%s-%s-%s-%s", $this->id, $this->horario_funcion_id, $this->sala_asientos_id, $this->faceUser->username));
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLabel()
+    {
+        return sprintf("%s %s %s %s", $this->salaAsientos->asiento->nombre, $this->salaAsientos->sala->nombre, $this->horarioFuncion->fecha, $this->horarioFuncion->getFHora());
+    }
+
+    /**
      * {@inheritdoc}
      * @return BoletoQuery the active query used by this AR class.
      */

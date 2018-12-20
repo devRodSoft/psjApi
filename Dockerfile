@@ -4,10 +4,24 @@ ENV SERVER "docker"
 
 WORKDIR /tmp
 
-RUN apt-get update && apt-get -y install wget git zlib1g-dev sendmail libpng-dev zlib1g-dev unzip
+RUN apt-get update && apt-get -y install libfreetype6-dev \
+        libmcrypt-dev \
+        libjpeg-dev \
+        libpng-dev \
+        wget \
+        git \
+        zlib1g-dev \
+        sendmail \
+        zlib1g-dev \
+        unzip
 
 
-RUN docker-php-ext-install pdo pdo_mysql zip mbstring gd
+RUN docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-png-dir=/usr/include \
+        --with-jpeg-dir=/usr/include && \
+        docker-php-ext-install pdo pdo_mysql zip mbstring gd
 
 RUN a2enmod rewrite
 RUN a2enmod headers

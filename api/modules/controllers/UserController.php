@@ -1,9 +1,13 @@
 <?php
 namespace api\modules\controllers;
 
-use api\controllers\BaseController;
+use api\controllers\BaseAuthController;
+use api\models\BoletoRest;
+use common\models\Boleto;
+use Yii;
+use yii\web\Response;
 
-class UserController extends BaseController
+class UserController extends BaseAuthController
 {
     public $modelClass = 'common\models\FaceUser';
 
@@ -27,9 +31,38 @@ class UserController extends BaseController
         // throw ForbiddenHttpException if access should be denied
 
         if ($action === 'update' || $action === 'delete') {
-            if ($model->id !== \Yii::$app->user->id) {
+            if ($model->face_user_id !== Yii::$app->user->id) {
                 throw new \yii\web\ForbiddenHttpException(sprintf('Esta información es privada.', $action));
             }
         }
+    }
+
+    public function actionBoletos()
+    {
+        $boletos = BoletoRest::find()
+            ->with(['horarioFuncion', 'salaAsientos'])
+            ->joinWith(['horarioFuncion AS hf', 'salaAsientos AS sa'], true, 'INNER JOIN')
+            ->where(['boleto.face_user_id' => Yii::$app->user->id])
+            ->andWhere(['>', 'reclamado', 0])
+            ->orderBy(['boleto.reclamado' => SORT_ASC, 'hf.fecha' => SORT_DESC, 'hf.hora' => SORT_DESC])
+            ->all();
+        return $boletos;
+    }
+
+    public function actionBoleto($id)
+    {
+        $boleto = Boleto::find()->where(['id' => $id, 'face_user_id' => Yii::$app->user->id])->andWhere(['reclamado' => '1'])->one();
+        if (is_null($boleto)) {
+            throw new \yii\web\NotFoundHttpException('boleto no existente o ya usado');
+        }
+        $qr = Yii::$app->get('qr');
+
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', $qr->getContentType());
+
+        return $qr
+            ->setText($boleto->code)
+            ->setLabel($boleto->label)
+            ->writeString();
     }
 }

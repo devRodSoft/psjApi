@@ -14,7 +14,7 @@ return [
     'defaultRoute' => 'public/index',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\FaceUser',
             'enableAutoLogin' => true,
             // 'identityCookie' => ['name' => '_identity-front', 'httpOnly' => true],
         ],
@@ -25,6 +25,10 @@ return [
         ],
         'response' => [
             'format' => \yii\web\Response::FORMAT_JSON,
+        ],
+        'qr' => [
+            'class' => '\Da\QrCode\Component\QrCodeComponent',
+            // ... you can configure more properties of the component here
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -47,6 +51,8 @@ return [
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
                 'POST horario/<id:\d+>/sala/reserva' => 'general/pago/reservar',
                 'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
+                'GET user/boletos' => 'general/user/boletos',
+                'GET user/boletos/<id:\d+>' => 'general/user/boleto',
 
                 'POST ping' => 'general/funcion/ping',
 

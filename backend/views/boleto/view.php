@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'id',
         'faceUser.nombre',
         'horarioFuncion.fecha',
-        'horarioFuncion.hora',
+        'horarioFuncion.fHora',
         'salaAsientos.asiento.nombre',
         'reclamado:boolean',
         'created_at',
