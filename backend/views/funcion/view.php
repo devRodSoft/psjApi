@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php echo $horario->fecha ?>
                 </td>
                 <td>
-                    <?php echo $horario->hora ?>
+                    <?php echo Yii::$app->formatter->asTime($horario->hora, 'php:H:i'); ?>
                 </td>
                 <td>
                     <?php echo $horario->sala->nombre ?>
