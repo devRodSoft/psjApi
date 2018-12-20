@@ -131,7 +131,22 @@ class m181012_074545_init_cine_database extends Migration
             `face_user_id` int(11) NOT NULL,
             `horario_funcion_id` int(11) NOT NULL,
             `sala_asientos_id` int(11) NOT NULL,
-            `reclamado` int(1) NOT NULL DEFAULT 0,
+            `reclamado` int(2) NOT NULL DEFAULT 0,
+            `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `id` (`id`),
+            KEY `idBoleto` (`id`)
+        ) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB;");
+
+        $this->execute("CREATE TABLE IF NOT EXISTS `pago` (
+            `id` int(11) NOT NULL auto_increment,
+            `boleto_id` int(11) NOT NULL,
+            `face_user_id` int(11) NOT NULL,
+            `create_time` varchar(100) NOT NULL,
+            `id_pago` varchar(255) NOT NULL,
+            `intent` varchar(50) NOT NULL,
+            `state` varchar(50) NOT NULL,
             `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`),
@@ -143,7 +158,10 @@ class m181012_074545_init_cine_database extends Migration
         $this->createIndex('ix_horario_funcion', 'boleto', 'horario_funcion_id');
         $this->createIndex('ix_sala_asientos', 'boleto', 'sala_asientos_id');
         $this->createIndex('ix_reclamado', 'boleto', 'reclamado');
-        $this->createIndex('ix_fecha', 'horario_funcion', 'fecha');
+        $this->createIndex('ix_boleto', 'pago', 'boleto_id');
+        $this->createIndex('ix_face_user', 'pago', 'face_user_id');
+        $this->createIndex('ix_idpago', 'pago', 'id_pago');
+        $this->createIndex('ix_state', 'pago', 'state');
     }
 
     /**
@@ -163,5 +181,6 @@ class m181012_074545_init_cine_database extends Migration
         $this->execute(" DROP TABLE IF EXISTS `pelicula_director`");
         $this->execute(" DROP TABLE IF EXISTS `boleto`");
         $this->execute(" DROP TABLE IF EXISTS `pelicula_actor`");
+        $this->execute(" DROP TABLE IF EXISTS `pago`");
     }
 }

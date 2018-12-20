@@ -41,7 +41,10 @@ $menuItems = [
 if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    $menuItems[] = ['label' => 'Admin users', 'url' => ['/user']];
+    $menuItems[] = ['label' => 'Admin users', 'items' => [
+        ['label' => 'Internal Users', 'url' => ['/user']],
+        ['label' => 'Facebook Users', 'url' => ['/faceUser']],
+    ]];
     $menuItems[] = ['label' => 'Salas', 'url' => ['/sala']];
     $menuItems[] = ['label' => 'Asientos', 'url' => ['/asiento']];
     $menuItems[] = ['label' => 'Cines', 'url' => ['/cine']];

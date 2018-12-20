@@ -43,7 +43,7 @@ class Role extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
+            'nombre' => 'Nivel de permisos',
             'descripcion' => 'Descripcion',
         ];
     }

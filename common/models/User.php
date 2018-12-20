@@ -75,6 +75,23 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Username',
+            'nombre' => 'Nombre completo',
+            'role_id' => 'Rol',
+            'email' => 'Email',
+            'status' => 'Activo',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
      * @return UserQuery the active query used by this AR class.
      */
     public static function find()

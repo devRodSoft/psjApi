@@ -9,9 +9,9 @@ class BaseController extends ActiveController
     {
         $behaviors = parent::behaviors();
 
-        // // remove authentication filter
-        // $auth = $behaviors['authenticator'];
-        // unset($behaviors['authenticator']);
+        // remove authentication filter
+        $auth = $behaviors['authenticator'];
+        unset($behaviors['authenticator']);
 
         // add CORS filter
         $behaviors['corsFilter'] = [
@@ -46,9 +46,7 @@ class BaseController extends ActiveController
         ];
 
         // re-add authentication filter
-        // $behaviors['authenticator'] = [
-        //     'class' => \conquer\oauth2\AuthorizeFilter::className(),
-        // ];
+        $behaviors['authenticator'] = $auth;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
         $behaviors['authenticator']['except'] = ['options'];
 
@@ -56,14 +54,3 @@ class BaseController extends ActiveController
     }
 }
 
-function behaviors()
-{
-    return [
-        /**
-         * Performs authorization by token
-         */
-        'tokenAuth' => [
-            'class' => \conquer\oauth2\TokenAuth::className(),
-        ],
-    ];
-}

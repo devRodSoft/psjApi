@@ -29,6 +29,8 @@ class m181012_075023_init_cine_relations extends Migration
         $this->addForeignKey('boletoHora_ref', 'boleto', 'horario_funcion_id', 'horario_funcion', 'id');
         $this->addForeignKey('boletoSala_ref', 'boleto', 'sala_asientos_id', 'sala_asientos', 'id');
 
+        $this->addForeignKey('pago_user_ref', 'pago', 'face_user_id', 'face_user', 'id');
+        $this->addForeignKey('pagoBoleto_ref', 'pago', 'boleto_id', 'boleto', 'id');
     }
 
     /**
@@ -47,5 +49,7 @@ class m181012_075023_init_cine_relations extends Migration
         $this->dropForeignKey('pelicula_director', 'pelicula');
         $this->dropForeignKey('pelicula_actor_ref', 'pelicula_actor');
         $this->dropForeignKey('pelicula_actor', 'pelicula_actor');
+        $this->dropForeignKey('pago_user_ref', 'pago');
+        $this->dropForeignKey('pagoBoleto_ref', 'pago');
     }
 }

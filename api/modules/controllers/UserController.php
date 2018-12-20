@@ -5,7 +5,7 @@ use api\controllers\BaseController;
 
 class UserController extends BaseController
 {
-    public $modelClass = 'common\models\User';
+    public $modelClass = 'common\models\FaceUser';
 
     public function actions()
     {

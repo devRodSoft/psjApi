@@ -30,11 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
     'model' => $model,
     'attributes' => [
         'id',
-        'faceUser.username',
+        'faceUser.nombre',
         'horarioFuncion.fecha',
         'horarioFuncion.hora',
-        'salaAsientos.asiento.fila',
-        'salaAsientos.asiento.numero',
+        'salaAsientos.asiento.nombre',
         'reclamado:boolean',
         'created_at',
         'updated_at',

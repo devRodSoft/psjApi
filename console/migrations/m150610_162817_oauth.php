@@ -1,78 +1,129 @@
 <?php
-/**
- * @link https://github.com/borodulin/yii2-oauth2-server
- * @copyright Copyright (c) 2015 Andrey Borodulin
- * @license https://github.com/borodulin/yii2-oauth2-server/blob/master/LICENSE
- */
 
-use yii\db\Migration;
 use yii\db\Schema;
 
-/**
- *
- * @author Andrey Borodulin
- *
- */
-class m150610_162817_oauth extends Migration
+class m150610_162817_oauth extends \yii\db\Migration
 {
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
+    public function mysql($yes, $no = '')
     {
-        $this->createTable('{{%oauth2_client}}', [
-            'client_id' => Schema::TYPE_STRING . '(80) NOT NULL',
-            'client_secret' => Schema::TYPE_STRING . '(80) NOT NULL',
-            'redirect_uri' => Schema::TYPE_TEXT . ' NOT NULL',
-            'grant_type' => Schema::TYPE_TEXT,
-            'scope' => Schema::TYPE_TEXT,
-            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'created_by' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_by' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'PRIMARY KEY (client_id)',
-        ]);
-
-        $this->createTable('{{%oauth2_access_token}}', [
-            'access_token' => Schema::TYPE_STRING . '(40) NOT NULL',
-            'client_id' => Schema::TYPE_STRING . '(80) NOT NULL',
-            'user_id' => Schema::TYPE_INTEGER,
-            'expires' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'scope' => Schema::TYPE_TEXT,
-            'PRIMARY KEY (access_token)',
-        ]);
-
-        $this->createTable('{{%oauth2_refresh_token}}', [
-            'refresh_token' => Schema::TYPE_STRING . '(40) NOT NULL',
-            'client_id' => Schema::TYPE_STRING . '(80) NOT NULL',
-            'user_id' => Schema::TYPE_INTEGER,
-            'expires' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'scope' => Schema::TYPE_TEXT,
-            'PRIMARY KEY (refresh_token)',
-        ]);
-
-        $this->createTable('{{%oauth2_authorization_code}}', [
-            'authorization_code' => Schema::TYPE_STRING . '(40) NOT NULL',
-            'client_id' => Schema::TYPE_STRING . '(80) NOT NULL',
-            'user_id' => Schema::TYPE_INTEGER,
-            'redirect_uri' => Schema::TYPE_TEXT . ' NOT NULL',
-            'expires' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'scope' => Schema::TYPE_TEXT,
-            'PRIMARY KEY (authorization_code)',
-        ]);
-
-        $this->addforeignkey('fk_refresh_token_oauth2_client_client_id', '{{%oauth2_refresh_token}}', 'client_id', '{{%oauth2_client}}', 'client_id', 'cascade', 'cascade');
-        $this->addforeignkey('fk_authorization_code_oauth2_client_client_id', '{{%oauth2_authorization_code}}', 'client_id', '{{%oauth2_client}}', 'client_id', 'cascade', 'cascade');
-        $this->addforeignkey('fk_access_token_oauth2_client_client_id', '{{%oauth2_access_token}}', 'client_id', '{{%oauth2_client}}', 'client_id', 'cascade', 'cascade');
-
-        $this->createIndex('ix_authorization_code_expires', '{{%oauth2_authorization_code}}', 'expires');
-        $this->createIndex('ix_refresh_token_expires', '{{%oauth2_refresh_token}}', 'expires');
-        $this->createIndex('ix_access_token_expires', '{{%oauth2_access_token}}', 'expires');
+        return $this->db->driverName === 'mysql' ? $yes : $no;
     }
 
-    public function safeDown()
+    public function primaryKeyPK($columns)
     {
-        $this->dropTable('{{%oauth2_authorization_code}}');
-        $this->dropTable('{{%oauth2_refresh_token}}');
-        $this->dropTable('{{%oauth2_access_token}}');
-        $this->dropTable('{{%oauth2_client}}');
+        return 'PRIMARY KEY (' . $this->db->getQueryBuilder()->buildColumns($columns) . ')';
+    }
+
+    public function foreignKey($columns, $refTable, $refColumns, $onDelete = null, $onUpdate = null)
+    {
+        $builder = $this->db->getQueryBuilder();
+        $sql     = ' FOREIGN KEY (' . $builder->buildColumns($columns) . ')'
+        . ' REFERENCES ' . $this->db->quoteTableName($refTable)
+        . ' (' . $builder->buildColumns($refColumns) . ')';
+        if ($onDelete !== null) {
+            $sql .= ' ON DELETE ' . $onDelete;
+        }
+        if ($onUpdate !== null) {
+            $sql .= ' ON UPDATE ' . $onUpdate;
+        }
+        return $sql;
+    }
+
+    public function up()
+    {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
+        $now           = $this->mysql('CURRENT_TIMESTAMP', "'now'");
+        $on_update_now = $this->mysql("ON UPDATE $now");
+
+        $transaction = $this->db->beginTransaction();
+        try {
+            $this->createTable('{{%oauth_clients}}', [
+                'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
+                'client_secret' => Schema::TYPE_STRING . '(32) DEFAULT NULL',
+                'redirect_uri' => Schema::TYPE_STRING . '(1000) NOT NULL',
+                'grant_types' => Schema::TYPE_STRING . '(100) NOT NULL',
+                'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
+                'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+                $this->primaryKeyPK('client_id'),
+            ], $tableOptions);
+
+            $this->createTable('{{%oauth_access_tokens}}', [
+                'access_token' => Schema::TYPE_STRING . '(40) NOT NULL',
+                'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
+                'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+                'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
+                'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
+                $this->primaryKeyPK('access_token'),
+                $this->foreignKey('client_id', '{{%oauth_clients}}', 'client_id', 'CASCADE', 'CASCADE'),
+            ], $tableOptions);
+
+            $this->createTable('{{%oauth_refresh_tokens}}', [
+                'refresh_token' => Schema::TYPE_STRING . '(40) NOT NULL',
+                'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
+                'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+                'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
+                'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
+                $this->primaryKeyPK('refresh_token'),
+                $this->foreignKey('client_id', '{{%oauth_clients}}', 'client_id', 'CASCADE', 'CASCADE'),
+            ], $tableOptions);
+
+            $this->createTable('{{%oauth_authorization_codes}}', [
+                'authorization_code' => Schema::TYPE_STRING . '(40) NOT NULL',
+                'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
+                'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+                'redirect_uri' => Schema::TYPE_STRING . '(1000) NOT NULL',
+                'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
+                'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
+                $this->primaryKeyPK('authorization_code'),
+                $this->foreignKey('client_id', '{{%oauth_clients}}', 'client_id', 'CASCADE', 'CASCADE'),
+            ], $tableOptions);
+
+            $this->createTable('{{%oauth_scopes}}', [
+                'scope' => Schema::TYPE_STRING . '(2000) NOT NULL',
+                'is_default' => Schema::TYPE_BOOLEAN . ' NOT NULL',
+            ], $tableOptions);
+
+            // insert client data
+            $this->batchInsert('{{%oauth_clients}}', ['client_id', 'client_secret', 'redirect_uri', 'grant_types'], [
+                ['cineClient', '@4815162342', '', 'client_credentials authorization_code password implicit refresh_token'],
+            ]);
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            echo 'Exception: ' . $e->getMessage() . '\n';
+            $transaction->rollback();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function down()
+    {
+        $transaction = $this->db->beginTransaction();
+        try {
+            $this->dropTable('{{%oauth_scopes}}');
+            $this->dropTable('{{%oauth_authorization_codes}}');
+            $this->dropTable('{{%oauth_refresh_tokens}}');
+            $this->dropTable('{{%oauth_access_tokens}}');
+            $this->dropTable('{{%oauth_clients}}');
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            echo $e->getMessage();
+            echo "\n";
+            echo get_called_class() . ' cannot be reverted.';
+            echo "\n";
+
+            return false;
+        }
+
+        return true;
     }
 }

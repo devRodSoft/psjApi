@@ -23,14 +23,6 @@ return [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
-        'i18n' => [
-            'translations' => [
-                'conquer/oauth2' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@conquer/oauth2/messages',
-                ],
-            ],
-        ],
         'response' => [
             'format' => \yii\web\Response::FORMAT_JSON,
         ],
@@ -47,21 +39,25 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'GET token' => 'authentication/token',
+                'POST oauth/<action:\w+>' => 'authentication/<action>',
+
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
                 'GET sala' => 'general/sala/index',
                 'GET sala/<id:\d+>' => 'general/sala/view',
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
+                'POST horario/<id:\d+>/sala/reserva' => 'general/pago/reservar',
+                'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
 
                 'POST ping' => 'general/funcion/ping',
 
                 // OPTIONS
+                'OPTIONS oauth2/token' => 'authentication/options',
                 'OPTIONS ping' => 'general/funcion/options',
                 'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
+                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
                 'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
                 'OPTIONS sala' => 'general/sala/options',
                 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
-                'OPTIONS token' => 'auth/token',
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'general/user'],
             ],
         ],
@@ -70,6 +66,23 @@ return [
     'modules' => [
         'general' => [
             'class' => 'api\modules\General',
+        ],
+        'oauth2' => [
+            'class' => 'filsh\yii2\oauth2server\Module',
+            'tokenParamName' => 'accessToken',
+            'tokenAccessLifetime' => 3600 * 24,
+            'storageMap' => [
+                'user_credentials' => 'common\models\FaceUser',
+            ],
+            'grantTypes' => [
+                'user_credentials' => [
+                    'class' => 'OAuth2\GrantType\UserCredentials',
+                ],
+                'refresh_token' => [
+                    'class' => 'OAuth2\GrantType\RefreshToken',
+                    'always_issue_new_refresh_token' => true,
+                ],
+            ],
         ],
     ],
     'params' => $params,

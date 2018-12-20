@@ -1,43 +1,57 @@
 <?php
 namespace api\controllers;
 
-class AuthenticationController extends \yii\web\Controller
+use common\models\FaceUser;
+use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
+use Yii;
+
+// 'id' => '5678',
+// 'email' => 'sdfg@hotmail.com',
+// 'first_name' => 'guy',
+// 'last_name' => 'pizcully',
+
+class AuthenticationController extends BaseController
 {
+    public $modelClass = 'filsh\yii2\oauth2server\models\OauthAccessTokens';
+
+    protected $authenticatorExceptions = ['options', 'revoke', 'token'];
+
+    public function actionRevoke()
+    {
+        /** @var $response \OAuth2\Response */
+        $response = Yii::$app->getModule('oauth2')->getServer()->handleRevokeRequest();
+        return $response->getParameters();
+    }
+
+    public function actionToken()
+    {
+        $username = Yii::$app->request->getBodyParam('username', false);
+
+        if ($username != false && !FaceUser::findByUsername($username)) {
+            $userInfo = Yii::$app->request->getBodyParam('userInfo', []);
+
+            $user = new FaceUser();
+            $user->loadFromArray($userInfo);
+            if (!$user->save()) {
+                throw new \yii\web\UnauthorizedHttpException('Favor de ingresar los datos de forma correcta');
+            }
+        }
+
+        /** @var $response \OAuth2\Response */
+        $response = Yii::$app->getModule('oauth2')->getServer()->handleTokenRequest();
+        return $response->getParameters();
+    }
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        return [
-            /**
-             * checks oauth2 credentions
-             * and performs OAuth2 authorization, if user is logged on
-             */
-            'oauth2Auth' => [
-                'class' => \conquer\oauth2\AuthorizeFilter::className(),
-                'only' => ['index'],
-            ],
+        $behaviors = parent::behaviors();
+
+        $behaviors['exceptionFilter'] = [
+            'class' => ErrorToExceptionFilter::className(),
         ];
-    }
 
-    public function actions()
-    {
-        return [
-            // returns access token
-            'token' => [
-                'class' => \conquer\oauth2\TokenAction::classname(),
-            ],
-        ];
-    }
-
-/**
- * This function will be triggered when user is successfuly authenticated using some oAuth client.
- *
- * @param yii\authclient\ClientInterface $client
- * @return boolean|yii\web\Response
- */
-    public function oAuthSuccess($client)
-    {
-        // get user data from client
-        $userAttributes = $client->getUserAttributes();
-
-        // do some thing with user data. for example with $userAttributes['email']
+        return $behaviors;
     }
 }

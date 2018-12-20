@@ -40,3 +40,4 @@ phpunit.phar
 /api/web/robots.txt
 /backend/web/index.php
 /backend/web/robots.txt
+oracle.sqlite
