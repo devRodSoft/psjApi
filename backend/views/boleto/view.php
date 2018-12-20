@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Boleto */
 
-$this->title                   = $model->id;
+$this->title                   = $model->horarioFuncion->funcion->pelicula->nombre;
 $this->params['breadcrumbs'][] = ['label' => 'Boletos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'attributes' => [
         'id',
         'faceUser.nombre',
+        'horarioFuncion.funcion.pelicula.nombre',
         'horarioFuncion.fecha',
         'horarioFuncion.fHora',
         'salaAsientos.asiento.nombre',
