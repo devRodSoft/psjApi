@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\FaceUserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Face Users';
+$this->title                   = 'Clientes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="face-user-index">
@@ -26,12 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ['class' => 'yii\grid\SerialColumn'],
 
         'id',
-        'username',
         'first_name',
         'last_name',
         'email:email',
         //'cumpleaños',
-        //'status',
+        // 'status:boolean',
         //'created_at',
         //'updated_at',
 

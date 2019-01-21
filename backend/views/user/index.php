@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Users';
+$this->title                   = 'Empleados';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?php echo Html::a('Crear Usuario', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Crear Empleado', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php echo GridView::widget([

@@ -18,6 +18,7 @@ class m130524_201442_init extends Migration
             'first_name' => $this->string()->notNull(),
             'last_name' => $this->string()->notNull(),
             'email' => $this->string()->notNull()->unique(),
+            'avatar' => $this->string()->notNull(),
             'cumpleaños' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",

@@ -43,5 +43,4 @@ $this->params['breadcrumbs'][] = $this->title;
         'arreglo:ntext',
     ],
 ]) ?>
-
 </div>

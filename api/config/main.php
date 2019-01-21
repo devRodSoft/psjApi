@@ -45,6 +45,7 @@ return [
             'rules' => [
 
                 'GET sala' => 'general/sala/index',
+                'GET user' => 'general/user/view',
                 'GET user/boletos' => 'general/user/boletos',
                 'GET sala/<id:\d+>' => 'general/sala/view',
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',

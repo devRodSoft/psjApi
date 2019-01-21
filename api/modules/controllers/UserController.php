@@ -3,6 +3,7 @@ namespace api\modules\controllers;
 
 use api\controllers\BaseAuthController;
 use api\models\BoletoRest;
+use api\models\UserRest;
 use common\models\Boleto;
 use Yii;
 use yii\web\Response;
@@ -14,11 +15,11 @@ class UserController extends BaseAuthController
     public function actions()
     {
         return [
-            'view' => [
-                'class' => 'yii\rest\ViewAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-            ],
+            // 'view' => [
+            //     'class' => 'yii\rest\ViewAction',
+            //     'modelClass' => $this->modelClass,
+            //     'checkAccess' => [$this, 'checkAccess'],
+            // ],
             'options' => [
                 'class' => 'yii\rest\OptionsAction',
             ],
@@ -32,7 +33,7 @@ class UserController extends BaseAuthController
 
         if ($action === 'update' || $action === 'delete') {
             if ($model->face_user_id !== Yii::$app->user->id) {
-                throw new \yii\web\ForbiddenHttpException(sprintf('Esta información es privada.', $action));
+                throw new \yii\web\ForbiddenHttpException(sprintf('Esta información es privada. %s', $action));
             }
         }
     }
@@ -47,6 +48,12 @@ class UserController extends BaseAuthController
             ->orderBy(['boleto.reclamado' => SORT_ASC, 'hf.fecha' => SORT_DESC, 'hf.hora' => SORT_DESC])
             ->all();
         return $boletos;
+    }
+
+    public function actionView()
+    {
+
+        return UserRest::getUser();
     }
 
     public function actionBoleto($id)

@@ -34,13 +34,42 @@ class PagoController extends BaseAuthController
 
     public function actionPagar()
     {
-
+        // "response": {
+        //        "create_time": "2018-12-13T05:31:04Z",
+        //        "id": "PAY-9JD506026M041730BLQI65EY",
+        //        "intent": "sale",
+        //        "state": "approved",
+        //    },
         return '';
     }
 
     public function actionReservar()
     {
-        return '';
+        $faceUserID     = Yii::$app->user->id;
+        $salaAsientoID  = Yii::$app->request->getBodyParam('asientoId', false);
+        $horarioFuncionID = Yii::$app->request->getBodyParam('horarioId', false);
 
+        if ($horarioFuncionID == false || $salaAsientoID == false) {
+            throw new \yii\web\HttpException(400, 'Hay un error con el ID de asiento o funcion');
+        }
+
+        $horarioFuncion = HorarioFuncion::find($horarioFuncionID);
+        if (is_null($horarioFuncion)) {
+            throw new \yii\web\HttpException(404, 'Hay un error con el ID de horario ');
+        }
+
+        $salaAsiento = SalaAsiento::find($salaAsientoID);
+        if (is_null($salaAsiento)) {
+            throw new \yii\web\HttpException(404, 'Hay un error con el ID de asiento');
+        }
+
+        $boleto = new Boleto();
+
+        $boleto->face_user_id       = $faceUserID;
+        $boleto->horario_funcion_id = $horarioFuncionID;
+        $boleto->sala_asientos_id   = $salaAsientoID;
+        $boleto->reclamado          = 0;
+
+        return ['id' => $boleto->id];
     }
 }

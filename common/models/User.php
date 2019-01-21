@@ -80,13 +80,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'Nombre de usuario',
             'nombre' => 'Nombre completo',
             'role_id' => 'Rol',
             'email' => 'Email',
             'status' => 'Activo',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Creado',
+            'updated_at' => 'Actualizado',
         ];
     }
 
