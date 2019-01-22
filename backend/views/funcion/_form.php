@@ -24,7 +24,8 @@ AppAsset::register($this);
     <?php echo $form->field($model, 'precio')->textInput(['maxlength' => true, 'type' => 'number']) ?>
     <?php echo $form->field($model, 'precio_niños')->textInput(['maxlength' => true, 'type' => 'number']) ?>
 
-    <?php //echo $form->field($model, 'recomendada')->textInput(['type' => 'date']) ?>
+    <?php echo $form->field($model, 'estreno')->textInput(['type' => 'date']) ?>
+    <?php echo $form->field($model, 'publicar')->checkbox() ?>
 
     <div class="alert alert-warning">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

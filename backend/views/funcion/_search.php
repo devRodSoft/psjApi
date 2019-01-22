@@ -27,7 +27,8 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'precio_niños') ?>
 
-    <?php // echo $form->field($model, 'recomendada') ?>
+    <?php echo $form->field($model, 'estreno') ?>
+    <?php echo $form->field($model, 'publicar') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

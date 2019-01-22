@@ -12,7 +12,7 @@ use Yii;
  * @property int $pelicula_id
  * @property int $sala_id
  * @property string $precio
- * @property string $recomendada
+ * @property string $estreno
  * @property string $created_at
  * @property string $updated_at
  *
@@ -38,9 +38,9 @@ class Funcion extends \yii\db\ActiveRecord
     {
         return [
             [['cine_id', 'pelicula_id', 'precio'], 'required'],
-            [['cine_id', 'pelicula_id'], 'integer'],
+            [['cine_id', 'pelicula_id', 'publicar'], 'integer'],
             [['precio', 'precio_niños'], 'number'],
-            [['recomendada', 'created_at', 'updated_at'], 'safe'],
+            [['estreno', 'created_at', 'updated_at'], 'safe'],
             [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
             [['pelicula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pelicula::className(), 'targetAttribute' => ['pelicula_id' => 'id']],
         ];
@@ -56,7 +56,7 @@ class Funcion extends \yii\db\ActiveRecord
             'cine_id' => 'Cine ID',
             'pelicula_id' => 'Pelicula ID',
             'precio' => 'Precio',
-            'recomendada' => 'Recomendada',
+            'estreno' => 'Estreno',
             'created_at' => 'Creado',
             'updated_at' => 'Actualizado',
         ];

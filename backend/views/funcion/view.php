@@ -34,6 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'pelicula.nombre',
         'precio:currency',
         'precio_niños:currency',
+        'estreno',
+        'publicar:boolean',
         'created_at',
         'updated_at',
     ],

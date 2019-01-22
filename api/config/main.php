@@ -48,6 +48,7 @@ return [
                 'GET user' => 'general/user/view',
                 'GET user/boletos' => 'general/user/boletos',
                 'GET sala/<id:\d+>' => 'general/sala/view',
+                'GET cartelera/estrenos' => 'general/funcion/estrenos',
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
                 'GET user/boletos/<id:\d+>' => 'general/user/boleto',

@@ -26,7 +26,21 @@ class FuncionController extends BaseController
         $ymd  = \DateTime::createFromFormat('Ymd', $fecha)->format('Y-m-d');
         $data = FuncionRest::find()
             ->select(['*', 'date' => '("' . $ymd . '")'])
-            ->where(['in', 'id', HorarioFuncion::find()->select('id')->where(['fecha' => $ymd])])
+            ->where('publicar = 1')
+            ->andWhere(['in', 'id', HorarioFuncion::find()->select('id')->where(['fecha' => $ymd])])
+            ->all();
+
+        var_dump($data);die();
+
+        return $data;
+    }
+
+    public function actionEstrenos()
+    {
+        $data = FuncionRest::find()
+            ->select(['*'])
+            ->where('publicar = 1 AND estreno >= NOW()')
+            ->andWhere(['not in', 'id', HorarioFuncion::find()->select('id')->where('`fecha` <= NOW()')])
             ->all();
 
         return $data;
