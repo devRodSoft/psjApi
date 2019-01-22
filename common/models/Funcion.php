@@ -39,7 +39,7 @@ class Funcion extends \yii\db\ActiveRecord
         return [
             [['cine_id', 'pelicula_id', 'precio'], 'required'],
             [['cine_id', 'pelicula_id'], 'integer'],
-            [['precio'], 'number'],
+            [['precio', 'precio_niños'], 'number'],
             [['recomendada', 'created_at', 'updated_at'], 'safe'],
             [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
             [['pelicula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pelicula::className(), 'targetAttribute' => ['pelicula_id' => 'id']],

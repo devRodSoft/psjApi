@@ -14,6 +14,7 @@ use Yii;
  * @property string $email
  * @property string $cumpleaños
  * @property int $status
+ * @property string $avatar
  * @property string $created_at
  * @property string $updated_at
  */
@@ -36,7 +37,7 @@ class FaceUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['username', 'first_name', 'last_name', 'email'], 'required'],
+            [['username', 'first_name', 'last_name', 'email', 'avatar'], 'required'],
             [['cumpleaños', 'created_at', 'updated_at'], 'safe'],
             [['status'], 'integer'],
             [['username', 'first_name', 'last_name', 'email', 'avatar'], 'string', 'max' => 255],

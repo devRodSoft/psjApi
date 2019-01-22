@@ -33,6 +33,7 @@ class FuncionRest extends \common\models\Funcion
         return [
             'pelicula_id',
             'precio',
+            'precio_niños',
             'recomendada',
             'horarios' => function ($m) {
                 return $m->horarios;

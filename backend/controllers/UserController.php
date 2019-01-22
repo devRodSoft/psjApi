@@ -68,8 +68,8 @@ class UserController extends Controller
 
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());
-            $model->generateAuthKey();
             $model->setPassword($model->password);
+            $model->generateAuthKey();
 
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -94,7 +94,9 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->password);
+            if (!empty($model->password)) {
+                $model->setPassword($model->password);
+            }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }

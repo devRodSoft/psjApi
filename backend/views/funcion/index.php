@@ -12,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="funcion-index">
 
-    <h1><?php echo Html::encode($this->title)?></h1>
+    <h1><?php echo Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?php echo Html::a('Crear Funcion', ['create'], ['class' => 'btn btn-success'])?>
+        <?php echo Html::a('Crear Funcion', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php echo GridView::widget([
@@ -33,5 +33,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ['class' => 'yii\grid\ActionColumn'],
     ],
-]);?>
+]); ?>
 </div>

@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         // 'status',
         'status' => [
-            'label' => 'stat',
+            'label' => 'status',
             'value' => function ($model) {
                 return [User::STATUS_DELETED => 'Eliminado', User::STATUS_ACTIVE => 'Activo'][$model->status];
             },

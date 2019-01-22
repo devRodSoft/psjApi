@@ -22,6 +22,7 @@ AppAsset::register($this);
     <?php echo $form->field($model, 'pelicula_id')->dropDownList(array_column(Pelicula::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
 
     <?php echo $form->field($model, 'precio')->textInput(['maxlength' => true, 'type' => 'number']) ?>
+    <?php echo $form->field($model, 'precio_niños')->textInput(['maxlength' => true, 'type' => 'number']) ?>
 
     <?php //echo $form->field($model, 'recomendada')->textInput(['type' => 'date']) ?>
 
