@@ -30,8 +30,6 @@ class FuncionController extends BaseController
             ->andWhere(['in', 'id', HorarioFuncion::find()->select('id')->where(['fecha' => $ymd])])
             ->all();
 
-        var_dump($data);die();
-
         return $data;
     }
 
