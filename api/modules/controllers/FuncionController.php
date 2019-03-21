@@ -4,7 +4,7 @@ namespace api\modules\controllers;
 use api\controllers\BaseController;
 use api\models\FuncionRest;
 use common\models\HorarioFuncion;
-use common\models\pelicula;
+use common\models\Pelicula;
 use Yii;
 
 class FuncionController extends BaseController
