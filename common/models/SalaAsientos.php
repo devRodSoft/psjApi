@@ -11,6 +11,7 @@ use Yii;
  * @property int $sala_id
  * @property int $asiento_id
  *
+ * @property BoletoAsiento[] $boletoAsientos
  * @property Asiento $asiento
  * @property Sala $sala
  */
@@ -50,16 +51,11 @@ class SalaAsientos extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * @return \yii\db\ActiveQuery
      */
-    public function fields()
+    public function getBoletoAsientos()
     {
-        return [
-            'id',
-            'sala_id',
-            'asiento_id',
-            'asiento',
-        ];
+        return $this->hasMany(BoletoAsiento::className(), ['sala_asiento_id' => 'id']);
     }
 
     /**
@@ -79,11 +75,32 @@ class SalaAsientos extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHorarioFuncion()
+    {
+        return $this->hasOne(HorarioFuncion::className(), ['id' => 'sala_id'])->via('sala');
+    }
+
+    /**
      * {@inheritdoc}
      * @return SalaAsientosQuery the active query used by this AR class.
      */
     public static function find()
     {
         return new SalaAsientosQuery(get_called_class());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'sala_id',
+            'asiento_id',
+            'asiento',
+        ];
     }
 }

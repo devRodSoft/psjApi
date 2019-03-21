@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Pelicula;
 use backend\models\PeliculaSearch;
+use common\models\Pelicula;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * PeliculaController implements the CRUD actions for Pelicula model.
@@ -20,6 +21,15 @@ class PeliculaController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['*'],
+                        'allow' => true,
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,7 +45,7 @@ class PeliculaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PeliculaSearch();
+        $searchModel  = new PeliculaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

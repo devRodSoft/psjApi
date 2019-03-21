@@ -4,6 +4,7 @@ namespace api\modules\controllers;
 use api\controllers\BaseController;
 use api\models\FuncionRest;
 use common\models\HorarioFuncion;
+use common\models\pelicula;
 use Yii;
 
 class FuncionController extends BaseController
@@ -27,7 +28,7 @@ class FuncionController extends BaseController
         $data = FuncionRest::find()
             ->select(['*', 'date' => '("' . $ymd . '")'])
             ->where('publicar = 1')
-            ->andWhere(['in', 'id', HorarioFuncion::find()->select('id')->where(['fecha' => $ymd])])
+            ->andWhere(['in', 'id', HorarioFuncion::find()->select('funcion_id')->where(['fecha' => $ymd])])
             ->all();
 
         return $data;
@@ -35,10 +36,9 @@ class FuncionController extends BaseController
 
     public function actionEstrenos()
     {
-        $data = FuncionRest::find()
-            ->select(['*'])
-            ->where('publicar = 1 AND estreno >= NOW()')
-            ->andWhere(['not in', 'id', HorarioFuncion::find()->select('id')->where('`fecha` <= NOW()')])
+        $data = Pelicula::find()
+            ->innerJoin(['f' => 'funcion'], 'f.pelicula_id = pelicula.id')
+            ->where('f.publicar = 1 AND f.estreno BETWEEN NOW() AND NOW() + INTERVAL 1 MONTH')
             ->all();
 
         return $data;

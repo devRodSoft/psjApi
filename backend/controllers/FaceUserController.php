@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\FaceUser;
 use backend\models\FaceUserSearch;
+use common\models\FaceUser;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * FaceUserController implements the CRUD actions for FaceUser model.
@@ -20,6 +21,15 @@ class FaceUserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['*'],
+                        'allow' => true,
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,7 +45,7 @@ class FaceUserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FaceUserSearch();
+        $searchModel  = new FaceUserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

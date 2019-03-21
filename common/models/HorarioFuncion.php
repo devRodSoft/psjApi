@@ -13,6 +13,7 @@ use Yii;
  * @property string $hora
  * @property string $fecha
  *
+ * @property Boleto[] $boletos
  * @property Funcion $funcion
  * @property Sala $sala
  */
@@ -50,9 +51,41 @@ class HorarioFuncion extends \yii\db\ActiveRecord
             'funcion_id' => 'Funcion ID',
             'sala_id' => 'Sala ID',
             'hora' => 'Hora',
-            'fHora' => 'Hora',
             'fecha' => 'Fecha',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBoletos()
+    {
+        return $this->hasMany(Boleto::className(), ['horario_funcion_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFuncion()
+    {
+        return $this->hasOne(Funcion::className(), ['id' => 'funcion_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSala()
+    {
+        return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return HorarioFuncionQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new HorarioFuncionQuery(get_called_class());
     }
 
     /**
@@ -74,33 +107,8 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFuncion()
-    {
-        return $this->hasOne(Funcion::className(), ['id' => 'funcion_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSala()
-    {
-        return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getFHora()
     {
         return Yii::$app->formatter->asTime($this->hora, 'php:h:i A');
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return HorarioFuncionQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new HorarioFuncionQuery(get_called_class());
     }
 }

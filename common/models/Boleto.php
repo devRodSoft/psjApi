@@ -10,14 +10,17 @@ use Yii;
  * @property int $id
  * @property int $face_user_id
  * @property int $horario_funcion_id
- * @property int $sala_asientos_id
  * @property int $reclamado
  * @property string $created_at
  * @property string $updated_at
+ * @property int $id_pago
+ * @property string $tipo_pago
  *
+ * @property Pago $pago
  * @property FaceUser $faceUser
  * @property HorarioFuncion $horarioFuncion
- * @property SalaAsientos $salaAsientos
+ * @property BoletoAsiento[] $boletoAsientos
+ * @property Pago[] $pagos
  */
 class Boleto extends \yii\db\ActiveRecord
 {
@@ -35,12 +38,13 @@ class Boleto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['face_user_id', 'horario_funcion_id', 'sala_asientos_id'], 'required'],
-            [['face_user_id', 'horario_funcion_id', 'sala_asientos_id', 'reclamado'], 'integer'],
+            [['face_user_id', 'horario_funcion_id'], 'required'],
+            [['face_user_id', 'horario_funcion_id', 'reclamado', 'id_pago'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['tipo_pago'], 'string', 'max' => 255],
+            [['id_pago'], 'exist', 'skipOnError' => true, 'targetClass' => Pago::className(), 'targetAttribute' => ['id_pago' => 'id']],
             [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
             [['horario_funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => HorarioFuncion::className(), 'targetAttribute' => ['horario_funcion_id' => 'id']],
-            [['sala_asientos_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalaAsientos::className(), 'targetAttribute' => ['sala_asientos_id' => 'id']],
         ];
     }
 
@@ -51,13 +55,22 @@ class Boleto extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'face_user_id' => 'FaceBook user',
-            'horario_funcion_id' => 'Horario',
-            'sala_asientos_id' => 'Asiento',
-            'reclamado' => 'Usado',
+            'face_user_id' => 'Face User ID',
+            'horario_funcion_id' => 'Horario Funcion ID',
+            'reclamado' => 'Reclamado',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'id_pago' => 'Id Pago',
+            'tipo_pago' => 'Tipo Pago',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPago()
+    {
+        return $this->hasOne(Pago::className(), ['id' => 'id_pago']);
     }
 
     /**
@@ -79,9 +92,23 @@ class Boleto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getBoletoAsientos()
+    {
+        return $this->hasMany(BoletoAsiento::className(), ['boleto_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPagos()
+    {
+        return $this->hasMany(Pago::className(), ['boleto_id' => 'id']);
+    }
+
     public function getSalaAsientos()
     {
-        return $this->hasOne(SalaAsientos::className(), ['id' => 'sala_asientos_id']);
+        return $this->hasMany(Pago::className(), ['boleto_id' => 'id'])
+            ->via('boletoAsientos');
     }
 
     /**
@@ -89,15 +116,14 @@ class Boleto extends \yii\db\ActiveRecord
      */
     public function getCode()
     {
-        return md5(sprintf("%s-%s-%s-%s", $this->id, $this->horario_funcion_id, $this->sala_asientos_id, $this->faceUser->username));
+        return md5(sprintf("%s-%s-%s-%s", $this->id, $this->horario_funcion_id, join("", array_column($this->boletoAsientos, 'id')), $this->faceUser->username));
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getLabel()
     {
-        return sprintf("%s %s %s %s", $this->salaAsientos->asiento->nombre, $this->salaAsientos->sala->nombre, $this->horarioFuncion->fecha, $this->horarioFuncion->getFHora());
+        return sprintf("%s _ %s", $this->horarioFuncion->fecha, $this->horarioFuncion->getFHora());
     }
 
     /**
