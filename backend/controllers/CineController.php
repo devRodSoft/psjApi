@@ -25,8 +25,8 @@ class CineController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['*'],
                         'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
