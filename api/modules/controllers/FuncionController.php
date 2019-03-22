@@ -37,8 +37,10 @@ class FuncionController extends BaseController
     public function actionEstrenos()
     {
         $data = Pelicula::find()
+            ->select('pelicula.*, DATE(f.estreno) as estreno')
             ->innerJoin(['f' => 'funcion'], 'f.pelicula_id = pelicula.id')
             ->where('f.publicar = 1 AND f.estreno BETWEEN NOW() AND NOW() + INTERVAL 1 MONTH')
+            ->asArray(true)
             ->all();
 
         return $data;

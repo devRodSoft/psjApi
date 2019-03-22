@@ -44,7 +44,8 @@ class SalaRest extends \common\models\Sala
                 ->from(['hf' => 'horario_funcion'])
                 ->join('inner join', ['sa' => 'sala_asientos'], 'hf.sala_id = sa.sala_id')
                 ->join('inner join', ['a' => 'asiento'], 'a.id = sa.asiento_id')
-                ->join('left join', ['b' => 'boleto'], 'a.id = b.sala_asientos_id')
+                ->join('left join', ['ba' => 'boleto_asiento'], 'a.id = ba.sala_asiento_id')
+                ->join('left join', ['b' => 'boleto'], 'ba.boleto_id = b.id')
                 ->where(['hf.id' => $this->horario])
                 ->ordered()
                 ->all();

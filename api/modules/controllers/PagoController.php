@@ -5,6 +5,7 @@ use api\controllers\BaseAuthController;
 use common\models\Boleto;
 use common\models\BoletoAsiento;
 use common\models\HorarioFuncion;
+use common\models\Pago;
 use common\models\SalaAsientos;
 use Yii;
 
@@ -61,12 +62,16 @@ class PagoController extends BaseAuthController
 
         $salaAsientos = SalaAsientos::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.sala_id = sala_asientos.sala_id')
+            ->leftJoin(['ba' => 'boleto_asiento'], 'ba.sala_asiento_id = sala_asientos.id')
+            ->leftJoin(['b' => 'boleto'], 'b.id = ba.boleto_id AND hf.id = b.horario_funcion_id')
             ->where(['in', 'sala_asientos.id', $salaAsientosID])
             ->andWhere(['hf.id' => $horarioFuncionID])
+            ->andWhere('b.id IS NULL')
             ->all();
+
         $NSalaAsientos = count($salaAsientosID);
         if (empty($salaAsientos) || count($salaAsientos) != $NSalaAsientos || $NSalaAsientos > Yii::$app->params['maxBoletos']) {
-            throw new \yii\web\HttpException(404, 'Uno o mas asientos no encontrados');
+            throw new \yii\web\HttpException(409, 'Uno o mas asientosParecen no estar disponibles');
         }
         if (!isset($payResponse['id']) || !$this->checkPayment($payResponse['id'])) {
             throw new \yii\web\HttpException(402, 'Error Pago no valido');
@@ -75,6 +80,17 @@ class PagoController extends BaseAuthController
         $txn = Yii::$app->db->beginTransaction();
 
         try {
+            $pago = new Pago();
+
+            $pago->face_user_id   = $faceUserID;
+            $pago->create_time    = $payResponse['create_time'];
+            $pago->id_pago_paypal = $payResponse['id'];
+            $pago->intent         = $payResponse['intent'];
+            $pago->state          = $payResponse['state'];
+
+            if (!$pago->save()) {
+                throw new \yii\web\HttpException(400, 'Hubo un error al procesar tu Pago');
+            }
 
             $boleto = new Boleto();
 
