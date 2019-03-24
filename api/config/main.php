@@ -45,30 +45,43 @@ return [
             'rules' => [
 
                 'GET sala' => 'general/sala/index',
+                'OPTIONS sala' => 'general/sala/options',
+
                 'GET user' => 'general/user/view',
+                'OPTIONS user' => 'general/user/options',
+
                 'GET user/boletos' => 'general/user/boletos',
+                'OPTIONS user/boletos' => 'general/user/options',
+
                 'GET sala/<id:\d+>' => 'general/sala/view',
+                'OPTIONS sala/<id:\d+>' => 'general/sala/options',
+
                 'GET cartelera/estrenos' => 'general/funcion/estrenos',
+                'OPTIONS cartelera/estrenos' => 'general/funcion/options',
+
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
+                'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
+
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
+                'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
+
                 'GET user/boletos/<id:\d+>' => 'general/user/boleto',
+                'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
+
                 'GET user/boletos/<id:\d+>/qr' => 'general/user/qr',
+                'OPTIONS user/boletos/<id:\d+>/qr' => 'general/user/options',
 
                 'POST ping' => 'general/funcion/ping',
+                'OPTIONS ping' => 'general/funcion/options',
+
                 'POST oauth/<action:\w+>' => 'authentication/<action>',
+                'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
+
                 'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
+                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
 
                 // OPTIONS
-                'OPTIONS ping' => 'general/funcion/options',
-                'OPTIONS sala' => 'general/sala/options',
-                'OPTIONS sala/<id:\d+>' => 'general/sala/options',
-                'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
-                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
-                'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
-                'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
-                'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
-                'OPTIONS user/boletos/<id:\d+>/qr' => 'general/user/options',
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'general/face-user'],
+                // ['class' => 'yii\rest\UrlRule', 'controller' => 'general/face-user'],
             ],
         ],
 
