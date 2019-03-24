@@ -37,14 +37,13 @@ class SalaRest extends \common\models\Sala
     public function getAsientos()
     {
         if (empty($this->horario)) {
-            return parent::getAsientos();
+            return parent::getSalaAsientos();
         } else {
-            return Asiento::find()
-                ->select(['a.*', 'ocupadoAsiento' => 'if(b.id is null, 0, 1)'])
+            return SalaAsientos::find()
+                ->select(['sa.*', 'ocupadoAsiento' => 'if(b.id IS NULL, 0, 1)'])
                 ->from(['hf' => 'horario_funcion'])
                 ->join('inner join', ['sa' => 'sala_asientos'], 'hf.sala_id = sa.sala_id')
-                ->join('inner join', ['a' => 'asiento'], 'a.id = sa.asiento_id')
-                ->join('left join', ['ba' => 'boleto_asiento'], 'a.id = ba.sala_asiento_id')
+                ->join('left join', ['ba' => 'boleto_asiento'], 'sa.id = ba.sala_asiento_id')
                 ->join('left join', ['b' => 'boleto'], 'ba.boleto_id = b.id')
                 ->where(['hf.id' => $this->horario])
                 ->ordered()

@@ -41,3 +41,5 @@ phpunit.phar
 /backend/web/index.php
 /backend/web/robots.txt
 oracle.sqlite
+
+/QRImages/*

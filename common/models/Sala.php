@@ -79,19 +79,11 @@ class Sala extends \yii\db\ActiveRecord
         return $this->hasMany(SalaAsientos::className(), ['sala_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAsientos()
-    {
-        return $this->hasMany(Asiento::className(), ['id' => 'asiento_id'])->via('salaAsientos')->orderBy(['asiento.fila' => SORT_DESC]);
-    }
-
     public function getAsientosAsMtx()
     {
-        $asientos = $this->hasMany(Asiento::className(), ['id' => 'asiento_id'])->via('salaAsientos')->orderBy(['asiento.fila' => SORT_DESC])->all();
-        $filas    = [];
-        foreach ($asientos as $asiento) {
+        $salaAsientos = $this->getSalaAsientos()->orderBy(['asiento.fila' => SORT_DESC])->all();
+        $filas        = [];
+        foreach ($salaAsientos as $asiento) {
             $filas[$asiento->fila][] = $asiento;
         }
         return $filas;

@@ -9,14 +9,13 @@ use Yii;
  *
  * @property int $id
  * @property int $sala_id
- * @property int $asiento_id
  *
  * @property BoletoAsiento[] $boletoAsientos
- * @property Asiento $asiento
  * @property Sala $sala
  */
 class SalaAsientos extends \yii\db\ActiveRecord
 {
+    public $ocupadoAsiento = null;
     /**
      * {@inheritdoc}
      */
@@ -31,9 +30,9 @@ class SalaAsientos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sala_id', 'asiento_id'], 'required'],
-            [['sala_id', 'asiento_id'], 'integer'],
-            [['asiento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Asiento::className(), 'targetAttribute' => ['asiento_id' => 'id']],
+            [['sala_id', 'fila', 'numero', 'tipo'], 'required'],
+            [['numero', 'tipo', 'sala_id'], 'integer'],
+            [['fila'], 'string', 'max' => 1],
             [['sala_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sala::className(), 'targetAttribute' => ['sala_id' => 'id']],
         ];
     }
@@ -46,8 +45,37 @@ class SalaAsientos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'sala_id' => 'Sala ID',
-            'asiento_id' => 'Asiento ID',
+            'fila' => 'Fila',
+            'numero' => 'Numero',
+            'nombre' => 'asiento',
+            'tipo' => 'Tipo',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'fila',
+            'sala_id',
+            'tipo',
+            'numero',
+            'nombre',
+            'ocupado' => function ($m) {
+                return $m->ocupadoAsiento == null ? null : ($m->ocupadoAsiento == '0' ? false : true);
+            },
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNombre()
+    {
+        return sprintf('%s-%s', $this->fila, $this->numero);
     }
 
     /**
@@ -56,14 +84,6 @@ class SalaAsientos extends \yii\db\ActiveRecord
     public function getBoletoAsientos()
     {
         return $this->hasMany(BoletoAsiento::className(), ['sala_asiento_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAsiento()
-    {
-        return $this->hasOne(Asiento::className(), ['id' => 'asiento_id'])->ordered();
     }
 
     /**
@@ -89,18 +109,5 @@ class SalaAsientos extends \yii\db\ActiveRecord
     public static function find()
     {
         return new SalaAsientosQuery(get_called_class());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function fields()
-    {
-        return [
-            'id',
-            'sala_id',
-            'asiento_id',
-            'asiento',
-        ];
     }
 }

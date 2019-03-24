@@ -22,7 +22,7 @@ class BoletoRest extends \common\models\Boleto
             },
             'asientos' => function ($m) {
                 return array_map(function ($arr) {
-                    return new AsientoRest($arr->asiento->attributes);
+                    return new SalaAsientoRest($arr->salaAsientos->attributes);
                 },
                     $m->boletoAsientos
                 );

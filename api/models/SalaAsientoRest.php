@@ -13,7 +13,7 @@ namespace api\models;
  *
  * @property SalaAsientos[] $salaAsientos
  */
-class AsientoRest extends \common\models\Asiento
+class SalaAsientoRest extends \common\models\SalaAsientos
 {
     /**
      * {@inheritdoc}
