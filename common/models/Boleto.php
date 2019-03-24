@@ -41,7 +41,7 @@ class Boleto extends \yii\db\ActiveRecord
             [['face_user_id', 'horario_funcion_id'], 'required'],
             [['face_user_id', 'horario_funcion_id', 'reclamado', 'id_pago'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['tipo_pago'], 'string', 'max' => 255],
+            [['tipo_pago', 'qr_phat', 'hash'], 'string', 'max' => 255],
             [['id_pago'], 'exist', 'skipOnError' => true, 'targetClass' => Pago::className(), 'targetAttribute' => ['id_pago' => 'id']],
             [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
             [['horario_funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => HorarioFuncion::className(), 'targetAttribute' => ['horario_funcion_id' => 'id']],
@@ -62,6 +62,7 @@ class Boleto extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'id_pago' => 'Id Pago',
             'tipo_pago' => 'Tipo Pago',
+            'qr_phat' => 'Ruta de imagen',
         ];
     }
 
@@ -107,23 +108,49 @@ class Boleto extends \yii\db\ActiveRecord
 
     public function getSalaAsientos()
     {
-        return $this->hasMany(Pago::className(), ['boleto_id' => 'id'])
+        return $this->hasMany(salaAsientos::className(), ['id' => 'sala_asiento_id'])
             ->via('boletoAsientos');
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCode()
+    public function getSalaAsientosIDs()
     {
-        return md5(sprintf("%s-%s-%s-%s", $this->id, $this->horario_funcion_id, join("", array_column($this->boletoAsientos, 'id')), $this->faceUser->username));
+        return array_column($this->boletoAsientos, 'sala_asiento_id');
     }
+
+    private function setHash()
+    {
+        $this->hash = md5(
+            $this->horario_funcion_id .
+            join("", $this->salaAsientosIDs) .
+            (new \DateTime())->getTimestamp()
+        );
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getLabel()
     {
         return sprintf("%s _ %s", $this->horarioFuncion->fecha, $this->horarioFuncion->getFHora());
+    }
+
+    public function setQR()
+    {
+        $storagePath = Yii::getAlias('@QRs/' . $this->face_user_id);
+        if (!file_exists($storagePath)) {
+            mkdir($storagePath, 0777, true);
+        }
+
+        $this->setHash();
+
+        $this->qr_phat = '/' . $this->id_pago . (new \DateTime())->getTimestamp() . '.png';
+
+        Yii::$app->get('qr')
+            ->setText($this->hash)
+            ->setLabel($this->hash)
+            ->setSize(500)
+            ->setMargin(10)
+            ->writeFile($storagePath . $this->qr_phat);
     }
 
     /**

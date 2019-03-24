@@ -2,21 +2,6 @@
 
 namespace api\models;
 
-/**
- * This is the model class for table "boleto".
- *
- * @property int $id
- * @property int $face_user_id
- * @property int $horario_funcion_id
- * @property int $sala_asientos_id
- * @property int $reclamado
- * @property string $created_at
- * @property string $updated_at
- *
- * @property FaceUser $faceUser
- * @property HorarioFuncion $horarioFuncion
- * @property SalaAsientos $salaAsientos
- */
 class BoletoRest extends \common\models\Boleto
 {
     public function fields()
@@ -32,12 +17,20 @@ class BoletoRest extends \common\models\Boleto
             'fecha' => function ($m) {
                 return $m->horarioFuncion->fecha;
             },
-            'asiento' => function ($m) {
-                return $m->salaAsientos->asiento->nombre;
-            },
             'sala' => function ($m) {
-                return $m->salaAsientos->sala->nombre;
+                return $m->horarioFuncion->sala->nombre;
             },
+            'asientos' => function ($m) {
+                return array_map(function ($arr) {
+                    return new AsientoRest($arr->asiento->attributes);
+                },
+                    $m->boletoAsientos
+                );
+            },
+            'image_url' => function ($m) {
+                return \yii\helpers\Url::to("user/boletos/$m->id/qr", true);
+            },
+            'hash',
             'reclamado',
         ];
     }

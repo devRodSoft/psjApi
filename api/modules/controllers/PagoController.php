@@ -60,17 +60,21 @@ class PagoController extends BaseAuthController
             throw new \yii\web\HttpException(404, 'Horario no encontrado');
         }
 
+        $comprados = BoletoAsiento::find()
+            ->innerJoin(['b' => 'boleto'], 'b.id = boleto_asiento.boleto_id')
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = b.horario_funcion_id')
+            ->where(['in', 'boleto_asiento.sala_asiento_id', $salaAsientosID])
+            ->andWhere(['hf.id' => $horarioFuncionID])
+            ->count();
+
         $salaAsientos = SalaAsientos::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.sala_id = sala_asientos.sala_id')
-            ->leftJoin(['ba' => 'boleto_asiento'], 'ba.sala_asiento_id = sala_asientos.id')
-            ->leftJoin(['b' => 'boleto'], 'b.id = ba.boleto_id AND hf.id = b.horario_funcion_id')
             ->where(['in', 'sala_asientos.id', $salaAsientosID])
             ->andWhere(['hf.id' => $horarioFuncionID])
-            ->andWhere('b.id IS NULL')
             ->all();
 
         $NSalaAsientos = count($salaAsientosID);
-        if (empty($salaAsientos) || count($salaAsientos) != $NSalaAsientos || $NSalaAsientos > Yii::$app->params['maxBoletos']) {
+        if ($comprados > 0 || empty($salaAsientos) || count($salaAsientos) != $NSalaAsientos || $NSalaAsientos > Yii::$app->params['maxBoletos']) {
             throw new \yii\web\HttpException(409, 'Uno o mas asientosParecen no estar disponibles');
         }
         if (!isset($payResponse['id']) || !$this->checkPayment($payResponse['id'])) {
@@ -94,6 +98,7 @@ class PagoController extends BaseAuthController
 
             $boleto = new Boleto();
 
+            $boleto->id_pago            = $pago->id;
             $boleto->face_user_id       = $faceUserID;
             $boleto->horario_funcion_id = $horarioFuncion->id;
             $boleto->reclamado          = 0;
@@ -110,9 +115,15 @@ class PagoController extends BaseAuthController
                     throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
                 }
             }
+
+            $boleto->setQR();
+            if (!$boleto->save()) {
+                throw new \yii\web\HttpException(400, 'Hubo un error al guardar tu boleto');
+            }
+
             $txn->commit();
 
-            return ['id' => $boleto->id];
+            return new \api\models\BoletoRest($boleto->attributes);
         } catch (\Exception $e) {
             $txn->rollBack();
             throw $e;

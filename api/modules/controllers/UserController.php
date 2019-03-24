@@ -6,7 +6,6 @@ use api\models\BoletoRest;
 use api\models\UserRest;
 use common\models\Boleto;
 use Yii;
-use yii\web\Response;
 
 class UserController extends BaseAuthController
 {
@@ -44,7 +43,6 @@ class UserController extends BaseAuthController
             ->with(['horarioFuncion', 'salaAsientos'])
             ->joinWith(['horarioFuncion AS hf', 'salaAsientos AS sa'], true, 'INNER JOIN')
             ->where(['boleto.face_user_id' => Yii::$app->user->id])
-            ->andWhere(['>', 'reclamado', 0])
             ->orderBy(['boleto.reclamado' => SORT_ASC, 'hf.fecha' => SORT_DESC, 'hf.hora' => SORT_DESC])
             ->all();
         return $boletos;
@@ -58,18 +56,26 @@ class UserController extends BaseAuthController
 
     public function actionBoleto($id)
     {
-        $boleto = Boleto::find()->where(['id' => $id, 'face_user_id' => Yii::$app->user->id])->andWhere(['reclamado' => '1'])->one();
+        $boleto = BoletoRest::find()->where(['id' => $id, 'face_user_id' => Yii::$app->user->id])->one();
         if (is_null($boleto)) {
             throw new \yii\web\NotFoundHttpException('boleto no existente o ya usado');
         }
-        $qr = Yii::$app->get('qr');
 
-        Yii::$app->response->format = Response::FORMAT_RAW;
-        Yii::$app->response->headers->add('Content-Type', $qr->getContentType());
+        return $boleto;
+    }
 
-        return $qr
-            ->setText($boleto->code)
-            ->setLabel($boleto->label)
-            ->writeString();
+    public function actionQr($id)
+    {
+        $boleto = Boleto::find()->where(['id' => $id, 'face_user_id' => Yii::$app->user->id])->one();
+        if (is_null($boleto)) {
+            throw new \yii\web\NotFoundHttpException('boleto no existente o ya usado');
+        }
+        $storagePath = Yii::getAlias('@QRs/' . $boleto->face_user_id);
+
+        // check filename for allowed chars (do not allow ../ to avoid security issue: downloading arbitrary files)
+        if (!is_file($storagePath . $boleto->qr_phat)) {
+            throw new \yii\web\NotFoundHttpException('La imagen no existe.');
+        }
+        return Yii::$app->response->sendFile($storagePath . $boleto->qr_phat);
     }
 }

@@ -52,11 +52,11 @@ return [
                 'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
                 'GET user/boletos/<id:\d+>' => 'general/user/boleto',
+                'GET user/boletos/<id:\d+>/qr' => 'general/user/qr',
 
                 'POST ping' => 'general/funcion/ping',
                 'POST oauth/<action:\w+>' => 'authentication/<action>',
                 'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
-                'POST horario/<id:\d+>/sala/reserva' => 'general/pago/reservar',
 
                 // OPTIONS
                 'OPTIONS ping' => 'general/funcion/options',
@@ -66,6 +66,8 @@ return [
                 'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
                 'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
                 'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
+                'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
+                'OPTIONS user/boletos/<id:\d+>/qr' => 'general/user/options',
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'general/face-user'],
             ],
         ],
