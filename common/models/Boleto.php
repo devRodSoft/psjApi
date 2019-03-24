@@ -108,7 +108,7 @@ class Boleto extends \yii\db\ActiveRecord
 
     public function getSalaAsientos()
     {
-        return $this->hasMany(salaAsientos::className(), ['id' => 'sala_asiento_id'])
+        return $this->hasMany(SalaAsientos::className(), ['id' => 'sala_asiento_id'])
             ->via('boletoAsientos');
     }
 
