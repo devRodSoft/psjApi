@@ -74,11 +74,11 @@ return [
                 'POST ping' => 'general/funcion/ping',
                 'OPTIONS ping' => 'general/funcion/options',
 
-                'POST oauth/<action:\w+>' => 'authentication/<action>',
-                'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
-
                 'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
                 'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
+
+                'POST oauth/<action:\w+>' => 'authentication/<action>',
+                'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
 
                 // OPTIONS
                 // ['class' => 'yii\rest\UrlRule', 'controller' => 'general/face-user'],
@@ -104,6 +104,7 @@ return [
                 'refresh_token' => [
                     'class' => 'OAuth2\GrantType\RefreshToken',
                     'always_issue_new_refresh_token' => true,
+                    'unset_refresh_token_after_use' => true,
                 ],
             ],
         ],
