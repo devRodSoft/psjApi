@@ -2,7 +2,7 @@
 namespace api\modules\controllers;
 
 use api\controllers\BaseController;
-use api\models\Promocion;
+use common\models\Promocion;
 
 class PromocionController extends BaseController
 {
