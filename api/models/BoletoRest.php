@@ -28,7 +28,12 @@ class BoletoRest extends \common\models\Boleto
                 );
             },
             'image_url' => function ($m) {
-                return \yii\helpers\Url::to("user/boletos/$m->id/qr", true);
+                $module = \Yii::$app->getModule('oauth2');
+                $token  = $module->getServer()->getResourceController()->getToken();
+                return \yii\helpers\Url::to(["/user/boletos/$m->id/qr", 'accessToken' => $token['access_token']], true);
+            },
+            'pelicula' => function ($m) {
+                return $m->pelicula->nombre;
             },
             'hash',
             'reclamado',

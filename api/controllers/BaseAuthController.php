@@ -4,6 +4,7 @@ namespace api\controllers;
 use filsh\yii2\oauth2server\filters\auth\CompositeAuth;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
 use yii\filters\auth\HttpBearerAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\helpers\ArrayHelper;
 
 class BaseAuthController extends BaseController
@@ -15,7 +16,7 @@ class BaseAuthController extends BaseController
                 'class' => CompositeAuth::className(),
                 'authMethods' => [
                     ['class' => HttpBearerAuth::className()],
-                    // ['class' => QueryParamAuth::className(), 'tokenParam' => 'accessToken'],
+                    ['class' => QueryParamAuth::className(), 'tokenParam' => 'accessToken'],
                 ],
             ],
             'exceptionFilter' => [

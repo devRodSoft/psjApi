@@ -81,7 +81,7 @@ class Sala extends \yii\db\ActiveRecord
 
     public function getAsientosAsMtx()
     {
-        $salaAsientos = $this->getSalaAsientos()->orderBy(['asiento.fila' => SORT_DESC])->all();
+        $salaAsientos = $this->getSalaAsientos()->orderBy(['fila' => SORT_DESC])->all();
         $filas        = [];
         foreach ($salaAsientos as $asiento) {
             $filas[$asiento->fila][] = $asiento;

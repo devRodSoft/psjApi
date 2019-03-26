@@ -29,7 +29,7 @@ class SalaController extends BaseController
 
     public function actionView($id)
     {
-        $data = SalaRest::find()->where(['id' => $id])->all();
+        $data = SalaRest::find()->where(['id' => $id])->one();
 
         return $data;
 
