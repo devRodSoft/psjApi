@@ -20,14 +20,14 @@ class PromocionController extends BaseController
 
     public function actionIndex()
     {
-        $data = Promocion::find()->where('start_date > NOW()')->all();
+        $data = Promocion::find()->where('NOW() BETWEEN start_date AND end_date')->all();
 
         return $data;
     }
 
     public function actionView($id)
     {
-        $data = Promocion::find()->where(['id' => $id])->where('start_date > NOW()')->one();
+        $data = Promocion::find()->where(['id' => $id])->where('NOW() BETWEEN start_date AND end_date')->one();
         if (is_null($data)) {
             throw new \yii\web\HttpException(404, 'Promoción no encontrada');
         }

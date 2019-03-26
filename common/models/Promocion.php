@@ -12,6 +12,11 @@ use Yii;
  * @property string $titulo
  * @property string $descripcion
  * @property string $image_url
+ * @property string $start_date
+ * @property string $end_date
+ * @property string $bases
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Cine $cine
  */
@@ -31,10 +36,11 @@ class Promocion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cine_id', 'titulo', 'descripcion', 'image_url'], 'required'],
+            [['cine_id', 'titulo', 'descripcion', 'image_url', 'bases'], 'required'],
             [['cine_id'], 'integer'],
             [['descripcion', 'image_url'], 'string'],
-            [['titulo'], 'string', 'max' => 255],
+            [['start_date', 'end_date', 'created_at', 'updated_at'], 'safe'],
+            [['titulo', 'bases'], 'string', 'max' => 255],
             [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
         ];
     }
@@ -50,6 +56,32 @@ class Promocion extends \yii\db\ActiveRecord
             'titulo' => 'Titulo',
             'descripcion' => 'Descripcion',
             'image_url' => 'Image Url',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+            'bases' => 'Bases',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'cine_id',
+            'titulo',
+            'bases',
+            'descripcion',
+            'image_url',
+            'inicio' => function ($m) {
+                return $m->start_date;
+            },
+            'fin' => function ($m) {
+                return $m->end_date;
+            },
         ];
     }
 
