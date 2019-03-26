@@ -75,7 +75,13 @@ return [
                 'OPTIONS ping' => 'general/funcion/options',
 
                 'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
-                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
+                'OPTIONS horario/<hid:\d+>/sala' => 'general/pago/options',
+
+                'GET promociones' => 'general/promocion/index',
+                'OPTIONS promociones' => 'general/promocion/options',
+
+                'GET promociones/<id:\d+>' => 'general/promocion/view',
+                'OPTIONS promociones/<id:\d+>' => 'general/promocion/options',
 
                 'POST oauth/<action:\w+>' => 'authentication/<action>',
                 'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
