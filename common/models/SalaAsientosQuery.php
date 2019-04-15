@@ -34,6 +34,6 @@ class SalaAsientosQuery extends \yii\db\ActiveQuery
 
     public function ordered()
     {
-        return $this->orderBy('CONCAT((fila), (numero)) DESC');
+        return $this->orderBy('fila DESC, numero ASC');
     }
 }
