@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php foreach ($model->asientosAsMtx as $index => $asientos): ?>
         <tr>
         <?php foreach ($asientos as $asiento): ?>
-            <td><?php echo $asiento->nombre ?></td>
+            <td><?php echo ($asiento->tipo != 0) ? $asiento->nombre : '' ?></td>
         <?php endforeach?>
         </tr>
     <?php endforeach?>

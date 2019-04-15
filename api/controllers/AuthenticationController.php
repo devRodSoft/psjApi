@@ -31,8 +31,9 @@ class AuthenticationController extends BaseController
             $userInfo = Yii::$app->request->getBodyParam('userInfo', []);
 
             $user = new FaceUser();
-            $user->loadFromArray($userInfo);
+            $user->loadFormArray($userInfo);
             if (!$user->save()) {
+                Yii::error($user->errors, 'validations');
                 throw new \yii\web\UnauthorizedHttpException('Favor de ingresar los datos de forma correcta');
             }
         }

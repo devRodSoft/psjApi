@@ -163,7 +163,7 @@ class FaceUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
-    public function loadFromArray($userInfo)
+    public function loadFormArray($userInfo)
     {
         if (isset($userInfo['id'])) {
             $this->username = $userInfo['id'];
@@ -176,6 +176,9 @@ class FaceUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         }
         if (isset($userInfo['email'])) {
             $this->email = $userInfo['email'];
+        }
+        if (isset($userInfo['avatar'])) {
+            $this->avatar = $userInfo['avatar'];
         }
     }
 
