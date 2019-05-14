@@ -79,12 +79,33 @@ class Sala extends \yii\db\ActiveRecord
         return $this->hasMany(SalaAsientos::className(), ['sala_id' => 'id']);
     }
 
-    public function getAsientosAsMtx()
+    public function getAsientosAsMtx($horarioID = null)
     {
-        $salaAsientos = $this->getSalaAsientos()->orderBy(['fila' => SORT_DESC, 'numero' => SORT_ASC])->all();
-        $filas        = [];
-        foreach ($salaAsientos as $asiento) {
-            $filas[$asiento->fila][] = $asiento;
+        $salafilas = $this->getSalaAsientos()->orderBy(['orden_fila' => SORT_DESC, 'orden_columna' => SORT_ASC])->groupBy('orden_fila')->asArray()->all();
+
+        if (is_null($horarioID)) {
+            $salaAsientos = $this->getSalaAsientos()->orderBy(['orden_fila' => SORT_DESC, 'orden_columna' => SORT_ASC])->all();
+        } else {
+            $salaAsientos = $this->getSalaAsientos()
+                ->orderBy(['orden_fila' => SORT_DESC, 'orden_columna' => SORT_ASC])
+                ->alias('t')
+                ->select(['t.*', 'ocupadoAsiento' => 'if(b.id IS NULL, 0, 1)'])
+                ->join('inner join', ['hf' => 'horario_funcion'], 'hf.sala_id = t.sala_id')
+                ->join('left join', ['ba' => 'boleto_asiento'], 't.id = ba.sala_asiento_id')
+                ->join('left join', ['b' => 'boleto'], 'ba.boleto_id = b.id')
+                ->where(['hf.id' => $horarioID])
+                ->all();
+        }
+
+        $filas = [];
+        foreach ($salafilas as $fila) {
+            $filas[] = ['fila' => $fila['fila'], 'orden_fila' => $fila['orden_fila'], 'asientos' => []];
+        }
+
+        foreach ($filas as &$fila) {
+            $fila['asientos'] = array_values(array_filter($salaAsientos, function ($f) use ($fila) {
+                return $f->orden_fila == $fila['orden_fila'];
+            }));
         }
         return $filas;
     }

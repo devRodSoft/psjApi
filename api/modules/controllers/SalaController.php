@@ -44,4 +44,12 @@ class SalaController extends BaseController
         return $data;
 
     }
+
+    public function actionOcupadosmtx($id)
+    {
+
+        $hr = HorarioFuncion::findOne($id);
+        return $hr->sala->getAsientosAsMtx($id);
+
+    }
 }

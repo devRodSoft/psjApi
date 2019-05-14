@@ -64,6 +64,8 @@ class SalaAsientos extends \yii\db\ActiveRecord
             'tipo',
             'numero',
             'nombre',
+            'orden_fila',
+            'orden_columna',
             'ocupado' => function ($m) {
                 return $m->ocupadoAsiento == null ? null : ($m->ocupadoAsiento == '0' ? false : true);
             },

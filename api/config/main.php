@@ -63,7 +63,10 @@ return [
                 'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
 
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupados',
-                'OPTIONS horario/<hid:\d+>/sala/<id:\d+>' => 'general/sala/options',
+                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
+
+                'GET horario/<id:\d+>/sala/mtx' => 'general/sala/ocupadosmtx',
+                'OPTIONS horario/<hid:\d+>/sala/mtx' => 'general/sala/options',
 
                 'GET user/boletos/<id:\d+>' => 'general/user/boleto',
                 'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
