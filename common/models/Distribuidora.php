@@ -49,7 +49,7 @@ class Distribuidora extends \yii\db\ActiveRecord
      */
     public function getPeliculas()
     {
-        return $this->hasMany(Pelicula::className(), ['distribuidora' => 'id']);
+        return $this->hasMany(Pelicula::className(), ['distribuidora_id' => 'id']);
     }
 
     /**
