@@ -27,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'cine.nombre',
         'pelicula.nombre',
-        'estreno',
+        'estreno_inicio',
+        'estreno_fin',
         //'created_at',
         //'updated_at',
 

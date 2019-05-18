@@ -1,8 +1,8 @@
 <?php
 
+use common\models\Cine;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\models\Cine;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Sala */
@@ -11,16 +11,20 @@ use common\models\Cine;
 
 <div class="sala-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();?>
 
-    <?= $form->field($model, 'cine_id')->dropDownList(array_column(Cine::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un cine']) ?>
+    <?php echo $form->field($model, 'cine_id')->dropDownList(array_column(Cine::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un cine']) ?>
 
-    <?= $form->field($model, 'nombre')->textInput() ?>
+    <?php echo $form->field($model, 'nombre')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php echo $this->render('_asientos_edit', [
+    'model' => $model,
+]) ?>
+
+    <?php ActiveForm::end();?>
 
 </div>

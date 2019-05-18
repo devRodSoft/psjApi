@@ -19,7 +19,7 @@ class FuncionSearch extends Funcion
         return [
             [['id', 'cine_id', 'pelicula_id'], 'integer'],
             [['precio'], 'number'],
-            [['estreno', 'created_at', 'updated_at'], 'safe'],
+            [['estreno_inicio', 'estreno_fin', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -63,7 +63,8 @@ class FuncionSearch extends Funcion
             'cine_id' => $this->cine_id,
             'pelicula_id' => $this->pelicula_id,
             'precio' => $this->precio,
-            'estreno' => $this->estreno,
+            'estreno_inicio' => $this->estreno_inicio,
+            'estreno_fin' => $this->estreno_fin,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

@@ -34,7 +34,8 @@ class FuncionRest extends \common\models\Funcion
             'pelicula_id',
             'precio',
             'precio_niños',
-            'estreno',
+            'estreno_inicio',
+            'estreno_fin',
             'horarios' => function ($m) {
                 return $m->horarios;
             },

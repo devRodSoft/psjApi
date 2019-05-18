@@ -97,6 +97,7 @@ class HorarioFuncion extends \yii\db\ActiveRecord
             'id',
             'funcion_id',
             'sala_id',
+            'sala',
             'hora' => function ($m) {
                 return $m->getFHora();
             },

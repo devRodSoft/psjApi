@@ -37,9 +37,10 @@ class FuncionController extends BaseController
     public function actionEstrenos()
     {
         $data = Pelicula::find()
-            ->select('pelicula.*, DATE(f.estreno) as estreno')
+            ->select('pelicula.*, DATE(f.estreno_inicio) as estreno_inicio, DATE(f.estreno_fin) as estreno_fin')
             ->innerJoin(['f' => 'funcion'], 'f.pelicula_id = pelicula.id')
-            ->where('f.publicar = 1 AND f.estreno BETWEEN NOW() AND NOW() + INTERVAL 1 MONTH')
+            ->where('f.publicar = 1 AND f.estreno_inicio > NOW() AND f.estreno_fin > NOW()')
+            ->groupBy('pelicula.id')
             ->asArray(true)
             ->all();
 

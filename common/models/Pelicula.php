@@ -29,7 +29,8 @@ use Yii;
  */
 class Pelicula extends \yii\db\ActiveRecord
 {
-    public $estreno = null;
+    public $estreno_inicio = null;
+    public $estreno_fin    = null;
     /**
      * {@inheritdoc}
      */
@@ -48,7 +49,7 @@ class Pelicula extends \yii\db\ActiveRecord
             [['director_id'], 'integer'],
             [['genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
             [['calificacion'], 'number'],
-            [['created_at', 'updated_at', 'estreno'], 'safe'],
+            [['created_at', 'updated_at', 'estreno_inicio', 'estreno_fin'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
             [['director_id'], 'exist', 'skipOnError' => true, 'targetClass' => Director::className(), 'targetAttribute' => ['director_id' => 'id']],
         ];

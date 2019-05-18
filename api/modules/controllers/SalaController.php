@@ -49,7 +49,8 @@ class SalaController extends BaseController
     {
 
         $hr = HorarioFuncion::findOne($id);
-        return $hr->sala->getAsientosAsMtx($id);
+
+        return ['id' => $hr->sala->id, 'nombre' => $hr->sala->nombre, 'cine_id' => $hr->sala->cine_id, 'distribucion' => $hr->sala->getAsientosAsMtx($id)];
 
     }
 }

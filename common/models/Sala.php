@@ -56,6 +56,18 @@ class Sala extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'cine_id',
+            'nombre',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getFuncions()
