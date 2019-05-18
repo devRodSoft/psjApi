@@ -42,7 +42,7 @@ class FuncionRest extends \common\models\Funcion
                 return $m->pelicula->nombre;
             },
             'distribuidora' => function ($m) {
-                return $m->pelicula->distribuidor->nombre;
+                return $m->pelicula->distribuidora->nombre;
             },
             'reparto' => function ($m) {
                 return array_column($m->pelicula->reparto, 'nombre');
