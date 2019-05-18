@@ -34,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'horarioFuncion.funcion.pelicula.nombre',
         'horarioFuncion.fecha',
         'horarioFuncion.fHora',
-        'salaAsientos.asiento.nombre',
         'reclamado:boolean',
         'created_at',
         'updated_at',

@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $nombre
- * @property int $director_id
+ * @property int $distribuidora_id
  * @property string $genero
  * @property string $calificacion
  * @property string $clasificacion
@@ -23,7 +23,9 @@ use Yii;
  * @property string $updated_at
  *
  * @property Funcion[] $funcions
- * @property Director $director
+ * @property Distribuidora $distribuidora
+ *
+ *
  * @property PeliculaActor[] $peliculaActors
  * @property Actor[] $actors
  */
@@ -45,13 +47,13 @@ class Pelicula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'director_id', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'required'],
-            [['director_id'], 'integer'],
+            [['nombre', 'distribuidora_id', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl'], 'required'],
+            [['distribuidora_id'], 'integer'],
             [['genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
             [['calificacion'], 'number'],
             [['created_at', 'updated_at', 'estreno_inicio', 'estreno_fin'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
-            [['director_id'], 'exist', 'skipOnError' => true, 'targetClass' => Director::className(), 'targetAttribute' => ['director_id' => 'id']],
+            [['distribuidora_id'], 'exist', 'skipOnError' => true, 'targetClass' => Distribuidora::className(), 'targetAttribute' => ['distribuidora_id' => 'id']],
         ];
     }
 
@@ -63,7 +65,7 @@ class Pelicula extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'director_id' => 'Director ID',
+            'distribuidora_id' => 'Distribuidora ID',
             'genero' => 'Genero',
             'calificacion' => 'Calificacion',
             'clasificacion' => 'Clasificacion',
@@ -89,9 +91,9 @@ class Pelicula extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDirector()
+    public function getDistribuidora()
     {
-        return $this->hasOne(Director::className(), ['id' => 'director_id']);
+        return $this->hasOne(Distribuidora::className(), ['id' => 'distribuidora_id']);
     }
 
     /**

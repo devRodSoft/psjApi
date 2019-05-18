@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[Director]].
+ * This is the ActiveQuery class for [[Clasificacion]].
  *
- * @see Director
+ * @see Clasificacion
  */
-class DirectorQuery extends \yii\db\ActiveQuery
+class ClasificacionQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class DirectorQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Director[]|array
+     * @return Clasificacion[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class DirectorQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Director|array|null
+     * @return Clasificacion|array|null
      */
     public function one($db = null)
     {

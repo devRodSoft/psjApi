@@ -9,7 +9,6 @@ use common\models\HorarioFuncion;
  *
  * @property int $id
  * @property string $nombre
- * @property string $director
  * @property string $protagonistas
  * @property string $genero
  * @property string $calificacion
@@ -42,8 +41,8 @@ class FuncionRest extends \common\models\Funcion
             'nombre' => function ($m) {
                 return $m->pelicula->nombre;
             },
-            'director' => function ($m) {
-                return $m->pelicula->director->nombre;
+            'distribuidora' => function ($m) {
+                return $m->pelicula->distribuidor->nombre;
             },
             'reparto' => function ($m) {
                 return array_column($m->pelicula->reparto, 'nombre');

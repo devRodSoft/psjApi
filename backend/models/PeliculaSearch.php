@@ -2,10 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\Pelicula;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Pelicula;
 
 /**
  * PeliculaSearch represents the model behind the search form of `common\models\Pelicula`.
@@ -18,7 +17,7 @@ class PeliculaSearch extends Pelicula
     public function rules()
     {
         return [
-            [['id', 'director_id'], 'integer'],
+            [['id', 'distribuidora_id'], 'integer'],
             [['nombre', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg', 'created_at', 'updated_at'], 'safe'],
             [['calificacion'], 'number'],
         ];
@@ -61,7 +60,6 @@ class PeliculaSearch extends Pelicula
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'director_id' => $this->director_id,
             'calificacion' => $this->calificacion,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

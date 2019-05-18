@@ -18,11 +18,13 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'calificacion')->textInput(['type' => 'number', "placeholder" => "0.0", "min" => "0", "max" => "5", "step" => "0.5"]) ?>
 
-    <?php echo $form->field($model, 'clasificacion')->dropDownList(['AA' => 'AA', 'A' => 'A', 'B' => 'B', 'B15' => 'B15', 'C' => 'C', 'D' => 'D'], ['prompt' => 'clasificación']) ?>
+    <?php echo $form->field($model, 'distribuidora_id')->dropDownList($distribuidoras, ['prompt' => 'Distribuidora']) ?>
+
+    <?php echo $form->field($model, 'clasificacion')->dropDownList($clasificaciones, ['prompt' => 'clasificación']) ?>
 
     <?php echo $form->field($model, 'idioma')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'duracion')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'duracion')->textInput(['type' => 'number', "placeholder" => "120", "min" => "30", "step" => "5"]) ?>
 
     <?php echo $form->field($model, 'sinopsis')->textarea(['rows' => 6]) ?>
 
@@ -30,7 +32,6 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'trailerUrl')->textarea(['rows' => 6]) ?>
 
-    <?php echo $form->field($model, 'trailerImg')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
         <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

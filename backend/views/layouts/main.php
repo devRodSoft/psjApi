@@ -63,12 +63,15 @@ if (Yii::$app->user->isGuest) {
         ['label' => 'Empleados', 'url' => ['/user']],
         ['label' => 'Clientes', 'url' => ['/face-user']],
     ]];
-    $menuItems[] = ['label' => 'Salas', 'url' => ['/sala']];
-    $menuItems[] = ['label' => 'Asientos', 'url' => ['/asiento']];
     $menuItems[] = ['label' => 'Cines', 'url' => ['/cine']];
     $menuItems[] = ['label' => 'Peliculas', 'url' => ['/pelicula']];
     $menuItems[] = ['label' => 'Funciones', 'url' => ['/funcion']];
     $menuItems[] = ['label' => 'Boletos', 'url' => ['/boleto']];
+    $menuItems[] = ['label' => 'Utilidades', 'items' => [
+        ['label' => 'Distribuidoras', 'url' => ['/distribuidora']],
+        ['label' => 'Clasificaciones', 'url' => ['/clasificacion']],
+        ['label' => 'Salas', 'url' => ['/sala']],
+    ]];
     $menuItems[] = '<li>'
     . Html::beginForm(['/site/logout'], 'post')
     . Html::submitButton(

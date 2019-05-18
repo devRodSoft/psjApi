@@ -2,21 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\PeliculaSearch;
-use common\models\Clasificacion;
-use common\models\Distribuidora;
-use common\models\Pelicula;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
+use common\models\Distribuidora;
+use backend\models\DistribuidoraSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * PeliculaController implements the CRUD actions for Pelicula model.
+ * DistribuidoraController implements the CRUD actions for Distribuidora model.
  */
-class PeliculaController extends Controller
+class DistribuidoraController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -24,15 +20,6 @@ class PeliculaController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -43,12 +30,12 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Lists all Pelicula models.
+     * Lists all Distribuidora models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel  = new PeliculaSearch();
+        $searchModel = new DistribuidoraSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -58,7 +45,7 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Displays a single Pelicula model.
+     * Displays a single Distribuidora model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -71,29 +58,25 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Creates a new Pelicula model.
+     * Creates a new Distribuidora model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Pelicula();
+        $model = new Distribuidora();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
-        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
         return $this->render('create', [
             'model' => $model,
-            'clasificaciones' => $clasificaciones,
-            'distribuidoras' => $distribuidoras,
         ]);
     }
 
     /**
-     * Updates an existing Pelicula model.
+     * Updates an existing Distribuidora model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -107,17 +90,13 @@ class PeliculaController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
-        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
         return $this->render('update', [
             'model' => $model,
-            'clasificaciones' => $clasificaciones,
-            'distribuidoras' => $distribuidoras,
         ]);
     }
 
     /**
-     * Deletes an existing Pelicula model.
+     * Deletes an existing Distribuidora model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -131,15 +110,15 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Finds the Pelicula model based on its primary key value.
+     * Finds the Distribuidora model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Pelicula the loaded model
+     * @return Distribuidora the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Pelicula::findOne($id)) !== null) {
+        if (($model = Distribuidora::findOne($id)) !== null) {
             return $model;
         }
 

@@ -2,14 +2,14 @@
 
 namespace backend\models;
 
-use common\models\Boleto;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use common\models\Distribuidora;
 
 /**
- * BoletoSearch represents the model behind the search form of `common\models\Boleto`.
+ * DistribuidoraSearch represents the model behind the search form of `common\models\Distribuidora`.
  */
-class BoletoSearch extends Boleto
+class DistribuidoraSearch extends Distribuidora
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class BoletoSearch extends Boleto
     public function rules()
     {
         return [
-            [['id', 'face_user_id', 'horario_funcion_id', 'reclamado'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['id'], 'integer'],
+            [['nombre'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class BoletoSearch extends Boleto
      */
     public function search($params)
     {
-        $query = Boleto::find();
+        $query = Distribuidora::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,9 @@ class BoletoSearch extends Boleto
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'face_user_id' => $this->face_user_id,
-            'horario_funcion_id' => $this->horario_funcion_id,
-            'reclamado' => $this->reclamado,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
+
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 
         return $dataProvider;
     }

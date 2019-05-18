@@ -1,53 +1,51 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\PeliculaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Peliculas';
+$this->title                   = 'Peliculas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pelicula-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Pelicula', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Crear Pelicula', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <?php echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
-            'nombre',
-            // 'director.nombre',
-            [
-                'label' => 'Director',
-                'value' => function ($model)
-                {
-                    return $model->director->nombre;
-                }
-            ],
-            'genero',
-            'calificacion',
-            'clasificacion:ntext',
-            //'idioma:ntext',
-            //'duracion:ntext',
-            //'sinopsis:ntext',
-            //'cartelUrl:ntext',
-            //'trailerUrl:ntext',
-            //'trailerImg:ntext',
-            //'created_at',
-            //'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+        // 'id',
+        'nombre',
+        [
+            'label' => 'Distribuidor',
+            'value' => function ($model) {
+                return $model->distribuidora->nombre;
+            },
         ],
-    ]); ?>
+        'genero',
+        'calificacion',
+        'clasificacion:ntext',
+        //'idioma:ntext',
+        //'duracion:ntext',
+        //'sinopsis:ntext',
+        //'cartelUrl:ntext',
+        //'trailerUrl:ntext',
+        //'trailerImg:ntext',
+        //'created_at',
+        //'updated_at',
+
+        ['class' => 'yii\grid\ActionColumn'],
+    ],
+]); ?>
 </div>

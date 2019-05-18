@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'faceUser.nombre',
         'horarioFuncion.fecha',
         'horarioFuncion.hora',
-        'salaAsientos.asiento.nombre',
         'reclamado:boolean',
         //'created_at',
         //'updated_at',

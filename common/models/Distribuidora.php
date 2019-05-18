@@ -5,23 +5,21 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "director".
+ * This is the model class for table "distribuidora".
  *
  * @property int $id
  * @property string $nombre
- * @property string $created_at
- * @property string $updated_at
  *
  * @property Pelicula[] $peliculas
  */
-class Director extends \yii\db\ActiveRecord
+class Distribuidora extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'director';
+        return 'distribuidora';
     }
 
     /**
@@ -31,8 +29,7 @@ class Director extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['nombre'], 'string', 'max' => 150],
+            [['nombre'], 'string', 'max' => 255],
         ];
     }
 
@@ -43,9 +40,7 @@ class Director extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
-            'created_at' => 'Creado',
-            'updated_at' => 'Actualizado',
+            'nombre' => 'distribuidora',
         ];
     }
 
@@ -54,15 +49,15 @@ class Director extends \yii\db\ActiveRecord
      */
     public function getPeliculas()
     {
-        return $this->hasMany(Pelicula::className(), ['director_id' => 'id']);
+        return $this->hasMany(Pelicula::className(), ['distribuidora' => 'id']);
     }
 
     /**
      * {@inheritdoc}
-     * @return DirectorQuery the active query used by this AR class.
+     * @return DistribuidoraQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new DirectorQuery(get_called_class());
+        return new DistribuidoraQuery(get_called_class());
     }
 }
