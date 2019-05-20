@@ -101,15 +101,15 @@ class BoletoController extends Controller
         }
 
         $asientos = (new \yii\db\Query())
-            ->select(['id' => 'sa.id', 'nombre' => 'CONCAT(a.fila, "-", a.numero)'])
+            ->select(['id' => 'sa.id', 'nombre' => 'CONCAT(sa2.fila, "-", sa2.numero)'])
             ->from(['sa' => 'sala_asientos'])
             ->innerJoin(['ha' => 'horario_funcion'], 'ha.sala_id = sa.sala_id')
             ->innerJoin(['b' => 'boleto'], 'b.horario_funcion_id = ha.id')
-            ->leftJoin(['b2' => 'boleto'], 'b2.sala_asientos_id = sa.id')
-            ->leftJoin(['a' => 'asiento'], 'a.id = sa.asiento_id')
+            ->leftJoin(['b2' => 'boleto_asiento'], 'b2.sala_asiento_id = sa.id')
+            ->leftJoin(['sa2' => 'sala_asientos'], 'sa2.id = sa.id')
             ->where(['b.id' => $model->id])
-            ->andWhere(['in', 'a.tipo', [1, 2]])
-            ->andWhere(['or', ['b2.id' => null], ['=', 'b2.id', $model->id]])
+            ->andWhere(['>', 'sa2.tipo', 0])
+            ->andWhere(['or', ['b2.boleto_id' => null], ['=', 'b2.boleto_id', $model->id]])
             ->all();
 
         if (!empty($asientos)) {

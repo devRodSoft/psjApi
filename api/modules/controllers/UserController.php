@@ -58,9 +58,8 @@ class UserController extends BaseAuthController
     {
         $boleto = BoletoRest::find()->where(['id' => $id, 'face_user_id' => Yii::$app->user->id])->one();
         if (is_null($boleto)) {
-            throw new \yii\web\NotFoundHttpException('boleto no existente o ya usado');
+            throw new \yii\web\NotFoundHttpException('Boleto no existente o ya usado');
         }
-
         return $boleto;
     }
 
@@ -68,7 +67,7 @@ class UserController extends BaseAuthController
     {
         $boleto = Boleto::find()->where(['id' => $id, 'face_user_id' => Yii::$app->user->id])->one();
         if (is_null($boleto)) {
-            throw new \yii\web\NotFoundHttpException('boleto no existente o ya usado');
+            throw new \yii\web\NotFoundHttpException('Boleto no existente o ya usado');
         }
         $storagePath = Yii::getAlias('@QRs/' . $boleto->face_user_id);
 

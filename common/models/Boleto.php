@@ -135,11 +135,14 @@ class Boleto extends \yii\db\ActiveRecord
 
     private function setHash()
     {
-        $this->hash = md5(
-            $this->horario_funcion_id .
-            join("", $this->salaAsientosIDs) .
-            (new \DateTime())->getTimestamp()
-        );
+        if (!$this->save()) {
+            throw new \yii\web\HttpException(400, 'Hubo un error al procesar tu Pago');
+        }
+
+        $this->hash = strtoupper(
+            substr(Yii::$app->user->identity->first_name, 0, 1) .
+            substr(Yii::$app->user->identity->last_name, 0, 1) .
+            $this->id);
     }
 
     /**
@@ -163,7 +166,6 @@ class Boleto extends \yii\db\ActiveRecord
 
         Yii::$app->get('qr')
             ->setText($this->hash)
-            ->setLabel($this->hash)
             ->setSize(500)
             ->setMargin(10)
             ->writeFile($storagePath . $this->qr_phat);

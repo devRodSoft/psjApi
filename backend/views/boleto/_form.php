@@ -1,7 +1,17 @@
 <?php
 
+use kartik\select2\Select2;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;?>
+use yii\widgets\ActiveForm;
+
+/* @var $this yii\web\View */
+/* @var $model common\models\Boleto */
+/* @var $form yii\widgets\ActiveForm */
+?>
+
+<div class="boleto-form">
+
+    <?php $form = ActiveForm::begin();?>
 
     <?php //echo $form->field($model, 'face_user_id')->textInput() ?>
 
