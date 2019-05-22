@@ -16,8 +16,6 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'genero')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'calificacion')->textInput(['type' => 'number', "placeholder" => "0.0", "min" => "0", "max" => "5", "step" => "0.5"]) ?>
-
     <?php echo $form->field($model, 'distribuidora_id')->dropDownList($distribuidoras, ['prompt' => 'Distribuidora']) ?>
 
     <?php echo $form->field($model, 'clasificacion')->dropDownList($clasificaciones, ['prompt' => 'clasificación']) ?>

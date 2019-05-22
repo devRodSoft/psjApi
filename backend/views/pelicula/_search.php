@@ -23,15 +23,13 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'genero') ?>
 
-    <?php echo $form->field($model, 'calificacion') ?>
+    <?php echo $form->field($model, 'clasificacion') ?>
 
-    <?php // echo $form->field($model, 'clasificacion') ?>
+    <?php echo $form->field($model, 'idioma') ?>
 
-    <?php // echo $form->field($model, 'idioma') ?>
+    <?php echo $form->field($model, 'duracion') ?>
 
-    <?php // echo $form->field($model, 'duracion') ?>
-
-    <?php // echo $form->field($model, 'sinopsis') ?>
+    <?php echo $form->field($model, 'sinopsis') ?>
 
     <?php // echo $form->field($model, 'cartelUrl') ?>
 

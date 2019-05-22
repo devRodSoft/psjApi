@@ -47,10 +47,9 @@ class Pelicula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'distribuidora_id', 'genero', 'calificacion', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl'], 'required'],
+            [['nombre', 'distribuidora_id', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl'], 'required'],
             [['distribuidora_id'], 'integer'],
             [['genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
-            [['calificacion'], 'number'],
             [['created_at', 'updated_at', 'estreno_inicio', 'estreno_fin'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
             [['distribuidora_id'], 'exist', 'skipOnError' => true, 'targetClass' => Distribuidora::className(), 'targetAttribute' => ['distribuidora_id' => 'id']],
@@ -67,7 +66,6 @@ class Pelicula extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'distribuidora_id' => 'Distribuidora ID',
             'genero' => 'Genero',
-            'calificacion' => 'Calificacion',
             'clasificacion' => 'Clasificacion',
             'idioma' => 'Idioma',
             'duracion' => 'Duracion',

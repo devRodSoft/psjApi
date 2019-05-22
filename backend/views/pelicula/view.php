@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'nombre',
         'distribuidora.nombre',
         'genero:ntext',
-        'calificacion',
         'clasificacion:ntext',
         'idioma:ntext',
         'duracion:ntext',
