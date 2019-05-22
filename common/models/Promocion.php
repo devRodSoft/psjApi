@@ -77,10 +77,10 @@ class Promocion extends \yii\db\ActiveRecord
             'descripcion',
             'image_url',
             'inicio' => function ($m) {
-                return $m->start_date;
+                return \DateTime::createFromFormat('Y-m-d H:m:s', $m->start_date)->format('c');
             },
             'fin' => function ($m) {
-                return $m->end_date;
+                return \DateTime::createFromFormat('Y-m-d H:m:s', $m->end_date)->format('c');
             },
         ];
     }

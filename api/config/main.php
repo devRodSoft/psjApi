@@ -56,11 +56,14 @@ return [
                 'GET sala/<id:\d+>' => 'general/sala/view',
                 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
 
+                'GET cartelera' => 'general/funcion/indexnow',
+                'OPTIONS cartelera' => 'general/funcion/options',
+
                 'GET cartelera/estrenos' => 'general/funcion/estrenos',
                 'OPTIONS cartelera/estrenos' => 'general/funcion/options',
 
-                'GET cartelera/<fecha:\d+>' => 'general/funcion/index',
-                'OPTIONS cartelera/<fecha:\d+>' => 'general/funcion/options',
+                'GET cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/index',
+                'OPTIONS cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/options',
 
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupadosmtx',
                 'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',

@@ -24,7 +24,7 @@ class FuncionController extends BaseController
 
     public function actionIndex($fecha)
     {
-        $ymd  = \DateTime::createFromFormat('Ymd', $fecha)->format('Y-m-d');
+        $ymd  = \DateTime::createFromFormat('Y-m-d', $fecha)->format('Y-m-d');
         $data = FuncionRest::find()
             ->select(['*', 'date' => '("' . $ymd . '")'])
             ->where('publicar = 1')
@@ -32,6 +32,12 @@ class FuncionController extends BaseController
             ->all();
 
         return $data;
+    }
+
+    public function actionIndexnow()
+    {
+
+        return $this->actionIndex(date('Y-m-d'));
     }
 
     public function actionEstrenos()
