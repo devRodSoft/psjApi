@@ -2,8 +2,6 @@
 
 namespace api\models;
 
-use common\models\HorarioFuncion;
-
 /**
  * This is the model class for table "pelicula".
  *
@@ -79,6 +77,6 @@ class FuncionRest extends \common\models\Funcion
 
     public function getHorarios()
     {
-        return $this->hasMany(HorarioFuncion::className(), ['funcion_id' => 'id'])->filterWhere(['horario_funcion.fecha' => $this->date])->ordered();
+        return $this->hasMany(HorarioFuncionRest::className(), ['funcion_id' => 'id'])->filterWhere(['horario_funcion.fecha' => $this->date])->ordered();
     }
 }
