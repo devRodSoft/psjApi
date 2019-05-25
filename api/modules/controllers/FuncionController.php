@@ -5,6 +5,7 @@ use api\controllers\BaseController;
 use api\models\FuncionRest;
 use common\models\HorarioFuncion;
 use common\models\Pelicula;
+use Yii;
 use yii\db\Query;
 
 class FuncionController extends BaseController
@@ -62,7 +63,7 @@ class FuncionController extends BaseController
             ->from('horario_funcion')
             ->where('fecha >= cast(NOW() AS DATE)')
             ->addOrderBy(['fecha' => SORT_ASC])
-            ->limit(15);
+            ->limit(intval(Yii::$app->request->getQueryParam('limit', 15)));
 
         return $query->column();
 
