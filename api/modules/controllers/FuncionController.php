@@ -5,7 +5,7 @@ use api\controllers\BaseController;
 use api\models\FuncionRest;
 use common\models\HorarioFuncion;
 use common\models\Pelicula;
-use Yii;
+use yii\db\Query;
 
 class FuncionController extends BaseController
 {
@@ -53,11 +53,18 @@ class FuncionController extends BaseController
         return $data;
     }
 
-    public function actionPing()
+    public function actionFechas()
     {
-        Yii::error(Yii::$app->request->getBodyParams(), 'BTW');
+        $query = new Query;
+        // compose the query
+        $query->select('fecha')
+            ->distinct()
+            ->from('horario_funcion')
+            ->where('fecha >= cast(NOW() AS DATE)')
+            ->addOrderBy(['fecha' => SORT_ASC])
+            ->limit(15);
 
-        return 'pong';
+        return $query->column();
 
     }
 }

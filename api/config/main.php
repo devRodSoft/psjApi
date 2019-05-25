@@ -56,6 +56,9 @@ return [
                 'GET sala/<id:\d+>' => 'general/sala/view',
                 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
 
+                'GET fechas' => 'general/funcion/fechas',
+                'OPTIONS fechas' => 'general/funcion/options',
+
                 'GET cartelera' => 'general/funcion/indexnow',
                 'OPTIONS cartelera' => 'general/funcion/options',
 
