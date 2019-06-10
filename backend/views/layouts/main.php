@@ -66,6 +66,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Cines', 'url' => ['/cine']];
     $menuItems[] = ['label' => 'Peliculas', 'url' => ['/pelicula']];
     $menuItems[] = ['label' => 'Funciones', 'url' => ['/funcion']];
+    $menuItems[] = ['label' => 'Promociones', 'url' => ['/promocion']];
     $menuItems[] = ['label' => 'Boletos', 'url' => ['/boleto']];
     $menuItems[] = ['label' => 'Utilidades', 'items' => [
         ['label' => 'Distribuidoras', 'url' => ['/distribuidora']],
