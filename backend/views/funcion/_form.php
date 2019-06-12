@@ -45,35 +45,6 @@ AppAsset::register($this);
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($model->horarios as $key => $horario): ?>
-            <tr>
-                <?php if (strtotime($horario->fecha) <= strtotime(date('Y-m-d') . '+1 day')): ?>
-                    <td>
-                    <?php echo $horario->fecha ?>
-                </td>
-                <td>
-                    <?php echo Yii::$app->formatter->asTime($horario->hora, 'php:H:i'); ?>
-                </td>
-                <td>
-                    <?php echo $horario->sala->nombre ?>
-                </td>
-                <?php else: ?>
-                    <td>
-                        <?php echo Html::textInput('horario[' . $key . '][fecha]', $horario->fecha, ['maxlength' => true, 'type' => 'date', 'class' => 'form-control', 'min' => date("Y-m-d"), "pattern" => "[0-9]{4}-[0-9]{2}-[0-9]{2}"]) ?>
-                        <?php echo Html::hiddenInput('horario[' . $key . '][id]', $horario->id) ?>
-                    </td>
-                    <td>
-                        <?php echo Html::textInput('horario[' . $key . '][hora]', $horario->hora, ['maxlength' => true, 'type' => 'time', 'class' => 'form-control']) ?>
-                    </td>
-                    <td>
-                        <?php echo Html::dropDownList('horario[' . $key . '][sala]', $horario->sala_id, array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala', 'class' => 'form-control']) ?>
-                    </td>
-                    <td><a class="deleteRow"></a>
-
-                    </td>
-                <?php endif?>
-            </tr>
-            <?php endforeach?>
         </tbody>
         <tfoot>
             <tr>
@@ -122,3 +93,41 @@ $this->registerJs(
     'my-button-handler'
 );
 ?>
+
+
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'timeGrid', 'interaction' ],
+      defaultView: 'timeGridWeek',
+      forceEventDuration:true,
+      defaultTimedEventDuration:{years: 0, months: 0, days: 0, milliseconds:<?php echo $model->pelicula->duracion * 60000 ?>},
+      events: <?php echo json_encode($hrs); ?>,
+      dateClick: function(info) {
+          // alert('Clicked on: ' + info.dateStr);
+          // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+          // alert('Current view: ' + info.view.type);
+          // change the day's background color just for fun
+          info.dayEl.style.backgroundColor = 'red';
+        },
+      select: function(info) {
+          // alert('Clicked on: ' + info.dateStr);
+          // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+          // alert('Current view: ' + info.view.type);
+          // change the day's background color just for fun
+          info.dayEl.style.backgroundColor = 'red';
+        }
+    });
+    debugger
+
+    calendar.render();
+
+});
+
+</script>
+
+<div id='calendar'></div>

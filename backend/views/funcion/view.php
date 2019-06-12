@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ],
 ]) ?>
 
-<table id="myTable" class=" table order-list">
+<!-- <table id="myTable" class=" table order-list">
         <thead>
             <tr>
                 <td>Fecha</td>
@@ -66,6 +66,25 @@ $this->params['breadcrumbs'][] = $this->title;
             </tr>
             <?php endforeach?>
         </tbody>
-    </table>
+    </table> -->
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          plugins: [ 'list' ],
+          defaultView: 'listMonth',
+          forceEventDuration:true,
+          defaultTimedEventDuration:{years: 0, months: 0, days: 0, milliseconds:<?php echo $model->pelicula->duracion * 60000 ?>},
+          events: <?php echo json_encode($hrs) ?>,
+
+        });
+
+        calendar.render();
+      });
+
+</script>
+<div id="calendar"></div>

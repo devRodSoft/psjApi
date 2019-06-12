@@ -27,6 +27,7 @@ use Yii;
  *
  *
  * @property PeliculaActor[] $peliculaActors
+ * @property Pelicula] $pelicula
  * @property Actor[] $actors
  */
 class Pelicula extends \yii\db\ActiveRecord

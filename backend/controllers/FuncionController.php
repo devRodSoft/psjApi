@@ -63,8 +63,10 @@ class FuncionController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'hrs' => $this->getHrs($model),
         ]);
     }
 
@@ -104,6 +106,7 @@ class FuncionController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'hrs' => $this->getHrs(),
         ]);
     }
 
@@ -146,6 +149,7 @@ class FuncionController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'hrs' => $this->getHrs($model),
         ]);
     }
 
@@ -177,5 +181,26 @@ class FuncionController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function getHrs($model)
+    {
+        if (is_null($model)) {
+            return [];
+        }
+        $hrs = [];
+        foreach ($model->horarios as $horario) {
+            $dateTime = \DateTime::createFromFormat('Y-m-d H:i:s', $horario->fecha . ' ' . $horario->hora);
+            $hrs[]    = [
+                'id' => $horario->id,
+                'title' => $horario->sala->nombre,
+                'start' => $dateTime->format('Y-m-d H:i'),
+                // 'end' => $dateTime->add(new \DateInterval('PT' . $horario->pelicula->duracion . 'M'))->format('Y-m-d H:i'),
+                'editable' => false,
+                'allDay' => false,
+            ];
+        }
+
+        return $hrs;
     }
 }
