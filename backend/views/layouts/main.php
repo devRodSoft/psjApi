@@ -63,7 +63,6 @@ if (Yii::$app->user->isGuest) {
         ['label' => 'Empleados', 'url' => ['/user']],
         ['label' => 'Clientes', 'url' => ['/face-user']],
     ]];
-    $menuItems[] = ['label' => 'Cines', 'url' => ['/cine']];
     $menuItems[] = ['label' => 'Peliculas', 'url' => ['/pelicula']];
     $menuItems[] = ['label' => 'Funciones', 'url' => ['/funcion']];
     $menuItems[] = ['label' => 'Promociones', 'url' => ['/promocion']];
@@ -72,6 +71,8 @@ if (Yii::$app->user->isGuest) {
         ['label' => 'Distribuidoras', 'url' => ['/distribuidora']],
         ['label' => 'Clasificaciones', 'url' => ['/clasificacion']],
         ['label' => 'Salas', 'url' => ['/sala']],
+        ['label' => 'Precios', 'url' => ['/precio']],
+        ['label' => 'Cines', 'url' => ['/cine']],
     ]];
     $menuItems[] = '<li>'
     . Html::beginForm(['/site/logout'], 'post')
@@ -102,7 +103,6 @@ NavBar::end();
     <div class="container">
         <p class="pull-left">&copy; <?php echo Html::encode(Yii::$app->name) ?> <?php echo date('Y') ?></p>
 
-        <p class="pull-right"><?php echo Yii::powered() ?></p>
     </div>
 </footer>
 
