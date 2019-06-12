@@ -27,7 +27,7 @@ AppAsset::register($this);
     <?php echo $form->field($model, 'estreno_inicio')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->estreno_inicio))]) ?>
     <?php echo $form->field($model, 'estreno_fin')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->estreno_fin)), 'min' => date('Y-m-d')]) ?>
 
-    <?php echo $form->field($model, 'publicar')->checkbox() ?>
+    <?php echo $form->field($model, 'publicar')->checkbox(['checked' => $model->publicar]) ?>
 
     <div class="alert alert-warning">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -122,7 +122,7 @@ $this->registerJs(
           info.dayEl.style.backgroundColor = 'red';
         }
     });
-    debugger
+
 
     calendar.render();
 
