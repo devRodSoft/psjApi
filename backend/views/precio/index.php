@@ -12,12 +12,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="precio-index">
 
-    <h1><?php echo Html::encode($this->title)?></h1>
+    <h1><?php echo Html::encode($this->title) ?></h1>
     <?php Pjax::begin();?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?php echo Html::a('Crear Precio', ['create'], ['class' => 'btn btn-success'])?>
+        <?php echo Html::a('Crear Precio', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php echo GridView::widget([
@@ -26,13 +26,16 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
-        'id',
         'nombre',
         'default',
         'especial',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'visible' => Yii::$app->user->isGuest ? false : true,
+            'template' => '{view} {update}',
+        ],
     ],
-]);?>
+]); ?>
     <?php Pjax::end();?>
 </div>
