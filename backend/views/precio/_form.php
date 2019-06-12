@@ -12,6 +12,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin();?>
 
+    <?php echo $form->field($model, 'codigo')->textInput(['maxlength' => true, 'max' => 45]) ?>
+
     <?php echo $form->field($model, 'nombre')->textInput(['maxlength' => true, 'max' => 45]) ?>
 
     <?php echo $form->field($model, 'default')->textInput(['type' => 'number', 'maxlength' => true, 'min' => 0, 'step' => 0.5]) ?>

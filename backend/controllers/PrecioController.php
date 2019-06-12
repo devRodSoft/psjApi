@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Precio;
 use backend\models\PrecioSearch;
+use common\models\Precio;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * PrecioController implements the CRUD actions for Precio model.
@@ -35,7 +35,7 @@ class PrecioController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PrecioSearch();
+        $searchModel  = new PrecioSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

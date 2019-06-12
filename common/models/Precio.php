@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $nombre
+ * @property string $nombre
  * @property string $default
  * @property string $especial
  */
@@ -28,9 +29,9 @@ class Precio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'default'], 'required'],
+            [['nombre', 'codigo', 'default'], 'required'],
             [['default', 'especial'], 'number'],
-            [['nombre'], 'string', 'max' => 45],
+            [['nombre', 'codigo'], 'string', 'max' => 45],
         ];
     }
 
@@ -42,6 +43,7 @@ class Precio extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
+            'codigo' => 'Codigo',
             'default' => 'Default',
             'especial' => 'Especial',
         ];

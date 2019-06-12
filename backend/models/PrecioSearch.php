@@ -2,9 +2,9 @@
 
 namespace backend\models;
 
+use common\models\Precio;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Precio;
 
 /**
  * PrecioSearch represents the model behind the search form of `common\models\Precio`.
@@ -65,6 +65,7 @@ class PrecioSearch extends Precio
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'codigo', $this->codigo]);
 
         return $dataProvider;
     }

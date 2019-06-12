@@ -183,7 +183,7 @@ class FuncionController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function getHrs($model)
+    protected function getHrs($model = null)
     {
         if (is_null($model)) {
             return [];
