@@ -105,7 +105,7 @@ $this->registerJs(
       plugins: [ 'timeGrid', 'interaction' ],
       defaultView: 'timeGridWeek',
       forceEventDuration:true,
-      defaultTimedEventDuration:{years: 0, months: 0, days: 0, milliseconds:<?php echo $model->pelicula->duracion * 60000 ?>},
+      defaultTimedEventDuration:{years: 0, months: 0, days: 0, milliseconds:<?php echo ((!is_null($model->pelicula_id)) ? $model->pelicula->duracion : 60) * 60000 ?>},
       events: <?php echo json_encode($hrs); ?>,
       dateClick: function(info) {
           // alert('Clicked on: ' + info.dateStr);
