@@ -18,7 +18,7 @@ class PrecioSearch extends Precio
     {
         return [
             [['id'], 'integer'],
-            [['nombre'], 'safe'],
+            [['nombre', 'codigo'], 'safe'],
             [['default', 'especial'], 'number'],
         ];
     }
