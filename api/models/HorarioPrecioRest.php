@@ -29,14 +29,11 @@ class HorarioPrecioRest extends \common\models\HorarioPrecio
             'codigo' => function ($m) {
                 return $m->precio->codigo;
             },
-            'default' => function ($m) {
-                return $m->precio->default;
-            },
-            'especial' => function ($m) {
+            'precio' => function ($m) {
+                if (!$m->usar_especial) {
+                    return $m->precio->default;
+                }
                 return $m->precio->especial;
-            },
-            'usar_especial' => function ($m) {
-                return !!$m->usar_especial;
             },
         ];
     }
