@@ -2,7 +2,7 @@
 namespace api\modules\controllers;
 
 use api\controllers\BaseController;
-use api\models\PeliculaRest;
+use api\models\FuncionRest;
 use common\models\HorarioFuncion;
 use common\models\Pelicula;
 use Yii;
@@ -10,12 +10,13 @@ use yii\db\Query;
 
 class FuncionController extends BaseController
 {
-    public $modelClass = 'common\models\pelicula';
+    public $modelClass = 'common\models\Funcion';
 
     public function actions()
     {
         return [
             'index',
+            'ping',
             'options' => [
                 'class' => 'yii\rest\OptionsAction',
             ],
@@ -25,13 +26,11 @@ class FuncionController extends BaseController
     public function actionIndex($fecha)
     {
         $ymd  = \DateTime::createFromFormat('Y-m-d', $fecha)->format('Y-m-d');
-        $data = PeliculaRest::find()
-            ->andWhere(['in', 'id', HorarioFuncion::find()->select('pelicula_id')->where(['fecha' => $ymd, 'publicar' => 1])])
+        $data = FuncionRest::find()
+            ->select(['*', 'date' => '("' . $ymd . '")'])
+            ->where('publicar = 1')
+            ->andWhere(['in', 'id', HorarioFuncion::find()->select('funcion_id')->where(['fecha' => $ymd])])
             ->all();
-
-        foreach ($data as &$pelicula) {
-            $pelicula->addHorarios($ymd);
-        }
 
         return $data;
     }
@@ -45,9 +44,10 @@ class FuncionController extends BaseController
     public function actionEstrenos()
     {
         $data = Pelicula::find()
-            ->select('pelicula.*, DATE(e.inicio) as inicio, DATE(e.fin) as fin')
-            ->innerJoin(['e' => 'estreno'], 'e.pelicula_id = pelicula.id')
-            ->where('e.publicar = 1 AND e.inicio > NOW() AND e.fin > NOW()')
+            ->select('pelicula.*, DATE(f.estreno_inicio) as estreno_inicio, DATE(f.estreno_fin) as estreno_fin')
+            ->innerJoin(['f' => 'funcion'], 'f.pelicula_id = pelicula.id')
+            ->where('f.publicar = 1 AND f.estreno_inicio > NOW() AND f.estreno_fin > NOW()')
+            ->groupBy('pelicula.id')
             ->asArray(true)
             ->all();
 
@@ -66,5 +66,6 @@ class FuncionController extends BaseController
             ->limit(intval(Yii::$app->request->getQueryParam('limit', 15)));
 
         return $query->column();
+
     }
 }

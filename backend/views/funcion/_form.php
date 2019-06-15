@@ -4,6 +4,7 @@ use backend\assets\AppAsset;
 use common\models\Cine;
 use common\models\Pelicula;
 use common\models\Sala;
+use dosamigos\multiselect\MultiSelect;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 AppAsset::register($this);
@@ -21,8 +22,13 @@ AppAsset::register($this);
 
     <?php echo $form->field($model, 'pelicula_id')->dropDownList(array_column(Pelicula::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
 
-    <?php echo $form->field($model, 'precio')->textInput(['maxlength' => true, 'type' => 'number']) ?>
-    <?php echo $form->field($model, 'precio_niños')->textInput(['maxlength' => true, 'type' => 'number']) ?>
+    <?php // echo $form->field($model, 'precio')->textInput(['maxlength' => true, 'type' => 'number']) ?>
+    <?php // echo $form->field($model, 'precio_niños')->textInput(['maxlength' => true, 'type' => 'number']) ?>
+
+  <?php echo $form->field($model, 'precio[]')->widget(MultiSelect::className(), [
+    'data' => ['super', 'natural'], 'options' => ['multiple' => "multiple"],
+]) ?>
+
 
     <?php echo $form->field($model, 'estreno_inicio')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->estreno_inicio))]) ?>
     <?php echo $form->field($model, 'estreno_fin')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->estreno_fin)), 'min' => date('Y-m-d')]) ?>

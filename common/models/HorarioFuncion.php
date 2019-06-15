@@ -8,14 +8,21 @@ use Yii;
  * This is the model class for table "horario_funcion".
  *
  * @property int $id
- * @property int $funcion_id
  * @property int $sala_id
+ * @property int $cine_id
+ * @property int $pelicula_id
  * @property string $hora
  * @property string $fecha
+ * @property int $publicar
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Boleto[] $boletos
- * @property Funcion $funcion
+ * @property Pelicula $pelicula
+ * @property Cine $cine
  * @property Sala $sala
+ * @property HorarioPrecio[] $horarioPrecios
+ * @property Precio[] $precios
  */
 class HorarioFuncion extends \yii\db\ActiveRecord
 {
@@ -33,10 +40,11 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['funcion_id', 'sala_id', 'hora', 'fecha'], 'required'],
-            [['funcion_id', 'sala_id'], 'integer'],
-            [['hora', 'fecha'], 'safe'],
-            [['funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => Funcion::className(), 'targetAttribute' => ['funcion_id' => 'id']],
+            [['sala_id', 'cine_id', 'pelicula_id', 'hora', 'fecha'], 'required'],
+            [['sala_id', 'cine_id', 'pelicula_id', 'publicar'], 'integer'],
+            [['hora', 'fecha', 'created_at', 'updated_at'], 'safe'],
+            [['pelicula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pelicula::className(), 'targetAttribute' => ['pelicula_id' => 'id']],
+            [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
             [['sala_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sala::className(), 'targetAttribute' => ['sala_id' => 'id']],
         ];
     }
@@ -48,10 +56,14 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'funcion_id' => 'Funcion ID',
             'sala_id' => 'Sala ID',
+            'cine_id' => 'Cine ID',
+            'pelicula_id' => 'Pelicula ID',
             'hora' => 'Hora',
             'fecha' => 'Fecha',
+            'publicar' => 'Publicar',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
@@ -66,17 +78,17 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFuncion()
+    public function getPelicula()
     {
-        return $this->hasOne(Funcion::className(), ['id' => 'funcion_id']);
+        return $this->hasOne(Pelicula::className(), ['id' => 'pelicula_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPelicula()
+    public function getCine()
     {
-        return $this->hasOne(Pelicula::className(), ['id' => 'pelicula_id'])->via('funcion');
+        return $this->hasOne(Cine::className(), ['id' => 'cine_id']);
     }
 
     /**
@@ -85,6 +97,22 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     public function getSala()
     {
         return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHorarioPrecios()
+    {
+        return $this->hasMany(HorarioPrecio::className(), ['horario_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrecios()
+    {
+        return $this->hasMany(Precio::className(), ['id' => 'precio_id'])->viaTable('horario_precio', ['horario_id' => 'id']);
     }
 
     /**
@@ -103,9 +131,11 @@ class HorarioFuncion extends \yii\db\ActiveRecord
     {
         return [
             'id',
-            'funcion_id',
             'sala_id',
-            'sala',
+            'cine_id',
+            'pelicula_id',
+            'fecha',
+            'publicar',
             'hora' => function ($m) {
                 return $m->getFHora();
             },

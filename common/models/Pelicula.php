@@ -22,18 +22,14 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Funcion[] $funcions
+ * @property Estreno[] $estrenos
+ * @property HorarioFuncion[] $horarioFuncions
  * @property Distribuidora $distribuidora
- *
- *
  * @property PeliculaActor[] $peliculaActors
- * @property Pelicula] $pelicula
  * @property Actor[] $actors
  */
 class Pelicula extends \yii\db\ActiveRecord
 {
-    public $estreno_inicio = null;
-    public $estreno_fin    = null;
     /**
      * {@inheritdoc}
      */
@@ -51,7 +47,8 @@ class Pelicula extends \yii\db\ActiveRecord
             [['nombre', 'distribuidora_id', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl'], 'required'],
             [['distribuidora_id'], 'integer'],
             [['genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
-            [['created_at', 'updated_at', 'estreno_inicio', 'estreno_fin'], 'safe'],
+            [['calificacion'], 'number'],
+            [['created_at', 'updated_at'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
             [['distribuidora_id'], 'exist', 'skipOnError' => true, 'targetClass' => Distribuidora::className(), 'targetAttribute' => ['distribuidora_id' => 'id']],
         ];
@@ -67,6 +64,7 @@ class Pelicula extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'distribuidora_id' => 'Distribuidora ID',
             'genero' => 'Genero',
+            'calificacion' => 'Calificacion',
             'clasificacion' => 'Clasificacion',
             'idioma' => 'Idioma',
             'duracion' => 'Duracion',
@@ -74,17 +72,25 @@ class Pelicula extends \yii\db\ActiveRecord
             'cartelUrl' => 'Cartel Url',
             'trailerUrl' => 'Trailer Url',
             'trailerImg' => 'Trailer Img',
-            'created_at' => 'Creado',
-            'updated_at' => 'Actualizado',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFuncions()
+    public function getEstrenos()
     {
-        return $this->hasMany(Funcion::className(), ['pelicula_id' => 'id']);
+        return $this->hasMany(Estreno::className(), ['pelicula_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHorarioFuncions()
+    {
+        return $this->hasMany(HorarioFuncion::className(), ['pelicula_id' => 'id']);
     }
 
     /**
@@ -106,7 +112,7 @@ class Pelicula extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getReparto()
+    public function getActors()
     {
         return $this->hasMany(Actor::className(), ['id' => 'actor_id'])->viaTable('pelicula_actor', ['pelicula_id' => 'id']);
     }

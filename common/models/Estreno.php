@@ -5,31 +5,28 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "funcion".
+ * This is the model class for table "estreno".
  *
  * @property int $id
  * @property int $cine_id
  * @property int $pelicula_id
- * @property int $sala_id
- * @property string $precio
- * @property string $estreno_inicio
- * @property string $estreno_fin
+ * @property string $inicio
+ * @property string $fin
  * @property string $created_at
  * @property string $updated_at
+ * @property int $publicar
  *
  * @property Cine $cine
  * @property Pelicula $pelicula
- * @property Sala $sala
- * @property HorarioFuncion[] $horarios
  */
-class Funcion extends \yii\db\ActiveRecord
+class Estreno extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'funcion';
+        return 'estreno';
     }
 
     /**
@@ -38,10 +35,9 @@ class Funcion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cine_id', 'pelicula_id', 'precio'], 'required'],
+            [['cine_id', 'pelicula_id'], 'required'],
             [['cine_id', 'pelicula_id', 'publicar'], 'integer'],
-            [['precio', 'precio_niños'], 'number'],
-            [['estreno_inicio', 'estreno_fin', 'created_at', 'updated_at'], 'safe'],
+            [['inicio', 'fin', 'created_at', 'updated_at'], 'safe'],
             [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
             [['pelicula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pelicula::className(), 'targetAttribute' => ['pelicula_id' => 'id']],
         ];
@@ -56,11 +52,11 @@ class Funcion extends \yii\db\ActiveRecord
             'id' => 'ID',
             'cine_id' => 'Cine ID',
             'pelicula_id' => 'Pelicula ID',
-            'precio' => 'Precio',
-            'estreno_inicio' => 'Estreno inicia',
-            'estreno_fin' => 'Estreno termina',
-            'created_at' => 'Creado',
-            'updated_at' => 'Actualizado',
+            'inicio' => 'Inicio',
+            'fin' => 'Fin',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'publicar' => 'Publicar',
         ];
     }
 
@@ -81,19 +77,11 @@ class Funcion extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHorarios()
-    {
-        return $this->hasMany(HorarioFuncion::className(), ['funcion_id' => 'id'])->ordered();
-    }
-
-    /**
      * {@inheritdoc}
-     * @return FuncionQuery the active query used by this AR class.
+     * @return EstrenoQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new FuncionQuery(get_called_class());
+        return new EstrenoQuery(get_called_class());
     }
 }

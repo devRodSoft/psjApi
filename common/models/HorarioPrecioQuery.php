@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[Funcion]].
+ * This is the ActiveQuery class for [[HorarioPrecio]].
  *
- * @see Funcion
+ * @see HorarioPrecio
  */
-class FuncionQuery extends \yii\db\ActiveQuery
+class HorarioPrecioQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class FuncionQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Funcion[]|array
+     * @return HorarioPrecio[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class FuncionQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Funcion|array|null
+     * @return HorarioPrecio|array|null
      */
     public function one($db = null)
     {

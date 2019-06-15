@@ -2,8 +2,6 @@
 
 namespace api\models;
 
-use common\models\SalaAsientos;
-
 class BoletoRest extends \common\models\Boleto
 {
     public function fields()
@@ -24,7 +22,7 @@ class BoletoRest extends \common\models\Boleto
             },
             'asientos' => function ($m) {
                 return array_map(function ($arr) {
-                    return new SalaAsientos($arr->salaAsientos->attributes);
+                    return new SalaAsientoRest($arr->salaAsientos->attributes);
                 },
                     $m->boletoAsientos
                 );

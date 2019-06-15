@@ -93,17 +93,9 @@ class Boleto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFuncion()
-    {
-        return $this->hasOne(Funcion::className(), ['id' => 'funcion_id'])->via('horarioFuncion');
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPelicula()
     {
-        return $this->hasOne(Pelicula::className(), ['id' => 'pelicula_id'])->via('funcion');
+        return $this->hasOne(Pelicula::className(), ['id' => 'pelicula_id'])->via('horarioFuncion');
     }
 
     /**
