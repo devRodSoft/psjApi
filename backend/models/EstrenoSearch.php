@@ -2,14 +2,14 @@
 
 namespace backend\models;
 
-use common\models\Funcion;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use common\models\Estreno;
 
 /**
- * FuncionSearch represents the model behind the search form of `common\models\Funcion`.
+ * EstrenoSearch represents the model behind the search form of `common\models\Estreno`.
  */
-class FuncionSearch extends Funcion
+class EstrenoSearch extends Estreno
 {
     /**
      * {@inheritdoc}
@@ -17,9 +17,8 @@ class FuncionSearch extends Funcion
     public function rules()
     {
         return [
-            [['id', 'cine_id', 'pelicula_id'], 'integer'],
-            [['precio'], 'number'],
-            [['estreno_inicio', 'estreno_fin', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'cine_id', 'pelicula_id', 'publicar'], 'integer'],
+            [['inicio', 'fin', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,7 +40,7 @@ class FuncionSearch extends Funcion
      */
     public function search($params)
     {
-        $query = Funcion::find();
+        $query = Estreno::find();
 
         // add conditions that should always apply here
 
@@ -62,11 +61,11 @@ class FuncionSearch extends Funcion
             'id' => $this->id,
             'cine_id' => $this->cine_id,
             'pelicula_id' => $this->pelicula_id,
-            'precio' => $this->precio,
-            'estreno_inicio' => $this->estreno_inicio,
-            'estreno_fin' => $this->estreno_fin,
+            'inicio' => $this->inicio,
+            'fin' => $this->fin,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'publicar' => $this->publicar,
         ]);
 
         return $dataProvider;

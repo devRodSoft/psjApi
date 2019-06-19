@@ -2,12 +2,16 @@
 
 namespace backend\controllers;
 
-use backend\models\FuncionSearch;
-use common\models\Funcion;
+use backend\models\HorarioFuncionSearch;
 use common\models\HorarioFuncion;
+use common\models\HorarioPrecio;
+use common\models\Pelicula;
+use common\models\Precio;
 use Yii;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -46,12 +50,50 @@ class FuncionController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel  = new FuncionSearch();
+        $searchModel  = new HorarioFuncionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Funcion models.
+     * @return mixed
+     */
+    public function actionPlanner()
+    {
+        $data = HorarioFuncion::find()->all();
+
+        return $this->render('planner', [
+            'hrs' => $this->getHrs($data, true),
+        ]);
+    }
+
+    /**
+     * Lists all Funcion models.
+     * @return mixed
+     */
+    public function actionCalendar($id)
+    {
+        $data = HorarioFuncion::find()->where(['pelicula_id' => $id])->all();
+        $peli = Pelicula::find()->where(['id' => $id])->one();
+
+        $query = new Query;
+
+        $query->select('max(fecha) AS min, min(fecha) AS max')
+            ->from(HorarioFuncion::tableName())
+            ->where(['pelicula_id' => $id])
+            ->limit(1);
+
+        $fechas = $query->one();
+
+        return $this->render('calendar', [
+            'info' => $peli,
+            'fechas' => $fechas,
+            'hrs' => $this->getHrs($data),
         ]);
     }
 
@@ -66,7 +108,7 @@ class FuncionController extends Controller
         $model = $this->findModel($id);
         return $this->render('view', [
             'model' => $model,
-            'hrs' => $this->getHrs($model),
+            'hrs' => [],
         ]);
     }
 
@@ -77,36 +119,36 @@ class FuncionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Funcion();
+        $model = new HorarioFuncion();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            foreach (Yii::$app->request->getBodyParam('horario', []) as $horario) {
-                if (empty($horario['fecha']) || empty($horario['hora']) || empty($horario['sala'])) {
-                    break;
-                }
-                if (isset($horario['id'])) {
-                    $nhr = HorarioFuncion::findOne($horario['id']);
-                    if (!empty($nhr)) {
-                        $nhr->fecha   = $horario['fecha'];
-                        $nhr->hora    = $horario['hora'];
-                        $nhr->sala_id = $horario['sala'];
+        // var_dump($_POST);die();
+        if ($model->load(Yii::$app->request->post()) && $model->fecha != '') {
+            foreach (explode(',', $model->fecha) as $fecha) {
+                $model = new HorarioFuncion();
+                $model->load(Yii::$app->request->post());
+                $model->fecha = $fecha;
+                if ($model->save()) {
+                    foreach (Yii::$app->request->getBodyParam('horarioPrecio', []) as $precio) {
+                        if (empty($precio['precio']) || !isset($precio['precio']['id'])) {
+                            break;
+                        }
+                        $nhr                = new HorarioPrecio();
+                        $nhr->horario_id    = $model->id;
+                        $nhr->precio_id     = $precio['precio']['id'];
+                        $nhr->usar_especial = intval(isset($precio['precio']['usar_especial']));
+
+                        if (!$nhr->save()) {
+                            Yii::$app->session->setFlash('error', "Tienes un error con los precios que ingresaste, \nrecuerda que no debes duplicar precios");
+                        }
                     }
-                } else {
-                    $nhr             = new HorarioFuncion();
-                    $nhr->funcion_id = $model->id;
-                    $nhr->fecha      = $horario['fecha'];
-                    $nhr->hora       = $horario['hora'];
-                    $nhr->sala_id    = $horario['sala'];
                 }
-
-                $nhr->save();
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'hrs' => $this->getHrs(),
+            'preciosList' => array_column(Precio::Find()->All(), 'nombre', 'id'),
         ]);
     }
 
@@ -120,36 +162,29 @@ class FuncionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        // var_dump($_POST);die();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            foreach (Yii::$app->request->getBodyParam('horario', []) as $horario) {
-                if (empty($horario['fecha']) || empty($horario['hora']) || empty($horario['sala'])) {
+            HorarioPrecio::deleteAll(['horario_id' => $model->id]);
+
+            foreach (Yii::$app->request->getBodyParam('horarioPrecio', []) as $precio) {
+                if (empty($precio['precio']) || !isset($precio['precio']['id'])) {
                     break;
                 }
-                if (isset($horario['id'])) {
-                    $nhr = HorarioFuncion::findOne($horario['id']);
-                    if (!empty($nhr)) {
-                        $nhr->fecha   = $horario['fecha'];
-                        $nhr->hora    = $horario['hora'];
-                        $nhr->sala_id = $horario['sala'];
-                    }
-                } else {
-                    $nhr             = new HorarioFuncion();
-                    $nhr->funcion_id = $model->id;
-                    $nhr->fecha      = $horario['fecha'];
-                    $nhr->hora       = $horario['hora'];
-                    $nhr->sala_id    = $horario['sala'];
-                }
+                $nhr                = new HorarioPrecio();
+                $nhr->horario_id    = $model->id;
+                $nhr->precio_id     = $precio['precio']['id'];
+                $nhr->usar_especial = intval(isset($precio['precio']['usar_especial']));
 
-                $nhr->save();
+                if (!$nhr->save()) {
+                    Yii::$app->session->setFlash('error', "Tienes un error con los precios que ingresaste, \nrecuerda que no debes duplicar precios");
+                }
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'hrs' => $this->getHrs($model),
+            'preciosList' => array_column(Precio::Find()->All(), 'nombre', 'id'),
         ]);
     }
 
@@ -176,27 +211,28 @@ class FuncionController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Funcion::findOne($id)) !== null) {
+        if (($model = HorarioFuncion::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function getHrs($model = null)
+    protected function getHrs($models = null, $movieTitle = false)
     {
-        if (is_null($model)) {
+        if (is_null($models)) {
             return [];
         }
         $hrs = [];
-        foreach ($model->horarios as $horario) {
+        foreach ($models as $horario) {
             $dateTime = \DateTime::createFromFormat('Y-m-d H:i:s', $horario->fecha . ' ' . $horario->hora);
             $hrs[]    = [
                 'id' => $horario->id,
-                'title' => $horario->sala->nombre,
+                'title' => !($movieTitle) ? $horario->sala->nombre : $horario->pelicula->nombre . "\n" . $horario->sala->nombre,
                 'start' => $dateTime->format('Y-m-d H:i'),
-                // 'end' => $dateTime->add(new \DateInterval('PT' . $horario->pelicula->duracion . 'M'))->format('Y-m-d H:i'),
+                'end' => $dateTime->add(new \DateInterval('PT' . $horario->pelicula->duracion . 'M'))->format('Y-m-d H:i'),
                 'editable' => false,
+                'url' => Url::to(['view', 'id' => $horario->id]),
                 'allDay' => false,
             ];
         }

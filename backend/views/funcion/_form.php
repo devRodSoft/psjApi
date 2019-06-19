@@ -4,9 +4,10 @@ use backend\assets\AppAsset;
 use common\models\Cine;
 use common\models\Pelicula;
 use common\models\Sala;
-use dosamigos\multiselect\MultiSelect;
+use dosamigos\datepicker\DatePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
 AppAsset::register($this);
 
 /* @var $this yii\web\View */
@@ -16,46 +17,90 @@ AppAsset::register($this);
 
 <div class="funcion-form">
 
+  <?php if (Yii::$app->session->hasFlash('error')): ?>
+    <div class="error alert alert-danger alert-dismissible" role="alert">
+      <button id="close-error" type="button" class="error close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <?php echo Yii::$app->session->getFlash('error') ?>
+    </div>
+<?php endif;?>
+
     <?php $form = ActiveForm::begin();?>
 
     <?php echo $form->field($model, 'cine_id')->dropDownList(array_column(Cine::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un cine']) ?>
 
     <?php echo $form->field($model, 'pelicula_id')->dropDownList(array_column(Pelicula::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
 
-    <?php // echo $form->field($model, 'precio')->textInput(['maxlength' => true, 'type' => 'number']) ?>
-    <?php // echo $form->field($model, 'precio_niños')->textInput(['maxlength' => true, 'type' => 'number']) ?>
+    <?php echo $form->field($model, 'sala_id')->dropDownList(array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala']) ?>
 
-  <?php echo $form->field($model, 'precio[]')->widget(MultiSelect::className(), [
-    'data' => ['super', 'natural'], 'options' => ['multiple' => "multiple"],
-]) ?>
+    <?php echo $form->field($model, 'hora')->textInput(['maxlength' => true, 'type' => 'time']) ?>
+    <?php
+if (!is_null($model->id)) {
+    echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
+        'language' => 'es',
+        'size' => 'sm',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd',
+            'startDate' => date("Y-m-d"),
+        ],
+    ]);
+} else {
+    echo '<div class="alert alert-warning">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">precaucion:</span>
+        Se creara una función por fecha que sea ingresada (máximo 9 fechas)
+    </div>';
+    echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
+        'language' => 'es',
+        'size' => 'sm',
+        'clientOptions' => [
+            'autoclose' => false,
+            'multidate' => 9,
+            'format' => 'yyyy-mm-dd',
+            'startDate' => date("Y-m-d"),
+        ],
+    ]);
+}
+
+?>
+
+    <?php echo $form->field($model, 'publicar')->checkbox() ?>
 
 
-    <?php echo $form->field($model, 'estreno_inicio')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->estreno_inicio))]) ?>
-    <?php echo $form->field($model, 'estreno_fin')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->estreno_fin)), 'min' => date('Y-m-d')]) ?>
+  <?php /* echo $form->field($model, 'precio[]')->widget(MultiSelect::className(), [
+'data' => ['super', 'natural'], 'options' => ['multiple' => "multiple"],
+]) */?>
 
-    <?php echo $form->field($model, 'publicar')->checkbox(['checked' => $model->publicar]) ?>
 
     <div class="alert alert-warning">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">precaucion:</span>
-        Despues de guardar una funcion con horarios para el dia de hoy o el dia de mañana, estos no seran editables.
+        Los precios no deben repetirse.
     </div>
 
-    <table id="myTable" class=" table order-list">
+    <table id="myTable" class="table table-striped table-bordered detail-view order-list">
         <thead>
             <tr>
-                <td>Fecha</td>
-                <td>Hora</td>
-                <td>Sala</td>
-
+                <td class="col-md-9">Precio</td>
+                <td class="col-md-2">Usar especial</td>
+                <td class="col-md-1"></td>
             </tr>
         </thead>
         <tbody>
+          <?php foreach ($model->horarioPrecios as $idx => $horarioPrecio): ?>
+            <tr>
+                <td>
+                  <?php echo Html::dropDownList('horarioPrecio[' . $idx . '][precio][id]', $horarioPrecio->precio_id, $preciosList, ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
+                </td>
+                <td class="input-group-addon"><?php echo Html::checkbox('horarioPrecio[' . $idx . '][precio][usar_especial]', !!$horarioPrecio->usar_especial, ['label' => '']) ?></td>
+                <td><input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar"></td>
+            </tr>
+            <?php endforeach?>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" style="text - align:left;">
-                    <input type="button" class="btn btn-lg btn-block" id="addrow" value="Agregar horario" />
+                <td colspan="3" style="text - align:left;">
+                    <input type="button" class="btn btn-lg btn-block" id="addrow" value="Agregar Precio" />
                 </td>
             </tr>
             <tr>
@@ -77,20 +122,24 @@ $this->registerJs(
     "$(document).ready(function () {
     var counter = $('table.order-list tbody tr').length;
     $('#addrow').on('click', function () {
+        var limit   = " . count($preciosList) . " || 0;
+        if (limit === counter) {
+            return;
+        }
         var newRow = $('<tr>');
         var cols   = '';
 
-        cols += '<td><input type=\"date\" class=\"form-control\" name=\"horario['+counter+'][fecha]\" min=\"" . date("Y-m-d") . "\" pattern=\"[0-9]{4}-[0-9]{2}-[0-9]{2}\"/></td>';
-        cols += '<td><input type=\"time\" class=\"form-control\" name=\"horario['+counter+'][hora]\"/></td>';
-        cols += '<td>" . str_replace(["\n", 'counter'], ['', "'+counter+'"], Html::dropDownList('horario[counter][sala]', "", array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala', 'class' => 'form-control'])) . "</td>';
+        cols += '<td>" . str_replace(["\n", 'counter'], ['', "'+counter+'"], Html::dropDownList('horarioPrecio[counter][precio][id]', "", $preciosList, ['prompt' => 'selecciona un precio', 'class' => 'form-control'])) . "</td>';
+        cols += '<td class=\"input-group-addon\"><input type=\"checkbox\" name=\"horarioPrecio['+counter+'][precio][usar_especial]\"/></td>';
 
         cols += '<td><input type=\"button\" class=\"ibtnDel btn btn-md btn-danger\"  value=\"Borrar\"></td>';
+
         newRow.append(cols);
-        $('table.order-list').append(newRow);
+        $('table.order-list tbody').append(newRow);
         counter++
     });
 
-    $('table.order-list').on('click', '.ibtnDel', function (event) {
+    $('table.order-list tbody').on('click', '.ibtnDel', function (event) {
         $(this).closest('tr').remove();
         counter -= 1;
     });
@@ -100,40 +149,3 @@ $this->registerJs(
 );
 ?>
 
-
-
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'timeGrid', 'interaction' ],
-      defaultView: 'timeGridWeek',
-      forceEventDuration:true,
-      defaultTimedEventDuration:{years: 0, months: 0, days: 0, milliseconds:<?php echo ((!is_null($model->pelicula_id)) ? $model->pelicula->duracion : 60) * 60000 ?>},
-      events: <?php echo json_encode($hrs); ?>,
-      dateClick: function(info) {
-          // alert('Clicked on: ' + info.dateStr);
-          // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-          // alert('Current view: ' + info.view.type);
-          // change the day's background color just for fun
-          info.dayEl.style.backgroundColor = 'red';
-        },
-      select: function(info) {
-          // alert('Clicked on: ' + info.dateStr);
-          // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-          // alert('Current view: ' + info.view.type);
-          // change the day's background color just for fun
-          info.dayEl.style.backgroundColor = 'red';
-        }
-    });
-
-
-    calendar.render();
-
-});
-
-</script>
-
-<div id='calendar'></div>

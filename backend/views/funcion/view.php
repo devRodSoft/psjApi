@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="funcion-view">
 
-    <h1><?php echo Html::a(Html::encode($model->pelicula->nombre), ['pelicula/view', 'id' => $model->id]) ?></h1>
+    <h1><?php echo Html::a(Html::encode($model->pelicula->nombre), ['funcion/calendar', 'id' => $model->pelicula_id]) ?></h1>
 
     <p>
         <?php echo Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -30,17 +30,45 @@ $this->params['breadcrumbs'][] = $this->title;
     'model' => $model,
     'attributes' => [
         'id',
-        'cine.nombre',
-        'pelicula.nombre',
-        'precio:currency',
-        'precio_niños:currency',
-        'estreno_inicio',
-        'estreno_fin',
+        [
+            'label' => 'cine',
+            'value' => function ($m) {
+                return $m->cine->nombre;
+            }],
+        [
+            'label' => 'pelicula',
+            'value' => function ($m) {
+                return $m->pelicula->nombre;
+            }],
         'publicar:boolean',
-        'created_at',
-        'updated_at',
+        'fecha',
+        'hora',
     ],
 ]) ?>
+
+<h2>Precios</h2>
+<table id="myTable" class="table table-striped table-bordered detail-view">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Precio</th>
+                <th>Usando especial</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($model->horarioPrecios as $horarioPrecio): ?>
+            <tr>
+                <td><?php echo $horarioPrecio->precio->nombre ?></td>
+                <td><?php echo $horarioPrecio->precio->codigo ?></td>
+                <td><?php echo ($horarioPrecio->usar_especial) ? $horarioPrecio->precio->especial : $horarioPrecio->precio->default ?></td>
+                <td><?php echo ($horarioPrecio->usar_especial) ? 'si' : 'no' ?></td>
+            </tr>
+            <?php endforeach?>
+        </tbody>
+    </table>
 
 <!-- <table id="myTable" class=" table order-list">
         <thead>
@@ -52,24 +80,24 @@ $this->params['breadcrumbs'][] = $this->title;
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($model->horarios as $key => $horario): ?>
+            <?php // foreach ($model->horarios as $key => $horario): ?>
             <tr>
                 <td>
-                    <?php echo $horario->fecha ?>
+                    <?php // echo $horario->fecha ?>
                 </td>
                 <td>
-                    <?php echo Yii::$app->formatter->asTime($horario->hora, 'php:H:i'); ?>
+                    <?php // echo Yii::$app->formatter->asTime($horario->hora, 'php:H:i'); ?>
                 </td>
                 <td>
-                    <?php echo $horario->sala->nombre ?>
+                    <?php // echo $horario->sala->nombre ?>
                 </td>
             </tr>
-            <?php endforeach?>
+            <?php // endforeach?>
         </tbody>
     </table> -->
 
 </div>
-
+<!--
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -87,4 +115,4 @@ $this->params['breadcrumbs'][] = $this->title;
       });
 
 </script>
-<div id="calendar"></div>
+<div id="calendar"></div> -->

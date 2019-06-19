@@ -61,7 +61,7 @@ class HorarioFuncion extends \yii\db\ActiveRecord
             'pelicula_id' => 'Pelicula ID',
             'hora' => 'Hora',
             'fecha' => 'Fecha',
-            'publicar' => 'Publicar',
+            'publicar' => 'Publicado',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
