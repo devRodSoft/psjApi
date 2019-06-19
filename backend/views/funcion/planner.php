@@ -9,7 +9,8 @@ $this->title                   = 'Funciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
   <p>
-      <?php echo Html::a('listado', ['index'], ['class' => 'btn btn-primary']) ?>
+      <?php echo Html::a('Crear Función', ['create'], ['class' => 'btn btn-success']) ?>
+      <?php echo Html::a('Ver Listado', ['index'], ['class' => 'btn btn-primary']) ?>
   </p>
     <p>
       <?php echo Html::a('mostrar todas las funciones', ['planner', 'all' => true], ['class' => 'btn btn-primary pull-right']) ?>

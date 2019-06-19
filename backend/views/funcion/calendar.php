@@ -15,8 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <span>Ultima fecha: <strong><?php echo Html::encode($fechas['min']) ?></strong></span>
   </p>
   <p>
-      <?php echo Html::a('planner', ['funcion/planner'], ['class' => 'btn btn-primary']) ?>
-      <?php echo Html::a('Listado', ['index'], ['class' => 'btn btn-primary']) ?>
+      <?php echo Html::a('Crear Función', ['create'], ['class' => 'btn btn-success']) ?>
+      <?php echo Html::a('Ver Planner', ['funcion/planner'], ['class' => 'btn btn-primary']) ?>
+      <?php echo Html::a('ver Listado', ['index'], ['class' => 'btn btn-primary']) ?>
   </p>
   <hr>
   <div id='calendar'></div>
