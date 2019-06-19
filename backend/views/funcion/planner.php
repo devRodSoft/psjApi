@@ -3,10 +3,17 @@
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\FuncionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\helpers\Html;
 
 $this->title                   = 'Funciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+  <p>
+      <?php echo Html::a('listado', ['index'], ['class' => 'btn btn-primary']) ?>
+  </p>
+    <p>
+      <?php echo Html::a('mostrar todas las funciones', ['planner', 'all' => true], ['class' => 'btn btn-primary pull-right']) ?>
+    </p>
 <div class="funcion-index">
   <div id='calendar'></div>
 </div>

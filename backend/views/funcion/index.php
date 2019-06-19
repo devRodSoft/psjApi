@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php echo Html::a('Crear Funcion', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Planner', ['planner'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php echo GridView::widget([
@@ -28,7 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'cine.nombre',
         'pelicula.nombre',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{view} {calendar} {update} {delete}',
+            'buttons' => [
+                'calendar' => function ($url, $model, $index) {
+                    $urlc = ['funcion/calendar', 'id' => $model->pelicula_id];
+                    return Html::a('<span class="glyphicon glyphicon-calendar"></span>',
+                        $urlc, [
+                            'title' => 'calendar',
+                            'data-pjax' => '0',
+                        ]);
+                },
+            ],
+        ],
     ],
 ]); ?>
 </div>

@@ -65,7 +65,12 @@ class FuncionController extends Controller
      */
     public function actionPlanner()
     {
-        $data = HorarioFuncion::find()->all();
+        $all   = Yii::$app->request->getQueryParam('all', null);
+        $query = HorarioFuncion::find();
+        if (is_null($all)) {
+            $query->andWhere('fecha >= cast(NOW() AS DATE)');
+        }
+        $data = $query->all();
 
         return $this->render('planner', [
             'hrs' => $this->getHrs($data, true),

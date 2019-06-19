@@ -18,7 +18,7 @@ class HorarioFuncionSearch extends HorarioFuncion
     {
         return [
             [['id', 'sala_id', 'cine_id', 'pelicula_id', 'publicar'], 'integer'],
-            [['hora', 'fecha', 'created_at', 'updated_at'], 'safe'],
+            [['hora', 'fecha', 'created_at', 'updated_at', 'all'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class HorarioFuncionSearch extends HorarioFuncion
      */
     public function search($params)
     {
-        $query = HorarioFuncion::find()->andWhere('fecha >= cast(NOW() AS DATE)');
+        $query = HorarioFuncion::find();
 
         // add conditions that should always apply here
 
@@ -49,6 +49,9 @@ class HorarioFuncionSearch extends HorarioFuncion
         ]);
 
         $this->load($params);
+        if (!isset($this->all)) {
+            $query->andWhere('fecha >= cast(NOW() AS DATE)');
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
