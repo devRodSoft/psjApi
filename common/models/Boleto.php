@@ -200,9 +200,14 @@ class Boleto extends \yii\db\ActiveRecord
      */
     public function getTotal()
     {
-        return array_reduce($this->boletoPrecios, function ($t, $b) {
-            return $t += $b->precio;
-        }, 0);
+
+        $query = new Query;
+
+        $query->select('SUM(bp.precio)')
+            ->from(['bp' => BoletoPrecio::tableName()])
+            ->where(['bp.boleto_id' => $this->id])
+            ->groupBy('bp.boleto_id');
+        return $query->scalar();
     }
 
     /**
@@ -213,14 +218,13 @@ class Boleto extends \yii\db\ActiveRecord
         $query = new Query;
 
         $query->select('p.id, p.nombre, p.codigo, count(p.id) AS cantidad')
-            ->from(['b' => $this->tableName()])
-            ->innerJoin(['bp' => BoletoPrecio::tableName()], 'bp.boleto_id = b.id')
+            ->from(['bp' => BoletoPrecio::tableName()])
             ->innerJoin(['p' => Precio::tableName()], 'bp.precio_id = p.id')
-            ->where(['b.id' => $this->id])
+            ->where(['bp.boleto_id' => $this->id])
             ->groupBy('p.id, p.nombre, p.codigo');
         $precios = $query->all();
 
-        return array_values($precios);
+        return $precios;
     }
 
 /**
