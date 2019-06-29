@@ -11,8 +11,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="funcion-index">
   <h1><?php echo Html::encode($info->nombre) ?></h1>
   <p>
-    <span>Primera fecha: <strong><?php echo Html::encode($fechas['max']) ?></strong></span><br>
-    <span>Ultima fecha: <strong><?php echo Html::encode($fechas['min']) ?></strong></span>
+    <span>Primera fecha: <strong><?php echo Html::encode(\DateTime::createFromFormat('Y-m-d', $fechas['min'])->format('d-M-Y')) ?></strong></span><br>
+    <span>Ultima fecha: <strong><?php echo Html::encode(\DateTime::createFromFormat('Y-m-d', $fechas['max'])->format('d-M-Y')) ?></strong></span>
   </p>
   <p>
       <?php echo Html::a('Crear Función', ['create'], ['class' => 'btn btn-success']) ?>

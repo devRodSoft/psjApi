@@ -3,20 +3,20 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[Permiso]].
+ * This is the ActiveQuery class for [[BoletoPrecio]].
  *
- * @see Permiso
+ * @see BoletoPrecio
  */
-class PermisoQuery extends \yii\db\ActiveQuery
+class BoletoPrecioQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
-    return $this->andWhere('[[status]]=1');
+        return $this->andWhere('[[status]]=1');
     }*/
 
     /**
      * {@inheritdoc}
-     * @return Permiso[]|array
+     * @return BoletoPrecio[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class PermisoQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Permiso|array|null
+     * @return BoletoPrecio|array|null
      */
     public function one($db = null)
     {

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "boleto".
@@ -15,12 +16,16 @@ use Yii;
  * @property string $updated_at
  * @property int $id_pago
  * @property string $tipo_pago
+ * @property string $qr_phat ruta al qr de la operacion
+ * @property string $hash hash de la operacion
+ * @property int $user_id
  *
- * @property Pago $pago
  * @property FaceUser $faceUser
  * @property HorarioFuncion $horarioFuncion
+ * @property Pago $pago
+ * @property User $user
  * @property BoletoAsiento[] $boletoAsientos
- * @property Pago[] $pagos
+ * @property BoletoPrecio[] $boletoPrecios
  */
 class Boleto extends \yii\db\ActiveRecord
 {
@@ -39,12 +44,13 @@ class Boleto extends \yii\db\ActiveRecord
     {
         return [
             [['face_user_id', 'horario_funcion_id'], 'required'],
-            [['face_user_id', 'horario_funcion_id', 'reclamado', 'id_pago'], 'integer'],
+            [['face_user_id', 'horario_funcion_id', 'reclamado', 'id_pago', 'user_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['tipo_pago', 'qr_phat', 'hash'], 'string', 'max' => 255],
-            [['id_pago'], 'exist', 'skipOnError' => true, 'targetClass' => Pago::className(), 'targetAttribute' => ['id_pago' => 'id']],
             [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
             [['horario_funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => HorarioFuncion::className(), 'targetAttribute' => ['horario_funcion_id' => 'id']],
+            [['id_pago'], 'exist', 'skipOnError' => true, 'targetClass' => Pago::className(), 'targetAttribute' => ['id_pago' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -62,16 +68,10 @@ class Boleto extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'id_pago' => 'Id Pago',
             'tipo_pago' => 'Tipo Pago',
-            'qr_phat' => 'Ruta de imagen',
+            'qr_phat' => 'Qr Phat',
+            'hash' => 'Hash',
+            'user_id' => 'User ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPago()
-    {
-        return $this->hasOne(Pago::className(), ['id' => 'id_pago']);
     }
 
     /**
@@ -93,9 +93,17 @@ class Boleto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPelicula()
+    public function getPago()
     {
-        return $this->hasOne(Pelicula::className(), ['id' => 'pelicula_id'])->via('horarioFuncion');
+        return $this->hasOne(Pago::className(), ['id' => 'id_pago']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -104,6 +112,30 @@ class Boleto extends \yii\db\ActiveRecord
     public function getBoletoAsientos()
     {
         return $this->hasMany(BoletoAsiento::className(), ['boleto_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBoletoPrecios()
+    {
+        return $this->hasMany(BoletoPrecio::className(), ['boleto_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPrecios()
+    {
+        return $this->hasMany(Precio::className(), ['id' => 'precio_id'])->via('boletoPrecios');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPelicula()
+    {
+        return $this->hasOne(Pelicula::className(), ['id' => 'pelicula_id'])->via('horarioFuncion');
     }
 
     /**
@@ -164,9 +196,37 @@ class Boleto extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
-     * @return BoletoQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
+    public function getTotal()
+    {
+        return array_reduce($this->boletoPrecios, function ($t, $b) {
+            return $t += $b->precio;
+        }, 0);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPreciosCount()
+    {
+        $query = new Query;
+
+        $query->select('p.id, p.nombre, p.codigo, count(p.id) AS cantidad')
+            ->from(['b' => $this->tableName()])
+            ->innerJoin(['bp' => BoletoPrecio::tableName()], 'bp.boleto_id = b.id')
+            ->innerJoin(['p' => Precio::tableName()], 'bp.precio_id = p.id')
+            ->where(['b.id' => $this->id])
+            ->groupBy('p.id, p.nombre, p.codigo');
+        $precios = $query->all();
+
+        return array_values($precios);
+    }
+
+/**
+ * {@inheritdoc}
+ * @return BoletoQuery the active query used by this AR class.
+ */
     public static function find()
     {
         return new BoletoQuery(get_called_class());

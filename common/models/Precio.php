@@ -15,11 +15,19 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property BoletoPrecio[] $boletoPrecios
  * @property HorarioPrecio[] $horarioPrecios
  * @property HorarioFuncion[] $horarios
  */
 class Precio extends \yii\db\ActiveRecord
 {
+    public $_fields = [
+        'id',
+        'nombre',
+        'codigo',
+        'default',
+        'especial',
+    ];
     /**
      * {@inheritdoc}
      */
@@ -44,6 +52,14 @@ class Precio extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels()
     {
         return [
@@ -58,17 +74,11 @@ class Precio extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * @return \yii\db\ActiveQuery
      */
-    public function fields()
+    public function getBoletoPrecios()
     {
-        return [
-            'id',
-            'nombre',
-            'codigo',
-            'default',
-            'especial',
-        ];
+        return $this->hasMany(BoletoPrecio::className(), ['precio_id' => 'id']);
     }
 
     /**

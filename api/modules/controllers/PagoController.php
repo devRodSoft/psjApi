@@ -48,8 +48,10 @@ class PagoController extends BaseAuthController
     {
         $faceUserID       = Yii::$app->user->id;
         $salaAsientosID   = Yii::$app->request->getBodyParam('asientos', []);
+        $precios          = Yii::$app->request->getBodyParam('precios', []);
         $horarioFuncionID = empty($id) ? false : $id;
-        $payResponse      = Yii::$app->request->getBodyParam('paypalResponse', false);
+        $payResponse      = Yii::$app->request->getBodyParam('data', false);
+        $type             = Yii::$app->request->getBodyParam('type', false);
 
         if ($horarioFuncionID == false || empty($salaAsientosID) || $payResponse == false) {
             throw new \yii\web\HttpException(400, 'Hay un error con el ID de asiento, pago o funcion');

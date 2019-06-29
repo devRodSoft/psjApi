@@ -88,7 +88,7 @@ class FuncionController extends Controller
 
         $query = new Query;
 
-        $query->select('max(fecha) AS min, min(fecha) AS max')
+        $query->select('max(fecha) AS max, min(fecha) AS min')
             ->from(HorarioFuncion::tableName())
             ->where(['pelicula_id' => $id])
             ->limit(1);

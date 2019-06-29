@@ -37,6 +37,8 @@ class BoletoRest extends \common\models\Boleto
             'pelicula' => function ($m) {
                 return $m->pelicula->nombre;
             },
+            'total',
+            'preciosCount',
             'hash',
             'reclamado',
         ];
