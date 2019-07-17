@@ -220,7 +220,7 @@ CREATE TABLE `pago` (
   `boleto_id` int(11) NOT NULL,
   `face_user_id` int(11) NOT NULL,
   `create_time` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `id_pago_paypal` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `id_pago_externo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `intent` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `state` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,

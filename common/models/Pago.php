@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $face_user_id
  * @property string $create_time
- * @property string $id_pago_paypal
+ * @property string $id_pago_externo
  * @property string $intent
  * @property string $state
  * @property string $created_at
@@ -36,11 +36,11 @@ class Pago extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['face_user_id', 'create_time', 'id_pago_paypal', 'intent', 'state'], 'required'],
+            [['face_user_id', 'create_time', 'id_pago_externo', 'intent', 'state'], 'required'],
             [['face_user_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['create_time'], 'string', 'max' => 100],
-            [['id_pago_paypal'], 'string', 'max' => 255],
+            [['id_pago_externo'], 'string', 'max' => 255],
             [['intent', 'state'], 'string', 'max' => 50],
             [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
         ];
@@ -55,7 +55,7 @@ class Pago extends \yii\db\ActiveRecord
             'id' => 'ID',
             'face_user_id' => 'Face User ID',
             'create_time' => 'Create Time',
-            'id_pago_paypal' => 'Id Pago Paypal',
+            'id_pago_externo' => 'Id Pago Paypal',
             'intent' => 'Intent',
             'state' => 'State',
             'created_at' => 'Created At',

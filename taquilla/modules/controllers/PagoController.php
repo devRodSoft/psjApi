@@ -86,11 +86,11 @@ class PagoController extends BaseAuthController
         try {
             $pago = new Pago();
 
-            $pago->face_user_id   = $faceUserID;
-            $pago->create_time    = $payResponse['create_time'];
-            $pago->id_pago_paypal = $payResponse['id'];
-            $pago->intent         = $payResponse['intent'];
-            $pago->state          = $payResponse['state'];
+            $pago->face_user_id    = $faceUserID;
+            $pago->create_time     = $payResponse['create_time'];
+            $pago->id_pago_externo = $payResponse['id'];
+            $pago->intent          = $payResponse['intent'];
+            $pago->state           = $payResponse['state'];
 
             if (!$pago->save()) {
                 throw new \yii\web\HttpException(400, 'Hubo un error al procesar tu Pago');

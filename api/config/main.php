@@ -69,7 +69,7 @@ return [
                 'OPTIONS cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/options',
 
                 'GET horario/<id:\d+>/sala' => 'general/sala/ocupadosmtx',
-                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
+                'OPTIONS horario/<id:\d+>/sala' => 'general/sala/options',
 
                 'GET user/boletos/<id:\d+>' => 'general/user/boleto',
                 'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
@@ -80,8 +80,8 @@ return [
                 'POST ping' => 'general/funcion/ping',
                 'OPTIONS ping' => 'general/funcion/options',
 
-                'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
-                'OPTIONS horario/<hid:\d+>/sala' => 'general/pago/options',
+                'POST horario/<horarioid:\d+>/sala' => 'general/pago/pagar',
+                'OPTIONS horario/<horarioid:\d+>/sala' => 'general/pago/options',
 
                 'GET promociones' => 'general/promocion/index',
                 'OPTIONS promociones' => 'general/promocion/options',
