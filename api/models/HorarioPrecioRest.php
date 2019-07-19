@@ -23,6 +23,9 @@ class HorarioPrecioRest extends \common\models\HorarioPrecio
     public function fields()
     {
         return [
+            'id' => function ($m) {
+                return $m->precio->id;
+            },
             'nombre' => function ($m) {
                 return $m->precio->nombre;
             },
