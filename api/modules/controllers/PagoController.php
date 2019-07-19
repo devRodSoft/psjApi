@@ -101,9 +101,18 @@ class PagoController extends BaseAuthController
         if ($comprados > 0 || empty($salaAsientos) || count($salaAsientos) != $NSalaAsientos || $NSalaAsientos > Yii::$app->params['maxBoletos']) {
             throw new \yii\web\HttpException(409, 'Uno o mas asientos no están disponibles');
         }
-        if (empty($precioHorarios) || count($precioHorarios) !== count($precios)) {
+        if (empty($precioHorarios) || count($precioHorarios) !== count(array_unique($precios))) {
             throw new \yii\web\HttpException(422, 'Error algún precio no es valido');
         }
+
+        foreach ($precioHorarios as $precioHr) {
+            foreach ($precios as &$p) {
+                if (!($p instanceof HorarioPrecio) && $p == $precioHr->precio->id) {
+                    $p = $precioHr;
+                }
+            }
+        }
+        unset($p);
 
         $txn = Yii::$app->db->beginTransaction();
 
