@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 /* @var $model common\models\Sala */
 /* @var $form yii\widgets\ActiveForm */
+
+$colspan = 0;
 ?>
 
 <table class="table table-striped table-bordered" style="text-align:center">
