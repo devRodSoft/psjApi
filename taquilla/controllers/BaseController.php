@@ -1,5 +1,5 @@
 <?php
-namespace api\controllers;
+namespace taquilla\controllers;
 
 use yii\rest\ActiveController;
 
@@ -53,4 +53,3 @@ class BaseController extends ActiveController
         return $behaviors;
     }
 }
-

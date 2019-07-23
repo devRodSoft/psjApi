@@ -10,7 +10,7 @@ return [
     'id' => 'api-cine',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'api\controllers',
+    'controllerNamespace' => 'taquilla\controllers',
     'defaultRoute' => 'public/index',
     'components' => [
         'user' => [
@@ -44,50 +44,50 @@ return [
             'showScriptName' => false,
             'rules' => [
 
-                'GET sala' => 'general/sala/index',
-                'OPTIONS sala' => 'general/sala/options',
+                // 'GET sala' => 'general/sala/index',
+                // 'OPTIONS sala' => 'general/sala/options',
 
-                'GET user' => 'general/user/view',
-                'OPTIONS user' => 'general/user/options',
+                // 'GET user' => 'general/user/view',
+                // 'OPTIONS user' => 'general/user/options',
 
-                'GET user/boletos' => 'general/user/boletos',
-                'OPTIONS user/boletos' => 'general/user/options',
+                // 'GET user/boletos' => 'general/user/boletos',
+                // 'OPTIONS user/boletos' => 'general/user/options',
 
-                'GET sala/<id:\d+>' => 'general/sala/view',
-                'OPTIONS sala/<id:\d+>' => 'general/sala/options',
+                // 'GET sala/<id:\d+>' => 'general/sala/view',
+                // 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
 
-                'GET fechas' => 'general/funcion/fechas',
-                'OPTIONS fechas' => 'general/funcion/options',
+                // 'GET fechas' => 'general/funcion/fechas',
+                // 'OPTIONS fechas' => 'general/funcion/options',
 
-                'GET cartelera' => 'general/funcion/indexnow',
-                'OPTIONS cartelera' => 'general/funcion/options',
+                // 'GET cartelera' => 'general/funcion/indexnow',
+                // 'OPTIONS cartelera' => 'general/funcion/options',
 
-                'GET cartelera/estrenos' => 'general/funcion/estrenos',
-                'OPTIONS cartelera/estrenos' => 'general/funcion/options',
+                // 'GET cartelera/estrenos' => 'general/funcion/estrenos',
+                // 'OPTIONS cartelera/estrenos' => 'general/funcion/options',
 
-                'GET cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/index',
-                'OPTIONS cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/options',
+                // 'GET cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/index',
+                // 'OPTIONS cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/options',
 
-                'GET horario/<id:\d+>/sala' => 'general/sala/ocupadosmtx',
-                'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
+                // 'GET horario/<id:\d+>/sala' => 'general/sala/ocupadosmtx',
+                // 'OPTIONS horario/<hid:\d+>/sala' => 'general/sala/options',
 
-                'GET user/boletos/<id:\d+>' => 'general/user/boleto',
-                'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
+                // 'GET user/boletos/<id:\d+>' => 'general/user/boleto',
+                // 'OPTIONS user/boletos/<id:\d+>' => 'general/user/options',
 
-                'GET user/boletos/<id:\d+>/qr' => 'general/user/qr',
-                'OPTIONS user/boletos/<id:\d+>/qr' => 'general/user/options',
+                // 'GET user/boletos/<id:\d+>/qr' => 'general/user/qr',
+                // 'OPTIONS user/boletos/<id:\d+>/qr' => 'general/user/options',
 
-                'POST ping' => 'general/funcion/ping',
-                'OPTIONS ping' => 'general/funcion/options',
+                // 'POST ping' => 'general/funcion/ping',
+                // 'OPTIONS ping' => 'general/funcion/options',
 
-                'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
-                'OPTIONS horario/<hid:\d+>/sala' => 'general/pago/options',
+                // 'POST horario/<id:\d+>/sala' => 'general/pago/pagar',
+                // 'OPTIONS horario/<id:\d+>/sala' => 'general/pago/options',
 
-                'GET promociones' => 'general/promocion/index',
-                'OPTIONS promociones' => 'general/promocion/options',
+                // 'GET promociones' => 'general/promocion/index',
+                // 'OPTIONS promociones' => 'general/promocion/options',
 
-                'GET promociones/<id:\d+>' => 'general/promocion/view',
-                'OPTIONS promociones/<id:\d+>' => 'general/promocion/options',
+                'POST boletos/horario/<horarioid:\d+>/pagar' => 'general/boletos/pagar',
+                'OPTIONS boletos/horario/<horarioid:\d+>/pagar' => 'general/boletos/options',
 
                 'POST oauth/<action:\w+>' => 'authentication/<action>',
                 'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
@@ -100,14 +100,14 @@ return [
     ],
     'modules' => [
         'general' => [
-            'class' => 'api\modules\General',
+            'class' => 'taquilla\modules\General',
         ],
         'oauth2' => [
             'class' => 'filsh\yii2\oauth2server\Module',
             'tokenParamName' => 'accessToken',
             'tokenAccessLifetime' => 3600 * 24,
             'storageMap' => [
-                'user_credentials' => 'common\models\FaceUser',
+                'user_credentials' => 'common\models\User',
             ],
             'grantTypes' => [
                 'user_credentials' => [

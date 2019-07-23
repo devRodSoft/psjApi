@@ -41,7 +41,7 @@ class Pago extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['create_time'], 'string', 'max' => 100],
             [['id_pago_externo'], 'string', 'max' => 255],
-            [['intent', 'state'], 'string', 'max' => 50],
+            [['intent', 'state', 'tipo_pago'], 'string', 'max' => 50],
             [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
         ];
     }
@@ -55,9 +55,10 @@ class Pago extends \yii\db\ActiveRecord
             'id' => 'ID',
             'face_user_id' => 'Face User ID',
             'create_time' => 'Create Time',
-            'id_pago_externo' => 'Id Pago Paypal',
+            'id_pago_externo' => 'Id Pago',
             'intent' => 'Intent',
             'state' => 'State',
+            'tipo_pago' => 'Tipo',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules;
+namespace taquilla\modules;
 
 /**
  * General module definition class
@@ -10,7 +10,7 @@ class General extends \yii\base\Module
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'api\modules\controllers';
+    public $controllerNamespace = 'taquilla\modules\controllers';
 
     /**
      * {@inheritdoc}

@@ -1,5 +1,5 @@
 <?php
-namespace api\controllers;
+namespace taquilla\controllers;
 
 use filsh\yii2\oauth2server\filters\auth\CompositeAuth;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;

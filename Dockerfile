@@ -41,7 +41,13 @@ RUN echo "ServerName localhost" >> /etc/apache2/sites-available/000-default.conf
 	echo "	DocumentRoot /var/www/src/backend/web" >> /etc/apache2/sites-available/000-default.conf; \
 	echo "	ErrorLog ${APACHE_LOG_DIR}/error.log" >> /etc/apache2/sites-available/000-default.conf; \
 	echo "	CustomLog ${APACHE_LOG_DIR}/access.log combined" >> /etc/apache2/sites-available/000-default.conf; \
-	echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf;
+	echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf; \
+    echo "<VirtualHost *:80>" >> /etc/apache2/sites-available/000-default.conf; \
+    echo "  ServerName taquilla.localhost" >> /etc/apache2/sites-available/000-default.conf; \
+    echo "  DocumentRoot /var/www/src/taquilla/web" >> /etc/apache2/sites-available/000-default.conf; \
+    echo "  ErrorLog ${APACHE_LOG_DIR}/error.log" >> /etc/apache2/sites-available/000-default.conf; \
+    echo "  CustomLog ${APACHE_LOG_DIR}/access.log combined" >> /etc/apache2/sites-available/000-default.conf; \
+    echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf;
 
 WORKDIR /var/www
 RUN chown www-data:www-data -R /var/www

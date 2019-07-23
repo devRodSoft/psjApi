@@ -1,5 +1,5 @@
 <?php
-namespace api\controllers;
+namespace taquilla\controllers;
 
 use yii\web\Controller;
 
@@ -60,6 +60,6 @@ class PublicController extends Controller
 
     public function actionIndex()
     {
-        return "Bienvenido a Cine 1.0";
+        return "Bienvenido a Cine Taquilla 1.0";
     }
 }

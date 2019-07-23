@@ -1,11 +1,9 @@
 <?php
-namespace api\controllers;
+namespace taquilla\controllers;
 
 use common\models\User;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
 use filsh\yii2\oauth2server\models\OauthAccessTokens;
-use filsh\yii2\oauth2server\models\OauthClients;
-use Yii;
 use Yii;
 use yii\web\HttpException;
 
@@ -37,15 +35,21 @@ class AuthenticationController extends BaseController
     public function actionRevoke()
     {
         if (Yii::$app->user->logout()) {
-            $token = OauthAccessTokens::find()->where(['access_token' => $this->accessToken])->one();
-            if ($token) {
-                $token->expires = new \yii\db\Expression('NOW()');
-                $token->save();
+            $server  = Yii::$app->getModule('oauth2')->getServer();
+            $request = Yii::$app->getModule('oauth2')->getRequest();
+            $token   = $server->getAccessTokenData($request);
+
+            $tokenObj = OauthAccessTokens::find()->where(['access_token' => $token['access_token']])->one();
+
+            if ($token['expires'] > time() && $tokenObj != null) {
+                $tokenObj->expires = new \yii\db\Expression('NOW()');
+                $tokenObj->save();
             }
-            return ['success' => true];
+
+            return ['revoked' => true];
         } else {
             Yii::$app->getResponse()->setStatusCode(500);
-            return ['success' => false];
+            return ['revoked' => false];
         }
     }
 
@@ -67,35 +71,35 @@ class AuthenticationController extends BaseController
         return $response->getParameters();
     }
 
-    public function actionAuthorize()
-    {
-        $server   = Yii::$app->getModule('oauth2')->getServer();
-        $request  = Yii::$app->getModule('oauth2')->getRequest();
-        $response = new \OAuth2\Response();
+    // public function actionAuthorize()
+    // {
+    //     $server   = Yii::$app->getModule('oauth2')->getServer();
+    //     $request  = Yii::$app->getModule('oauth2')->getRequest();
+    //     $response = new \OAuth2\Response();
 
-        // validate the authorize request
-        if (!$server->validateAuthorizeRequest($request, $response)) {
-            $response->send();
-            Yii::$app->end();
-        }
+    //     // validate the authorize request
+    //     if (!$server->validateAuthorizeRequest($request, $response)) {
+    //         $response->send();
+    //         Yii::$app->end();
+    //     }
 
-        if (Yii::$app->request->isPost) {
-            // print the authorization code if the user has authorized your client
-            $is_authorized = (Yii::$app->request->post('authorized') === 'yes');
-            $server->handleAuthorizeRequest($request, $response, $is_authorized, Yii::$app->user->identity->id);
+    //     if (Yii::$app->request->isPost) {
+    //         // print the authorization code if the user has authorized your client
+    //         $is_authorized = (Yii::$app->request->post('authorized') === 'yes');
+    //         $server->handleAuthorizeRequest($request, $response, $is_authorized, Yii::$app->user->identity->id);
 
-            $response->send();
-            Yii::$app->end();
-        }
+    //         $response->send();
+    //         Yii::$app->end();
+    //     }
 
-        // Get client
-        $client = OauthClients::findOne(
-            [
-                'client_id' => Yii::$app->request->get('client_id'),
-            ]
-        );
-        return $this->render('authorize', ['client' => $client]);
-    }
+    //     // Get client
+    //     $client = OauthClients::findOne(
+    //         [
+    //             'client_id' => Yii::$app->request->get('client_id'),
+    //         ]
+    //     );
+    //     return $this->render('authorize', ['client' => $client]);
+    // }
     /**
      * @inheritdoc
      */

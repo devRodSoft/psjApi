@@ -60,6 +60,6 @@ class PublicController extends Controller
 
     public function actionIndex()
     {
-        return "Bienvenido a Cine 1.0";
+        return "Bienvenido a Cine.api 1.0";
     }
 }
