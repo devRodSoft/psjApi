@@ -3,6 +3,7 @@ namespace taquilla\modules\controllers;
 
 use common\models\Boleto;
 use common\models\BoletoAsiento;
+use common\models\BoletoPrecio;
 use common\models\HorarioFuncion;
 use common\models\HorarioPrecio;
 use common\models\Pago;
