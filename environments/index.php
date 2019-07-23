@@ -36,6 +36,7 @@ return [
             'backend/web/assets',
             'console/runtime',
             'api/runtime',
+            'taquilla/runtime',
         ],
         'setExecutable' => [
             'yii',
@@ -43,6 +44,7 @@ return [
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
             'common/config/codeception-local.php',
+            'taquilla/config/main-local.php',
             'api/config/main-local.php',
         ],
     ],
@@ -52,6 +54,7 @@ return [
             'backend/runtime',
             'backend/web/assets',
             'console/runtime',
+            'taquilla/runtime',
             'api/runtime',
         ],
         'setExecutable' => [
@@ -59,6 +62,7 @@ return [
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
+            'taquilla/config/main-local.php',
             'api/config/main-local.php',
         ],
     ],
