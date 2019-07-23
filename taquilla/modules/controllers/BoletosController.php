@@ -31,11 +31,12 @@ class BoletosController extends BaseAuthController
         $userID         = Yii::$app->user->id;
         $salaAsientosID = Yii::$app->request->getBodyParam('asientos', []);
         // $precios        = Yii::$app->request->getBodyParam('precios', []);
-        $type = Yii::$app->request->getBodyParam('type', false);
+        $precios = [1];
+        $type    = Yii::$app->request->getBodyParam('type', false);
 
         if (
-            // !is_array($precios) ||
-            // empty($precios) ||
+            !is_array($precios) ||
+            empty($precios) ||
             empty($salaAsientosID)
         ) {
             throw new \yii\web\HttpException(400, 'Hay un error con los datos de la llamada');
@@ -66,11 +67,11 @@ class BoletosController extends BaseAuthController
             ->all();
 
         // revisar que esos asientos pertenezcan a la sala
-        /*$precioHorarios = HorarioPrecio::find()
-        ->alias('hp')
-        ->where(['in', 'hp.precio_id', $precios])
-        ->andWhere(['hp.horario_id' => $horarioid])
-        ->all();*/
+        $precioHorarios = HorarioPrecio::find()
+            ->alias('hp')
+            ->where(['in', 'hp.precio_id', $precios])
+            ->andWhere(['hp.horario_id' => $horarioid])
+            ->all();
 
         $NSalaAsientos = count($salaAsientosID);
         if ($comprados > 0 || empty($salaAsientos) || count($salaAsientos) != $NSalaAsientos || $NSalaAsientos > Yii::$app->params['maxBoletos']) {
@@ -80,14 +81,14 @@ class BoletosController extends BaseAuthController
             throw new \yii\web\HttpException(422, 'Error algún precio no es valido');
         }
 
-        /*foreach ($precioHorarios as $precioHr) {
-        foreach ($precios as &$p) {
-        if (!($p instanceof HorarioPrecio) && $p == $precioHr->precio->id) {
-        $p = $precioHr;
+        foreach ($precioHorarios as $precioHr) {
+            foreach ($precios as &$p) {
+                if (!($p instanceof HorarioPrecio) && $p == $precioHr->precio->id) {
+                    $p = $precioHr;
+                }
+            }
         }
-        }
-        }
-        unset($p);*/
+        unset($p);
 
         $txn = Yii::$app->db->beginTransaction();
 
@@ -114,15 +115,15 @@ class BoletosController extends BaseAuthController
                 }
             }
 
-            /*foreach ($precioHorarios as $precioHr) {
-            $boletoPrecio            = new BoletoPrecio();
-            $boletoPrecio->precio_id = $precioHr->precio->id;
-            $boletoPrecio->boleto_id = $boleto->id;
-            $boletoPrecio->precio    = ($precioHr->usar_especial == 1) ? $precioHr->precio->especial : $precioHr->precio->default;
-            if (!$boletoPrecio->save()) {
-            throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
+            foreach ($precioHorarios as $precioHr) {
+                $boletoPrecio            = new BoletoPrecio();
+                $boletoPrecio->precio_id = $precioHr->precio->id;
+                $boletoPrecio->boleto_id = $boleto->id;
+                $boletoPrecio->precio    = ($precioHr->usar_especial == 1) ? $precioHr->precio->especial : $precioHr->precio->default;
+                if (!$boletoPrecio->save()) {
+                    throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
+                }
             }
-            }*/
 
             $boleto->setQR();
             if (!$boleto->save()) {
