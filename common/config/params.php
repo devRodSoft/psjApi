@@ -6,8 +6,9 @@ return [
     'faceAppToken' => '',
     'maxBoletos' => 10,
     'paypal' => [
-        'client_id' => 'AfECvkCw9cfGdr1zU4TjattU7LaLqg6eGffOsoapTfwvUPHLEm7zWND7H9hekWzASSeP3ve7hMdzk_gY',
-        'secret' => 'EAJDiiDrOdfr017letn2YvdP0ye-8emJQHT8kylqpvxa0Vz3T3zREBliLB5LH-j4zlLsjQsvDPkv7c1R',
+        'client_id' => 'AcMiNQaFGDgj3ecSX2Ek0JcxmZNSwO2Lq3ZLFeKtCUiPu8E-rHWthRkDNe6z4QCSKHO0Wb3rPTew-4y8',
+        'secret' => 'EPhiL5aHRJDxcjgqbbRZO3hNz-lXG2D5Kud1gqcE1VxrySGa6YK4GrNgIsxow78NxAubLI-8V0s_18SV',
+        'url' => 'https://api.sandbox.paypal.com/v2/',
     ],
     'openpay' => [
         'merchant-id' => 'mi0icmae89efvmyw0cpf',

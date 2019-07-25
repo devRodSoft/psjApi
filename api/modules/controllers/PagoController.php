@@ -9,6 +9,9 @@ use common\models\HorarioFuncion;
 use common\models\HorarioPrecio;
 use common\models\Pago;
 use common\models\SalaAsientos;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use Yii;
 
 class PagoController extends BaseAuthController
@@ -199,7 +202,10 @@ class PagoController extends BaseAuthController
                     break;
             }
 
-            $boleto->pago_id;
+            $boleto->id_pago = $pago->id;
+            if (!$boleto->save()) {
+                throw new \yii\web\HttpException(400, 'Hubo un error al procesar tu boleto');
+            }
 
             $txn->commit();
 
@@ -215,19 +221,42 @@ class PagoController extends BaseAuthController
 
     private function checkPaypalPayment($paypalID)
     {
-        $curl = curl_init("https://api.sandbox.paypal.com/v2/checkout/orders/" . $paypalID);
-        curl_setopt($curl, CURLOPT_POST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . Yii::$app->params['paypal']['client_id'] . ':' . Yii::$app->params['paypal']['secret'],
-            'Accept: application/json',
-            'Content-Type: application/json',
-        ));
-        $response = curl_exec($curl);
-        $result   = json_decode($response);
-        var_dump($curl, $result);die();
+        // $curl = curl_init("https://api.sandbox.paypal.com/v2/checkout/orders/" . $paypalID);
+        // $curl = curl_init(Yii::$app->params['paypal']['url'] . "/checkout/orders/" . $paypalID);
+        // curl_setopt($curl, CURLOPT_POST, false);
+        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($curl, CURLOPT_HEADER, false);
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        //     'Authorization: Bearer ' . Yii::$app->params['paypal']['client_id'] . ':' . Yii::$app->params['paypal']['secret'],
+        //     'Accept: application/json',
+        //     'Content-Type: application/json',
+        // ));
+        // $response = curl_exec($curl);
+        // $result   = json_decode($response);
+
+        // Creating an environment
+        $clientId     = Yii::$app->params['paypal']['client_id'];
+        $clientSecret = Yii::$app->params['paypal']['secret'];
+
+        $environment = new SandBoxEnvironment($clientId, $clientSecret);
+        $client      = new PayPalHttpClient($environment);
+
+        // Here, OrdersCaptureRequest() creates a POST request to /v2/checkout/orders
+        // $response->result->id gives the orderId of the order created above
+        $request = new OrdersCaptureRequest($paypalID);
+        $request->prefer('return=representation');
+        try {
+            // var_dump();
+            // $response = $client->execute($request);
+
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            // var_dump($response);
+        } catch (Exception $ex) {
+            // var_dump($ex);
+        }
+
+        // die();
         return true;
     }
 
