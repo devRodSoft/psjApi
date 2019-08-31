@@ -64,11 +64,12 @@ class AuthenticationController extends BaseController
             throw new HttpException(401, "Invalid email and password combination");
         }
 
-        $server   = Yii::$app->getModule('oauth2')->getServer();
-        $request  = Yii::$app->getModule('oauth2')->getRequest();
-        $response = $server->handleTokenRequest($request);
-
-        return $response->getParameters();
+        $server       = Yii::$app->getModule('oauth2')->getServer();
+        $request      = Yii::$app->getModule('oauth2')->getRequest();
+        $response     = $server->handleTokenRequest($request);
+        $token        = $response->getParameters();
+        $token["sub"] = $user->id;
+        return $token;
     }
 
     // public function actionAuthorize()
