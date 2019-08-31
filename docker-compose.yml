@@ -31,10 +31,10 @@ services:
               MYSQL_USER: api
               MYSQL_PASSWORD: secret
 
-    adminer:
-        image: adminer
-        links:
-          - db
-        restart: always
-        ports:
-          - 8090:8080
+    # adminer:
+    #     image: adminer
+    #     links:
+    #       - db
+    #     restart: always
+    #     ports:
+    #       - 8090:8080

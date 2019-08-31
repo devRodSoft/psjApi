@@ -1,7 +1,10 @@
 <?php
 namespace common\models;
 
+use common\models\Role as Role;
+use common\models\UserQuery as UserQuery;
 use Yii;
+//use yii\rbac\Role as Role;
 use yii\db\ActiveRecord;
 
 /**
@@ -69,6 +72,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface, \OAuth2\S
             "username",
             "email",
             "status",
+            "permisos" => function ($m) {
+                return $m->role->permisos;
+            },
         ];
     }
 

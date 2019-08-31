@@ -14,7 +14,7 @@ return [
     'defaultRoute' => 'public/index',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\FaceUser',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             // 'identityCookie' => ['name' => '_identity-front', 'httpOnly' => true],
         ],
@@ -47,8 +47,8 @@ return [
                 // 'GET sala' => 'general/sala/index',
                 // 'OPTIONS sala' => 'general/sala/options',
 
-                // 'GET user' => 'general/user/view',
-                // 'OPTIONS user' => 'general/user/options',
+                'GET identity' => 'general/user/current',
+                'OPTIONS identity' => 'general/user/options',
 
                 // 'GET user/boletos' => 'general/user/boletos',
                 // 'OPTIONS user/boletos' => 'general/user/options',
@@ -63,7 +63,7 @@ return [
                 // 'OPTIONS cartelera' => 'general/funcion/options',
 
                 // 'GET cartelera/estrenos' => 'general/funcion/estrenos',
-                // 'OPTIONS cartelera/estrenos' => 'general/funcion/options',
+                // 'OPTIONS cartelera/estrenos => 'general/funcion/options',
 
                 // 'GET cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/index',
                 // 'OPTIONS cartelera/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/funcion/options',
