@@ -20,11 +20,28 @@ class BoletosController extends BaseAuthController
     public function actions()
     {
         return [
-            'index',
+            'search',
+            'pagar',
             'options' => [
                 'class' => 'yii\rest\OptionsAction',
             ],
         ];
+    }
+    public function actionSearch($email, $fecha)
+    {
+        $date = \DateTime::createFromFormat('Y-m-d', $fecha);
+        if ((new \DateTime()) > $date) {
+            throw new \yii\web\HttpException(400, 'Esta fecha es anterior al dia de hoy');
+        }
+
+        $data = \api\models\BoletoRest::find()
+            ->innerJoin(['fu' => 'face_user', 'fu.id = boleto.face_user_id'])
+            ->innerJoin(['hf' => 'horario_funcion', 'hf.id = boleto.horario_funcion_id'])
+            ->where(['hf.fecha' => $date->format('Y-m-d'), 'fu.email' => $email])
+            ->groupBy([])
+            ->all();
+
+        return $data;
     }
 
     public function actionPagar($horarioid)

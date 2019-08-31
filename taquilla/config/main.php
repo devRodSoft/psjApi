@@ -50,8 +50,8 @@ return [
                 'GET identity' => 'general/user/current',
                 'OPTIONS identity' => 'general/user/options',
 
-                // 'GET user/boletos' => 'general/user/boletos',
-                // 'OPTIONS user/boletos' => 'general/user/options',
+                'GET boletos/<email:[^@]+@[^\.]+\..+>/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/boletos/search',
+                'OPTIONS boletos/<email:[^@]+@[^\.]+\..+>/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/boletos/options',
 
                 // 'GET sala/<id:\d+>' => 'general/sala/view',
                 // 'OPTIONS sala/<id:\d+>' => 'general/sala/options',
