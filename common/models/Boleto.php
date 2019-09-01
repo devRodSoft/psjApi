@@ -2,6 +2,12 @@
 
 namespace common\models;
 
+use common\models\BoletoQuery;
+use common\models\FaceUser;
+use common\models\HorarioFuncion;
+use common\models\Pelicula;
+use common\models\SalaAsientos;
+use common\models\User;
 use Yii;
 use yii\db\Query;
 
@@ -164,8 +170,10 @@ class Boleto extends \yii\db\ActiveRecord
         }
 
         $this->hash = strtoupper(
-            substr(Yii::$app->user->identity->first_name, 0, 1) .
-            substr(Yii::$app->user->identity->last_name, 0, 1) .
+            substr($this->faceUser->username, 0, 1) .
+            '-' .
+            substr($this->faceUser->first_name, 0, 1) .
+            substr($this->faceUser->last_name, 0, 1) .
             $this->id);
     }
 

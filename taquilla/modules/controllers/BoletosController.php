@@ -30,15 +30,23 @@ class BoletosController extends BaseAuthController
     public function actionSearch($email, $fecha)
     {
         $date = \DateTime::createFromFormat('Y-m-d', $fecha);
-        if ((new \DateTime()) > $date) {
+        $date->setTime(0, 0);
+
+        $today = new \DateTime();
+        $today->setTime(0, 0);
+
+        if ($date < $today) {
             throw new \yii\web\HttpException(400, 'Esta fecha es anterior al dia de hoy');
         }
 
         $data = \api\models\BoletoRest::find()
-            ->innerJoin(['fu' => 'face_user', 'fu.id = boleto.face_user_id'])
-            ->innerJoin(['hf' => 'horario_funcion', 'hf.id = boleto.horario_funcion_id'])
-            ->where(['hf.fecha' => $date->format('Y-m-d'), 'fu.email' => $email])
-            ->groupBy([])
+            ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
+            ->where([
+                'fu.email' => $email,
+                'boleto.reclamado' => 0,
+            ])
+            ->andWhere('DATE(hf.fecha) = DATE("' . $date->format('Y-m-d') . '")')
             ->all();
 
         return $data;
@@ -61,7 +69,7 @@ class BoletosController extends BaseAuthController
             throw new \yii\web\HttpException(400, 'Hay un error con los datos de la llamada');
         }
 
-        if ($type == false || !in_array($type, $this->paymentTypes)) {
+        if ($type == false || !in_array($type, $this->paymentTypes, true)) {
             throw new \yii\web\HttpException(400, 'Tipo de pago no soportado');
         }
 
