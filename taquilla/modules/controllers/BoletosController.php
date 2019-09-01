@@ -4,6 +4,7 @@ namespace taquilla\modules\controllers;
 use common\models\Boleto;
 use common\models\BoletoAsiento;
 use common\models\BoletoPrecio;
+use common\models\FaceUser;
 use common\models\HorarioFuncion;
 use common\models\HorarioPrecio;
 use common\models\Pago;
@@ -45,6 +46,7 @@ class BoletosController extends BaseAuthController
             ->where([
                 'fu.email' => $email,
                 'boleto.reclamado' => 0,
+                'fu.status' => FaceUser::STATUS_ACTIVE,
             ])
             ->andWhere('DATE(hf.fecha) = DATE("' . $date->format('Y-m-d') . '")')
             ->all();
