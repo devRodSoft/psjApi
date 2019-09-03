@@ -54,6 +54,31 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
+    public function actionReImpresion($id)
+    {
+        $data = \api\models\BoletoRest::find()
+            ->where([
+                'hash' => $id,
+                'fu.status' => FaceUser::STATUS_ACTIVE,
+            ])
+            ->one();
+
+        if ($data == null) {
+            throw new \yii\web\HttpException(404, 'Este boleto no existe');
+            return false;
+        } else if ($data->reimpreso == 1) {
+            throw new \yii\web\HttpException(404, 'Este boleto no se puede reimprimir');
+        }
+
+        $data->reimpreso = 1;
+
+        if (!$data->save()) {
+            throw new \yii\web\HttpException(404, 'Error al calcular reimpresion');
+        }
+
+        return $data;
+    }
+
     public function actionPagar($horarioid)
     {
         $faceUserID     = 8;

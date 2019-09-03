@@ -50,7 +50,7 @@ class Boleto extends \yii\db\ActiveRecord
     {
         return [
             [['face_user_id', 'horario_funcion_id'], 'required'],
-            [['face_user_id', 'horario_funcion_id', 'reclamado', 'id_pago', 'user_id'], 'integer'],
+            [['face_user_id', 'horario_funcion_id', 'reclamado', 'id_pago', 'user_id', 'reimpreso'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['tipo_pago', 'qr_phat', 'hash'], 'string', 'max' => 255],
             [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
@@ -76,6 +76,7 @@ class Boleto extends \yii\db\ActiveRecord
             'tipo_pago' => 'Tipo Pago',
             'qr_phat' => 'Qr Phat',
             'hash' => 'Hash',
+            'reimpreso' => 'Reimpreso',
             'user_id' => 'User ID',
         ];
     }
