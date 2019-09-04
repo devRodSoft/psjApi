@@ -1,16 +1,17 @@
 <?php
 namespace taquilla\modules\controllers;
 
-use common\models\Boleto;
-use common\models\BoletoAsiento;
-use common\models\BoletoPrecio;
-use common\models\FaceUser;
-use common\models\HorarioFuncion;
-use common\models\HorarioPrecio;
-use common\models\Pago;
-use common\models\SalaAsientos;
-use taquilla\controllers\BaseAuthController;
 use Yii;
+use common\models\Pago;
+use common\models\Boleto;
+use common\models\Permiso;
+use common\models\FaceUser;
+use common\models\BoletoPrecio;
+use common\models\SalaAsientos;
+use common\models\BoletoAsiento;
+use common\models\HorarioPrecio;
+use common\models\HorarioFuncion;
+use taquilla\controllers\BaseAuthController;
 
 class BoletosController extends BaseAuthController
 {
