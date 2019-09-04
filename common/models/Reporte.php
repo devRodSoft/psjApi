@@ -35,7 +35,7 @@ class Reporte extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'boleto';
+        return 'vw_boletos';
     }
 
     /**
