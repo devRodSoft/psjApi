@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\PeliculaSearch;
 use common\models\Clasificacion;
 use common\models\Distribuidora;
+use common\models\Genero;
 use common\models\Pelicula;
 use Yii;
 use yii\filters\AccessControl;
@@ -85,10 +86,12 @@ class PeliculaController extends Controller
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
         $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
+        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'id', 'nombre');
         return $this->render('create', [
             'model' => $model,
             'clasificaciones' => $clasificaciones,
             'distribuidoras' => $distribuidoras,
+            'generos' => $generos,
         ]);
     }
 
@@ -109,10 +112,12 @@ class PeliculaController extends Controller
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
         $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
+        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'id', 'nombre');
         return $this->render('update', [
             'model' => $model,
             'clasificaciones' => $clasificaciones,
             'distribuidoras' => $distribuidoras,
+            'generos' => $generos,
         ]);
     }
 

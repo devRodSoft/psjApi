@@ -32,7 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'id',
         'nombre',
         'distribuidora.nombre',
-        'genero:ntext',
+        [
+            'label' => 'Genero',
+            'value' => function ($model) {
+                return join(', ', array_column($model->genero, 'nombre'));
+            },
+        ],
         'clasificacion:ntext',
         'idioma:ntext',
         'duracion:ntext',

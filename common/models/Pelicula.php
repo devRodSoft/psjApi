@@ -30,6 +30,7 @@ use Yii;
  */
 class Pelicula extends \yii\db\ActiveRecord
 {
+    public $_genero;
     /**
      * {@inheritdoc}
      */
@@ -44,11 +45,11 @@ class Pelicula extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'distribuidora_id', 'genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl'], 'required'],
+            [['nombre', 'distribuidora_id', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl'], 'required'],
             [['distribuidora_id'], 'integer'],
-            [['genero', 'clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
+            [['clasificacion', 'idioma', 'duracion', 'sinopsis', 'cartelUrl', 'trailerUrl', 'trailerImg'], 'string'],
             [['calificacion'], 'number'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'genero'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
             [['distribuidora_id'], 'exist', 'skipOnError' => true, 'targetClass' => Distribuidora::className(), 'targetAttribute' => ['distribuidora_id' => 'id']],
         ];
@@ -83,6 +84,32 @@ class Pelicula extends \yii\db\ActiveRecord
     public function getEstrenos()
     {
         return $this->hasMany(Estreno::className(), ['pelicula_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGenero()
+    {
+        return $this->hasMany(Genero::className(), ['id' => 'genero_id'])->via('peliculaGeneros');;
+    }
+    public function setGenero($value)
+    {
+        $this->_genero = $value;
+        PeliculaGenero::deleteAll(['pelicula_id' => $this->id]);
+        $rel = new PeliculaGenero();
+        $rel->pelicula_id = $this->id;
+        $rel->genero_id = $value;
+        $rel->save();
+
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPeliculaGeneros()
+    {
+        return $this->hasMany(PeliculaGenero::className(), ['pelicula_id' => 'id']);
     }
 
     /**
@@ -124,5 +151,18 @@ class Pelicula extends \yii\db\ActiveRecord
     public static function find()
     {
         return new PeliculaQuery(get_called_class());
+    }
+
+
+    public function afterSave($insert, $changedAttr)
+    {
+        if ($insert) {
+            PeliculaGenero::deleteAll(['pelicula_id' => $this->id]);
+            $rel = new PeliculaGenero();
+            $rel->pelicula_id = $this->id;
+            $rel->genero_id = $this->_genero;
+            $rel->save();
+        }
+        return Parent::afterSave($insert, $changedAttr);
     }
 }

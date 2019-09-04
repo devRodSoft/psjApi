@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'genero')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'genero')->dropDownList($generos, ['prompt' => 'Genero']) ?>
 
     <?php echo $form->field($model, 'distribuidora_id')->dropDownList($distribuidoras, ['prompt' => 'Distribuidora']) ?>
 

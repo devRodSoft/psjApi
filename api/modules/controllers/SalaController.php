@@ -50,6 +50,10 @@ class SalaController extends BaseController
 
         $hr = HorarioFuncion::findOne($id);
 
+        if ($hr == null) {
+            throw new \yii\web\HttpException(404, 'Horario no encontrado');
+        }
+
         return ['id' => $hr->sala->id, 'nombre' => $hr->sala->nombre, 'cine_id' => $hr->sala->cine_id, 'distribucion' => $hr->sala->getAsientosAsMtx($id)];
 
     }

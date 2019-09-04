@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Actualizar';
     'model' => $model,
     'clasificaciones' => $clasificaciones,
     'distribuidoras' => $distribuidoras,
+    'generos' => $generos,
 ]) ?>
 
 </div>
