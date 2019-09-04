@@ -46,6 +46,7 @@ class BoletosController extends BaseAuthController
             ->where([
                 'fu.email' => $email,
                 'boleto.reclamado' => 0,
+                'boleto.reimpreso' => 0,
                 'fu.status' => FaceUser::STATUS_ACTIVE,
             ])
             ->andWhere('DATE(hf.fecha) = DATE("' . $date->format('Y-m-d') . '")')
