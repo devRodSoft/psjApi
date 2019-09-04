@@ -247,7 +247,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface, \OAuth2\S
 
     public function hasPermission($permission)
     {
-        return in_array($permission, array_column($this->role->permisos,'nombre'));
+        return in_array($permission, array_column($this->role->permisos, 'key'));
     }
 
     /**
