@@ -13,8 +13,6 @@ class Reporte extends \yii\db\ActiveRecord
 {
     public $conteo = 0;
     public $total = 0;
-    public $fechaInicio = null;
-    public $fechaFin = null;
     /**
      * {@inheritdoc}
      */

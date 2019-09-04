@@ -11,6 +11,8 @@ use common\models\Reporte;
 */
 class ReporteSearch extends Reporte
 {
+    public $fechaInicio = null;
+    public $fechaFin = null;
     /**
     * {@inheritdoc}
     */
@@ -66,6 +68,8 @@ class ReporteSearch extends Reporte
                 'idioma',
                 'duracion',
                 'nombre_distribuidor',
+                'fechaInicio',
+                'fechaFin',
             ], 'safe'],
         ];
     }
@@ -159,6 +163,9 @@ class ReporteSearch extends Reporte
             'distribuidora_id' => $this->distribuidora_id,
         ]);
 
+        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
+        ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+
         $query->andFilterWhere(['like', 'username', $this->username])
         ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
         ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
@@ -230,6 +237,8 @@ class ReporteSearch extends Reporte
             'duracion' => $this->duracion,
             'distribuidora_id' => $this->distribuidora_id,
         ]);
+        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
+        ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
         ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
@@ -302,6 +311,8 @@ class ReporteSearch extends Reporte
             'duracion' => $this->duracion,
             'distribuidora_id' => $this->distribuidora_id,
         ]);
+        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
+        ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
         ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
@@ -373,6 +384,8 @@ class ReporteSearch extends Reporte
             'duracion' => $this->duracion,
             'distribuidora_id' => $this->distribuidora_id,
         ]);
+        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
+        ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
         ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])

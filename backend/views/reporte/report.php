@@ -1,7 +1,9 @@
 <?php
 
+use dosamigos\datepicker\DatePicker;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\PromocionSearch */
@@ -26,6 +28,47 @@ window.frames['printf'].focus();
 window.frames['printf'].print();
 window.frames['printf'].document.close();"]) ?>
     </p>
+
+    <div class="funcion-search">
+
+        <?php $form = ActiveForm::begin([
+            'action' => [strtolower($title)],
+            'method' => 'get',
+        ]); ?>
+
+        <p>
+            Inicio:
+            <?= $form->field($widgetData['filterModel'], 'fechaInicio')->widget(
+            DatePicker::className(),
+            [
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                    ]
+                    ]
+                ); ?>
+            Fin:
+            <?= $form->field($widgetData['filterModel'], 'fechaFin')->widget(
+                DatePicker::className(),
+                [
+                    'clientOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                    ]
+                ]
+            ); ?>
+
+        </p>
+
+
+        <div class="form-group">
+            <?php echo Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+            <?php echo Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
+    </div>
 
     <?php echo GridView::widget($widgetData); ?>
 </div>
