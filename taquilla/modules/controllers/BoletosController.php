@@ -58,8 +58,10 @@ class BoletosController extends BaseAuthController
     {
         $data = \api\models\BoletoRest::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
+            ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
             ->where([
                 'hash' => $id,
+                'boleto.reclamado' => 0,
                 'fu.status' => FaceUser::STATUS_ACTIVE,
             ])
             ->andWhere('DATE(hf.fecha) >= DATE(NOW())')
