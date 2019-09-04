@@ -66,7 +66,7 @@ class AuthenticationController extends BaseController
             throw new HttpException(401, "Invalid email and password combination");
         }
 
-        if ($user->hasPermission(Permiso::ACCESS_TAQUILLA)) {
+        if (!$user->hasPermission(Permiso::ACCESS_TAQUILLA)) {
             throw new HttpException(403, "No tienes los permisos necesarios");
         }
 
@@ -74,7 +74,6 @@ class AuthenticationController extends BaseController
         $request      = Yii::$app->getModule('oauth2')->getRequest();
         $response     = $server->handleTokenRequest($request);
         $token        = $response->getParameters();
-        $token["sub"] = $user->id;
         return $token;
     }
 
