@@ -31,13 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'attributes' => [
         'id',
         'nombre',
-        'distribuidora.nombre',
-        [
-            'label' => 'Genero',
-            'value' => function ($model) {
-                return join(', ', array_column($model->genero, 'nombre'));
-            },
-        ],
+        'genero',
         'clasificacion:ntext',
         'idioma:ntext',
         'duracion:ntext',

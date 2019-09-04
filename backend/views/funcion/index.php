@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{view} {calendar} {update} {delete}',
+            'template' => '{view} {calendar} {update}',
             'buttons' => [
                 'calendar' => function ($url, $model, $index) {
                     $urlc = ['funcion/calendar', 'id' => $model->pelicula_id];

@@ -2,22 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\PeliculaSearch;
-use common\models\Clasificacion;
-use common\models\Distribuidora;
-use common\models\Genero;
-use common\models\Pelicula;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
+use common\models\Genero;
+use backend\models\GeneroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * PeliculaController implements the CRUD actions for Pelicula model.
+ * GeneroController implements the CRUD actions for Genero model.
  */
-class PeliculaController extends Controller
+class GeneroController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -25,15 +20,6 @@ class PeliculaController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -44,12 +30,12 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Lists all Pelicula models.
+     * Lists all Genero models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel  = new PeliculaSearch();
+        $searchModel = new GeneroSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -59,7 +45,7 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Displays a single Pelicula model.
+     * Displays a single Genero model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -72,31 +58,25 @@ class PeliculaController extends Controller
     }
 
     /**
-     * Creates a new Pelicula model.
+     * Creates a new Genero model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Pelicula();
+        $model = new Genero();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
-        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
-        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'id', 'nombre');
         return $this->render('create', [
             'model' => $model,
-            'clasificaciones' => $clasificaciones,
-            'distribuidoras' => $distribuidoras,
-            'generos' => $generos,
         ]);
     }
 
     /**
-     * Updates an existing Pelicula model.
+     * Updates an existing Genero model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -110,41 +90,35 @@ class PeliculaController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
-        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
-        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'nombre', 'nombre');
         return $this->render('update', [
             'model' => $model,
-            'clasificaciones' => $clasificaciones,
-            'distribuidoras' => $distribuidoras,
-            'generos' => $generos,
         ]);
     }
 
     /**
-     * Deletes an existing Pelicula model.
+     * Deletes an existing Genero model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    // public function actionDelete($id)
-    // {
-    //     $this->findModel($id)->delete();
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
 
-    //     return $this->redirect(['index']);
-    // }
+        return $this->redirect(['index']);
+    }
 
     /**
-     * Finds the Pelicula model based on its primary key value.
+     * Finds the Genero model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Pelicula the loaded model
+     * @return Genero the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Pelicula::findOne($id)) !== null) {
+        if (($model = Genero::findOne($id)) !== null) {
             return $model;
         }
 

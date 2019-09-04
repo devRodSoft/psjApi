@@ -33,12 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $model->distribuidora->nombre;
             },
         ],
-        [
-            'label' => 'Genero',
-            'value' => function ($model) {
-                return join(', ', array_column($model->genero,'nombre'));
-            },
-        ],
+        'genero',
         'clasificacion:ntext',
         'idioma:ntext',
         //'duracion:ntext',
@@ -49,7 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
         //'created_at',
         //'updated_at',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'visible' => Yii::$app->user->isGuest ? false : true,
+            'template' => '{view} {update}',
+        ],
     ],
 ]); ?>
 </div>

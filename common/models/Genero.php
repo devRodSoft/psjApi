@@ -9,8 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property string $nombre
- *
- * @property PeliculaGenero[] $peliculaGeneros
  */
 class Genero extends \yii\db\ActiveRecord
 {
@@ -30,6 +28,7 @@ class Genero extends \yii\db\ActiveRecord
         return [
             [['nombre'], 'required'],
             [['nombre'], 'string', 'max' => 255],
+            [['nombre'], 'unique'],
         ];
     }
 
@@ -42,14 +41,6 @@ class Genero extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPeliculaGeneros()
-    {
-        return $this->hasMany(PeliculaGenero::className(), ['genero_id' => 'id']);
     }
 
     /**
