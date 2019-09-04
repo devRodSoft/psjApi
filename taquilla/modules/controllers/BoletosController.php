@@ -54,7 +54,7 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
-    public function actionReImpresion($id)
+    public function actionReimpresion($id)
     {
         $data = \api\models\BoletoRest::find()
             ->where([
