@@ -51,6 +51,17 @@ class Permiso extends \yii\db\ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function fields()
+    {
+        return [
+            'nombre' => 'Nombre',
+            'key' => 'Key',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getRolePermisos()

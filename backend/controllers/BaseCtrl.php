@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
  */
 class BaseCtrl extends Controller
 {
-    public function getCine($id == null)
+    public function getCine($id = null)
     {
         if ($id == null) {
             $model = Cine::find()->one();
