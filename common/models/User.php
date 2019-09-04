@@ -245,6 +245,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface, \OAuth2\S
         return $this->hasOne(Role::className(), ['id' => 'role_id']);
     }
 
+    public function hasPermission($permission)
+    {
+        return in_array($permission, $this->role->permisos);
+    }
+
     /**
      * Implemented for Oauth2 Interface
      */

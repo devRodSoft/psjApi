@@ -1,10 +1,12 @@
 <?php
 namespace taquilla\controllers;
 
+use common\models\Permiso;
 use common\models\User;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
 use filsh\yii2\oauth2server\models\OauthAccessTokens;
 use Yii;
+use yii\rbac\Permission;
 use yii\web\HttpException;
 
 // 'id' => '5678',
@@ -62,6 +64,10 @@ class AuthenticationController extends BaseController
 
         if (!$user) {
             throw new HttpException(401, "Invalid email and password combination");
+        }
+
+        if ($user->hasPermission(Permiso::ACCESS_TAQUILLA)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
         }
 
         $server       = Yii::$app->getModule('oauth2')->getServer();

@@ -8,26 +8,7 @@ use yii\db\Query;
 /**
  * This is the model class for table "boleto".
  *
- * @property int $id
- * @property int $face_user_id
- * @property int $horario_funcion_id
- * @property int $reclamado
- * @property int $reimpreso
- * @property string $created_at
- * @property string $updated_at
- * @property int $id_pago
- * @property string $tipo_pago
- * @property string $qr_phat ruta al qr de la operacion
- * @property string $hash hash de la operacion
- * @property int $user_id
- *
- * @property FaceUser $faceUser
- * @property HorarioFuncion $horarioFuncion
- * @property Pago $pago
- * @property User $user
- * @property BoletoAsiento[] $boletoAsientos
- * @property BoletoPrecio[] $boletoPrecios
- */
+ **/
 class Reporte extends \yii\db\ActiveRecord
 {
     /**
@@ -41,102 +22,59 @@ class Reporte extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
-        return [
-            [['face_user_id', 'horario_funcion_id'], 'required'],
-            [['face_user_id', 'horario_funcion_id', 'reclamado', 'reimpreso', 'id_pago', 'user_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['tipo_pago', 'qr_phat', 'hash'], 'string', 'max' => 255],
-            [['face_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => FaceUser::className(), 'targetAttribute' => ['face_user_id' => 'id']],
-            [['horario_funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => HorarioFuncion::className(), 'targetAttribute' => ['horario_funcion_id' => 'id']],
-            [['id_pago'], 'exist', 'skipOnError' => true, 'targetClass' => Pago::className(), 'targetAttribute' => ['id_pago' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'face_user_id' => 'Face User ID',
-            'horario_funcion_id' => 'Horario Funcion ID',
+            'boleto_id' => 'Boleto ID',
             'reclamado' => 'Reclamado',
             'reimpreso' => 'Reimpreso',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'id_pago' => 'Id Pago',
-            'tipo_pago' => 'Tipo Pago',
-            'qr_phat' => 'Qr Phat',
+            'boleto_creado' => 'Boleto creado',
+            'boleto_actualizado' => 'Boleto actualizado',
+            'qr_phat' => 'Qr phat',
             'hash' => 'Hash',
-            'user_id' => 'User ID',
+            'horario_funcion_id' => 'Horario funcion ID',
+            'sala_id' => 'Sala ID',
+            'cine_id' => 'Cine ID',
+            'hora' => 'Hora',
+            'fecha' => 'Fecha',
+            'publicar' => 'Publicar',
+            'horario_creado' => 'Horario creado',
+            'horario_actualizado' => 'Horario actualizado',
+            'precio_id' => 'Precio ID',
+            'nombre' => 'Precio aplicado',
+            'codigo' => 'Precio codigo',
+            'precio_creado' => 'Precio creado',
+            'precio_actualizado' => 'Precio actualizado',
+            'precio' => 'Precio',
+            'pago_id' => 'Pago ID',
+            'create_time' => 'Create time',
+            'id_pago_externo' => 'Id pago externo',
+            'intent' => 'Intent',
+            'state' => 'State',
+            'pago_creado' => 'Pago creado',
+            'pago_actualizado' => 'Pago actualizado',
+            'tipo_pago' => 'Tipo pago',
+            'empleado_id' => 'Empleado ID',
+            'username' => 'Empleado',
+            'empleado_status' => 'Empleado status',
+            'empleado_creado' => 'Empleado creado',
+            'empleado_actualizado' => 'Empleado actualizado',
+            'cliente_id' => 'Cliente ID',
+            'cliente_status' => 'Cliente status',
+            'cliente_creado' => 'Cliente creado',
+            'cliente_actualizado' => 'Cliente actualizado',
+            'pelicula_id' => 'Pelicula ID',
+            'nombre_pelicula' => 'Nombre pelicula',
+            'genero' => 'Genero',
+            'clasificacion' => 'Clasificacion',
+            'idioma' => 'Idioma',
+            'duracion' => 'Duracion',
+            'distribuidora_id' => 'Distribuidora ID',
+            'nombre_distribuidor' => 'Nombre distribuidor',
+            'conteo' => 'cantidad',
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFaceUser()
-    {
-        return $this->hasOne(FaceUser::className(), ['id' => 'face_user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHorarioFuncion()
-    {
-        return $this->hasOne(HorarioFuncion::className(), ['id' => 'horario_funcion_id']);
-    }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTotal()
-    {
-
-        $query = new Query;
-
-        $query->select('SUM(bp.precio)')
-            ->from(['bp' => BoletoPrecio::tableName()])
-            ->where(['bp.boleto_id' => $this->id])
-            ->groupBy('bp.boleto_id');
-        return $query->scalar();
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPago()
-    {
-        return $this->hasOne(Pago::className(), ['id' => 'id_pago']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBoletoAsientos()
-    {
-        return $this->hasMany(BoletoAsiento::className(), ['boleto_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBoletoPrecios()
-    {
-        return $this->hasMany(BoletoPrecio::className(), ['boleto_id' => 'id']);
-    }
 
     /**
      * {@inheritdoc}

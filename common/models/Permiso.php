@@ -17,6 +17,10 @@ use Yii;
  */
 class Permiso extends \yii\db\ActiveRecord
 {
+
+    const ACCESS_TAQUILLA = 'access_taquilla';
+    const ACCESS_REIMPRESION = 'access_reimpresion';
+    const ACCESS_ADMIN = 'access_admin';
     /**
      * {@inheritdoc}
      */
@@ -56,8 +60,8 @@ class Permiso extends \yii\db\ActiveRecord
     public function fields()
     {
         return [
-            'nombre' => 'Nombre',
-            'key' => 'Key',
+            'nombre',
+            'key'
         ];
     }
 
