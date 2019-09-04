@@ -18,9 +18,9 @@ use Yii;
 class Permiso extends \yii\db\ActiveRecord
 {
 
-    const ACCESS_TAQUILLA = 'access_taquilla';
-    const ACCESS_REIMPRESION = 'access_reimpresion';
-    const ACCESS_ADMIN = 'access_admin';
+    const ACCESS_TAQUILLA = 'acceso_taquilla';
+    const ACCESS_REIMPRESION = 'acceso_reimpresion';
+    const ACCESS_ADMIN = 'acceso_admin';
     /**
      * {@inheritdoc}
      */
