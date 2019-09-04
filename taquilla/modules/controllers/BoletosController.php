@@ -30,6 +30,9 @@ class BoletosController extends BaseAuthController
     }
     public function actionSearch($email, $fecha)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REIMPRESION)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $date = \DateTime::createFromFormat('Y-m-d', $fecha);
         $date->setTime(0, 0);
 
@@ -57,6 +60,9 @@ class BoletosController extends BaseAuthController
 
     public function actionReimpresion($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REIMPRESION)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $data = \api\models\BoletoRest::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
             ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')

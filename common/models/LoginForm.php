@@ -56,6 +56,9 @@ class LoginForm extends Model
     {
 
         if ($this->validate()) {
+            if (!$this->getUser()->hasPermission(Permiso::ACCESS_ADMIN)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
 

@@ -25,4 +25,12 @@ class BaseAuthController extends BaseController
             // 'except' => ['options'],
         ]);
     }
+
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_TAQUILLA)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
+        return parent::beforeAction($action);
+    }
 }

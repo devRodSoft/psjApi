@@ -11,6 +11,10 @@ use yii\db\Query;
  **/
 class Reporte extends \yii\db\ActiveRecord
 {
+    public $conteo = 0;
+    public $total = 0;
+    public $fechaInicio = null;
+    public $fechaFin = null;
     /**
      * {@inheritdoc}
      */
@@ -71,7 +75,8 @@ class Reporte extends \yii\db\ActiveRecord
             'duracion' => 'Duracion',
             'distribuidora_id' => 'Distribuidora ID',
             'nombre_distribuidor' => 'Nombre distribuidor',
-            'conteo' => 'cantidad',
+            'conteo' => 'Cantidad',
+            'total' => 'Total',
         ];
     }
 
