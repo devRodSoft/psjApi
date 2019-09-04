@@ -57,10 +57,12 @@ class BoletosController extends BaseAuthController
     public function actionReimpresion($id)
     {
         $data = \api\models\BoletoRest::find()
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
             ->where([
                 'hash' => $id,
                 'fu.status' => FaceUser::STATUS_ACTIVE,
             ])
+            ->andWhere('DATE(hf.fecha) >= DATE(NOW())')
             ->one();
 
         if ($data == null) {
