@@ -4,30 +4,15 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Estreno;
+use backend\controllers\BaseCtrl;
 use backend\models\EstrenoSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * EstrenoController implements the CRUD actions for Estreno model.
  */
-class EstrenoController extends Controller
+class EstrenoController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Estreno models.

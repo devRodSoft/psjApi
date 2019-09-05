@@ -2,46 +2,22 @@
 
 namespace backend\controllers;
 
-use backend\models\PeliculaSearch;
-use common\models\Clasificacion;
-use common\models\Distribuidora;
+use Yii;
 use common\models\Genero;
 use common\models\Pelicula;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use common\models\Clasificacion;
+use common\models\Distribuidora;
+use backend\controllers\BaseCtrl;
+use backend\models\PeliculaSearch;
 use yii\web\NotFoundHttpException;
 
 /**
  * PeliculaController implements the CRUD actions for Pelicula model.
  */
-class PeliculaController extends Controller
+class PeliculaController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Pelicula models.

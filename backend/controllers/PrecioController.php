@@ -2,33 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\PrecioSearch;
-use common\models\Precio;
 use Yii;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use common\models\Precio;
+use backend\models\PrecioSearch;
+use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
 
 /**
  * PrecioController implements the CRUD actions for Precio model.
  */
-class PrecioController extends Controller
+class PrecioController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Precio models.
      * @return mixed

@@ -2,42 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\BoletoSearch;
-use common\models\Boleto;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use common\models\Boleto;
+use backend\models\BoletoSearch;
+use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
 
 /**
  * BoletoController implements the CRUD actions for Boleto model.
  */
-class BoletoController extends Controller
+class BoletoController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Boleto models.

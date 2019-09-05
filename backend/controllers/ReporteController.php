@@ -3,25 +3,14 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Reporte;
+use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
 * ReporteController implements the CRUD actions for Reporte model.
 */
-class ReporteController extends Controller
+class ReporteController extends BaseCtrl
 {
-    /**
-    * {@inheritdoc}
-    */
-    public function behaviors()
-    {
-        return [
-        ];
-    }
 
     /**
     * Lists all Reporte models.

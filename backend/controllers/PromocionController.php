@@ -4,30 +4,15 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Promocion;
-use backend\models\PromocionSearch;
-use yii\web\Controller;
+use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use backend\models\PromocionSearch;
 
 /**
  * PromocionController implements the CRUD actions for Promocion model.
  */
-class PromocionController extends Controller
+class PromocionController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Promocion models.

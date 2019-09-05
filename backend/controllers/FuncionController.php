@@ -2,48 +2,22 @@
 
 namespace backend\controllers;
 
-use backend\models\HorarioFuncionSearch;
-use common\models\HorarioFuncion;
-use common\models\HorarioPrecio;
-use common\models\Pelicula;
-use common\models\Precio;
 use Yii;
 use yii\db\Query;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\Url;
-use yii\web\Controller;
+use common\models\Precio;
+use common\models\Pelicula;
+use common\models\HorarioPrecio;
+use backend\controllers\BaseCtrl;
+use common\models\HorarioFuncion;
 use yii\web\NotFoundHttpException;
+use backend\models\HorarioFuncionSearch;
 
 /**
  * FuncionController implements the CRUD actions for Funcion model.
  */
-class FuncionController extends Controller
+class FuncionController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Funcion models.
      * @return mixed

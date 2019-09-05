@@ -4,31 +4,15 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Distribuidora;
-use backend\models\DistribuidoraSearch;
-use yii\web\Controller;
+use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use backend\models\DistribuidoraSearch;
 
 /**
  * DistribuidoraController implements the CRUD actions for Distribuidora model.
  */
-class DistribuidoraController extends Controller
+class DistribuidoraController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Distribuidora models.
      * @return mixed

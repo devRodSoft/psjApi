@@ -2,42 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\AsientoSearch;
-use common\models\Asiento;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use common\models\Asiento;
+use backend\controllers\BaseCtrl;
+use backend\models\AsientoSearch;
 use yii\web\NotFoundHttpException;
 
 /**
  * AsientoController implements the CRUD actions for Asiento model.
  */
-class AsientoController extends Controller
+class AsientoController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Asiento models.

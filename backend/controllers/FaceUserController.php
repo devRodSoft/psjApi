@@ -2,42 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\FaceUserSearch;
-use common\models\FaceUser;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use common\models\FaceUser;
+use backend\controllers\BaseCtrl;
+use backend\models\FaceUserSearch;
 use yii\web\NotFoundHttpException;
 
 /**
  * FaceUserController implements the CRUD actions for FaceUser model.
  */
-class FaceUserController extends Controller
+class FaceUserController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all FaceUser models.

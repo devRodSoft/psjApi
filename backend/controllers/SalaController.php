@@ -2,42 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\SalaSearch;
-use common\models\Sala;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use common\models\Sala;
+use backend\models\SalaSearch;
+use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
 
 /**
  * SalaController implements the CRUD actions for Sala model.
  */
-class SalaController extends Controller
+class SalaController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Sala models.

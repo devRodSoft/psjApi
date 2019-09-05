@@ -4,30 +4,15 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Clasificacion;
-use backend\models\ClasificacionSearch;
-use yii\web\Controller;
+use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use backend\models\ClasificacionSearch;
 
 /**
  * ClasificacionController implements the CRUD actions for Clasificacion model.
  */
-class ClasificacionController extends Controller
+class ClasificacionController extends BaseCtrl
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Clasificacion models.
