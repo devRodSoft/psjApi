@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\web\UploadedFile;
 use common\models\Promocion;
 use backend\controllers\BaseCtrl;
 use yii\web\NotFoundHttpException;
@@ -51,8 +52,14 @@ class PromocionController extends BaseCtrl
     {
         $model = new Promocion();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('create', [
@@ -71,8 +78,15 @@ class PromocionController extends BaseCtrl
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->imageFile != null) {
+                $model->upload();
+            }
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

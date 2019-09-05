@@ -16,5 +16,5 @@ return [
         'url' => 'https://sandbox-api.openpay.mx/v1/',
     ],
     'bsVersion' => '3.x',
-    'uploadsUrl' => 'http://api.localhost/peliculas',
+    'uploadsUrl' => 'http://api.localhost',
 ];

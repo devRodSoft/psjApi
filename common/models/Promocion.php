@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "promocion".
  *
@@ -22,6 +23,7 @@ use Yii;
  */
 class Promocion extends \yii\db\ActiveRecord
 {
+    public $imageFile = null;
     /**
      * {@inheritdoc}
      */
@@ -42,6 +44,7 @@ class Promocion extends \yii\db\ActiveRecord
             [['start_date', 'end_date', 'created_at', 'updated_at'], 'safe'],
             [['titulo', 'bases'], 'string', 'max' => 255],
             [['cine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cine::className(), 'targetAttribute' => ['cine_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -91,6 +94,17 @@ class Promocion extends \yii\db\ActiveRecord
     public function getCine()
     {
         return $this->hasOne(Cine::className(), ['id' => 'cine_id']);
+    }
+
+    public function upload()
+    {
+        if ($this->validate(['imageFile'])) {
+            $this->image_url = Yii::$app->params['uploadsUrl'] . '/promos/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            return $this->imageFile->saveAs(Yii::getAlias('@api/web/promos/' . $this->imageFile->baseName . '.' . $this->imageFile->extension));
+            true;
+        } else {
+            return false;
+        }
     }
 
     /**

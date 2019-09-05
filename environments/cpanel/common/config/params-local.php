@@ -1,4 +1,4 @@
 <?php
 return [
-    'uploadsUrl' => 'https://mobile.plazasanjavier.com/peliculas',
+    'uploadsUrl' => 'https://mobile.plazasanjavier.com',
 ];

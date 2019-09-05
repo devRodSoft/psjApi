@@ -132,8 +132,7 @@ class Pelicula extends \yii\db\ActiveRecord
     public function upload()
     {
         if ($this->validate(['imageFile'])) {
-            // http://api.localhost/peliculas/Screen%20Shot%202019-08-29%20at%2010.43.37%20AM.png
-            $this->cartelUrl = Yii::$app->params['uploadsUrl'].'/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            $this->cartelUrl = Yii::$app->params['uploadsUrl'].'/peliculas/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
             return $this->imageFile->saveAs(Yii::getAlias('@api/web/peliculas/' . $this->imageFile->baseName . '.' . $this->imageFile->extension));
              true;
         } else {

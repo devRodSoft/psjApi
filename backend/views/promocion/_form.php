@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use common\models\Cine;
+use kartik\file\FileInput;
 use yii\widgets\ActiveForm;
 use dosamigos\datepicker\DatePicker;
 
@@ -52,7 +53,20 @@ use dosamigos\datepicker\DatePicker;
 
     <?php echo $form->field($model, 'bases')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'image_url')->textarea(['rows' => 6]) ?>
+    <?php echo $form->field($model, 'imageFile')->widget(
+        FileInput::classname(),
+        [
+            'options' => ['accept' => 'image/*'],
+            'pluginOptions' => [
+                'initialPreview' => [$model->image_url],
+                'initialPreviewAsData' => true,
+                'overwriteInitial' => true,
+                'showCaption' => true,
+                'showRemove' => false,
+                'showUpload' => false
+            ]
+        ]
+    ); ?>
 
     <?php //echo $form->field($model, 'start_date')->textInput(['type' => 'date', 'value' => date('Y-m-d', strtotime($model->start_date))])
     ?>
