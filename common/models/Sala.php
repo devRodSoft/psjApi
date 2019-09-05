@@ -13,7 +13,6 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Funcion[] $funcions
  * @property Cine $cine
  * @property SalaAsientos[] $salaAsientos
  */
@@ -65,14 +64,6 @@ class Sala extends \yii\db\ActiveRecord
             'cine_id',
             'nombre',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFuncions()
-    {
-        return $this->hasMany(Funcion::className(), ['sala_id' => 'id']);
     }
 
     /**

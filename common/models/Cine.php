@@ -12,7 +12,6 @@ use Yii;
  * @property string $direccion
  * @property string $telefono
  *
- * @property Funcion[] $funcions
  * @property Sala[] $salas
  */
 class Cine extends \yii\db\ActiveRecord
@@ -52,9 +51,9 @@ class Cine extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFuncions()
+    public function getHorarioFuncions()
     {
-        return $this->hasMany(Funcion::className(), ['cine_id' => 'id']);
+        return $this->hasMany(HorarioFuncion::className(), ['cine_id' => 'id']);
     }
 
     /**

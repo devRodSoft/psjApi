@@ -1,6 +1,9 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
+use kartik\file\FileInput;
 use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
 
@@ -37,9 +40,22 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'sinopsis')->textarea(['rows' => 6]) ?>
 
-    <?php echo $form->field($model, 'cartelUrl')->textarea(['rows' => 6]) ?>
-
     <?php echo $form->field($model, 'trailerUrl')->textarea(['rows' => 6]) ?>
+
+    <?php echo $form->field($model, 'imageFile')->widget(
+        FileInput::classname(),
+        [
+            'options' => ['accept' => 'image/*'],
+            'pluginOptions' => [
+                'initialPreview' => [$model->cartelUrl],
+                'initialPreviewAsData' => true,
+                'overwriteInitial' => true,
+                'showCaption' => true,
+                'showRemove' => false,
+                'showUpload' => false
+            ]
+        ]
+    ); ?>
 
 
     <div class="form-group">
@@ -47,5 +63,6 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
+
 
 </div>

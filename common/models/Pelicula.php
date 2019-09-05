@@ -31,6 +31,7 @@ use Yii;
 class Pelicula extends \yii\db\ActiveRecord
 {
     public $_genero;
+    public $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -52,6 +53,7 @@ class Pelicula extends \yii\db\ActiveRecord
             [['created_at', 'updated_at', 'genero'], 'safe'],
             [['nombre'], 'string', 'max' => 150],
             [['distribuidora_id'], 'exist', 'skipOnError' => true, 'targetClass' => Distribuidora::className(), 'targetAttribute' => ['distribuidora_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -125,6 +127,18 @@ class Pelicula extends \yii\db\ActiveRecord
     public static function find()
     {
         return new PeliculaQuery(get_called_class());
+    }
+
+    public function upload()
+    {
+        if ($this->validate(['imageFile'])) {
+            // http://api.localhost/peliculas/Screen%20Shot%202019-08-29%20at%2010.43.37%20AM.png
+            $this->cartelUrl = Yii::$app->params['uploadsUrl'].'/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            return $this->imageFile->saveAs(Yii::getAlias('@api/web/peliculas/' . $this->imageFile->baseName . '.' . $this->imageFile->extension));
+             true;
+        } else {
+            return false;
+        }
     }
 
 

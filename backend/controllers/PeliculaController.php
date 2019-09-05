@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Genero;
+use yii\web\UploadedFile;
 use common\models\Pelicula;
 use yii\helpers\ArrayHelper;
 use common\models\Clasificacion;
@@ -56,13 +57,19 @@ class PeliculaController extends BaseCtrl
     {
         $model = new Pelicula();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
         $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->orderBy('nombre')->all(), 'id', 'nombre');
-        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'id', 'nombre');
+        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'nombre', 'nombre');
         return $this->render('create', [
             'model' => $model,
             'clasificaciones' => $clasificaciones,
@@ -82,13 +89,20 @@ class PeliculaController extends BaseCtrl
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->imageFile != null) {
+                $model->upload();
+            }
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
         $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->orderBy('nombre')->all(), 'id', 'nombre');
-        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'nombre', 'nombre');
+        $generos  = ArrayHelper::map(Genero::find()->select('nombre, nombre')->all(), 'nombre', 'nombre');
         return $this->render('update', [
             'model' => $model,
             'clasificaciones' => $clasificaciones,
