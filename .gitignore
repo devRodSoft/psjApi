@@ -40,6 +40,15 @@ phpunit.phar
 /api/web/robots.txt
 /backend/web/index.php
 /backend/web/robots.txt
+/taquilla/web/index.php
+/taquilla/web/robots.txt
+
+api/web/index.php
+api/web/robots.txt
+backend/web/index.php
+backend/web/robots.txt
+taquilla/web/index.php
+taquilla/web/robots.txt
 oracle.sqlite
 
 /QRImages/*
