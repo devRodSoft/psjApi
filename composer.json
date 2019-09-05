@@ -24,7 +24,9 @@
         "2amigos/yii2-multi-select-widget": "*",
         "2amigos/yii2-date-picker-widget": "~1.0",
         "openpay/sdk": "dev-master",
-        "paypal/paypal-checkout-sdk": "dev-master"
+        "paypal/paypal-checkout-sdk": "dev-master",
+        "2amigos/yii2-selectize-widget": "~1.0",
+        "2amigos/yii2-type-ahead-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-gii": "~2.0.0",

@@ -1,12 +1,15 @@
 <?php
 
-use backend\assets\AppAsset;
-use common\models\Cine;
-use common\models\Pelicula;
-use common\models\Sala;
-use dosamigos\datepicker\DatePicker;
+use yii\web\View;
 use yii\helpers\Html;
+use common\models\Cine;
+use common\models\Sala;
+use common\models\Pelicula;
+use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
+use backend\assets\AppAsset;
+use dosamigos\datepicker\DatePicker;
+use dosamigos\multiselect\MultiSelect;
 
 AppAsset::register($this);
 
@@ -17,59 +20,79 @@ AppAsset::register($this);
 
 <div class="funcion-form">
 
-  <?php if (Yii::$app->session->hasFlash('error')): ?>
-    <div class="error alert alert-danger alert-dismissible" role="alert">
-      <button id="close-error" type="button" class="error close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <?php echo Yii::$app->session->getFlash('error') ?>
-    </div>
-<?php endif;?>
+    <?php if (\Yii::$app->session->hasFlash('error')) : ?>
+        <div class="error alert alert-danger alert-dismissible" role="alert">
+            <button id="close-error" type="button" class="error close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php echo Yii::$app->session->getFlash('error') ?>
+        </div>
+    <?php endif; ?>
 
-    <?php $form = ActiveForm::begin();?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <?php echo $form->field($model, 'cine_id')->dropDownList(array_column(Cine::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un cine']) ?>
 
-    <?php echo $form->field($model, 'pelicula_id')->dropDownList(array_column(Pelicula::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
+    <?php // Usage with ActiveForm and model
+    echo $form->field($model, 'pelicula_id')->widget(
+        Select2::classname(),
+        [
+            'data' => array_column(Pelicula::Find()->orderBy('id DESC')->All(), 'nombre', 'id'),
+            'options' => ['placeholder' => 'Selecciona una pelicula ...'],
+            'pluginOptions' => [
+                'allowClear' => false
+            ],
+        ]
+    ); ?>
 
-    <?php echo $form->field($model, 'sala_id')->dropDownList(array_column(Sala::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona una sala']) ?>
+    <?php // Usage with ActiveForm and model
+    echo $form->field($model, 'sala_id')->widget(
+        Select2::classname(),
+        [
+            'data' => array_column(Sala::Find()->orderBy('nombre')->All(), 'nombre', 'id'),
+            'options' => ['placeholder' => 'Selecciona una sala ...'],
+            'pluginOptions' => [
+                'allowClear' => false
+            ],
+        ]
+    ); ?>
 
     <?php echo $form->field($model, 'hora')->textInput(['maxlength' => true, 'type' => 'time']) ?>
     <?php
-if (!is_null($model->id)) {
-    echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
-        'language' => 'es',
-        'size' => 'sm',
-        'clientOptions' => [
-            'autoclose' => true,
-            'format' => 'yyyy-mm-dd',
-            'startDate' => date("Y-m-d"),
-        ],
-    ]);
-} else {
-    echo '<div class="alert alert-warning">
+    if (!is_null($model->id)) {
+        echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
+            'language' => 'es',
+            'size' => 'sm',
+            'clientOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'startDate' => date("Y-m-d"),
+            ],
+        ]);
+    } else {
+        echo '<div class="alert alert-warning">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">precaucion:</span>
         Se creara una función por fecha que sea ingresada (máximo 9 fechas)
     </div>';
-    echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
-        'language' => 'es',
-        'size' => 'sm',
-        'clientOptions' => [
-            'autoclose' => false,
-            'multidate' => 9,
-            'format' => 'yyyy-mm-dd',
-            'startDate' => date("Y-m-d"),
-        ],
-    ]);
-}
+        echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
+            'language' => 'es',
+            'size' => 'sm',
+            'clientOptions' => [
+                'autoclose' => false,
+                'multidate' => 9,
+                'format' => 'yyyy-mm-dd',
+                'startDate' => date("Y-m-d"),
+            ],
+        ]);
+    }
 
-?>
+    ?>
 
     <?php echo $form->field($model, 'publicar')->checkbox() ?>
 
 
-  <?php /* echo $form->field($model, 'precio[]')->widget(MultiSelect::className(), [
+    <?php /* echo $form->field($model, 'precio[]')->widget(MultiSelect::className(), [
 'data' => ['super', 'natural'], 'options' => ['multiple' => "multiple"],
-]) */?>
+]) */ ?>
 
 
     <div class="alert alert-warning">
@@ -87,15 +110,15 @@ if (!is_null($model->id)) {
             </tr>
         </thead>
         <tbody>
-          <?php foreach ($model->horarioPrecios as $idx => $horarioPrecio): ?>
-            <tr>
-                <td>
-                  <?php echo Html::dropDownList('horarioPrecio[' . $idx . '][precio][id]', $horarioPrecio->precio_id, $preciosList, ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
-                </td>
-                <td class="input-group-addon"><?php echo Html::checkbox('horarioPrecio[' . $idx . '][precio][usar_especial]', !!$horarioPrecio->usar_especial, ['label' => '']) ?></td>
-                <td><input type="button" class="ibtnDel btn btn-md btn-danger"  value="Borrar"></td>
-            </tr>
-            <?php endforeach?>
+            <?php foreach ($model->horarioPrecios as $idx => $horarioPrecio) : ?>
+                <tr>
+                    <td>
+                        <?php echo Html::dropDownList('horarioPrecio[' . $idx . '][precio][id]', $horarioPrecio->precio_id, $preciosList, ['prompt' => 'selecciona una pelicula', 'class' => 'form-control']) ?>
+                    </td>
+                    <td class="input-group-addon"><?php echo Html::checkbox('horarioPrecio[' . $idx . '][precio][usar_especial]', !!$horarioPrecio->usar_especial, ['label' => '']) ?></td>
+                    <td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Borrar"></td>
+                </tr>
+            <?php endforeach ?>
         </tbody>
         <tfoot>
             <tr>
@@ -113,7 +136,7 @@ if (!is_null($model->id)) {
         <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end();?>
+    <?php ActiveForm::end(); ?>
 
 </div>
 
@@ -148,4 +171,3 @@ $this->registerJs(
     'my-button-handler'
 );
 ?>
-

@@ -55,12 +55,12 @@ class Promocion extends \yii\db\ActiveRecord
             'cine_id' => 'Cine ID',
             'titulo' => 'Titulo',
             'descripcion' => 'Descripcion',
-            'image_url' => 'Image Url',
-            'start_date' => 'Start Date',
-            'end_date' => 'End Date',
+            'image_url' => 'Imagen Url',
+            'start_date' => 'fecha de inicio',
+            'end_date' => 'Fecha fin ',
             'bases' => 'Bases',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Creado',
+            'updated_at' => 'Actualizado',
         ];
     }
 

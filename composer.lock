@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "334305c08a3d2e22df0db219325e9337",
+    "content-hash": "1de03bb125fe16a619ff3eecfcce5d39",
     "packages": [
         {
             "name": "2amigos/qrcode-library",
@@ -194,6 +194,129 @@
             "time": "2019-02-15T19:44:53+00:00"
         },
         {
+            "name": "2amigos/yii2-selectize-widget",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-selectize-widget.git",
+                "reference": "9762a34d1095f15b60f46b876dad245011755bfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-selectize-widget/zipball/9762a34d1095f15b60f46b876dad245011755bfc",
+                "reference": "9762a34d1095f15b60f46b876dad245011755bfc",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/selectize": "~0.12.0",
+                "yiisoft/yii2": "~2.0.0",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\selectize\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "role": "Developer",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us"
+                }
+            ],
+            "description": "The selectize.js widget for the Yii framework",
+            "homepage": "https://github.com/2amigos/yii2-selectize-widget",
+            "keywords": [
+                "2amigos",
+                "selectize",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2017-09-19T22:02:33+00:00"
+        },
+        {
+            "name": "2amigos/yii2-type-ahead-widget",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-type-ahead-widget.git",
+                "reference": "37d575da12a1fc3c0aed54391fb8fbca0296ff80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-type-ahead-widget/zipball/37d575da12a1fc3c0aed54391fb8fbca0296ff80",
+                "reference": "37d575da12a1fc3c0aed54391fb8fbca0296ff80",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/typeahead.js": "~0.11.0",
+                "yiisoft/yii2": "~2.0.0",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\typeahead\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "role": "Developer",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us"
+                },
+                {
+                    "name": "Alexander Kochetov",
+                    "role": "Developer",
+                    "email": "creocoder@gmail.com"
+                }
+            ],
+            "description": "The bootstrap typeahead widget for the Yii framework",
+            "homepage": "https://github.com/2amigos/yii2-type-ahead-widget",
+            "keywords": [
+                "2amigos",
+                "typeahead",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2015-05-15T21:11:38+00:00"
+        },
+        {
             "name": "bacon/bacon-qr-code",
             "version": "1.0.3",
             "source": {
@@ -321,17 +444,94 @@
             ]
         },
         {
+            "name": "bower-asset/microplugin",
+            "version": "v0.0.3",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:brianreavis/microplugin.js.git",
+                "reference": "d8671e6cc769938648f8735610534427cdeeaf67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brianreavis/microplugin.js/zipball/d8671e6cc769938648f8735610534427cdeeaf67",
+                "reference": "d8671e6cc769938648f8735610534427cdeeaf67"
+            },
+            "type": "bower-asset",
+            "license": [
+                "Apache License, Version 2.0"
+            ]
+        },
+        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
                 "type": "git",
-                "url": "git@github.com:bestiejs/punycode.js.git",
+                "url": "https://github.com/bestiejs/punycode.js.git",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/bestiejs/punycode.js/zipball/38c8d3131a82567bfef18da09f7f4db68c84f8a3",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
+            },
+            "type": "bower-asset"
+        },
+        {
+            "name": "bower-asset/selectize",
+            "version": "v0.12.6",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:selectize/selectize.js.git",
+                "reference": "eb0fca364f9bd6864ae197ea58c853f2717052a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/selectize/selectize.js/zipball/eb0fca364f9bd6864ae197ea58c853f2717052a9",
+                "reference": "eb0fca364f9bd6864ae197ea58c853f2717052a9"
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7.0",
+                "bower-asset/microplugin": "dev-0.0.x|0.0.x",
+                "bower-asset/sifter": "dev-0.5.x|0.5.x"
+            },
+            "type": "bower-asset",
+            "license": [
+                "Apache License, Version 2.0"
+            ]
+        },
+        {
+            "name": "bower-asset/sifter",
+            "version": "v0.5.3",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:brianreavis/sifter.js.git",
+                "reference": "2a9c84ec5ac63ceaa4516205e013113626d36a2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brianreavis/sifter.js/zipball/2a9c84ec5ac63ceaa4516205e013113626d36a2d",
+                "reference": "2a9c84ec5ac63ceaa4516205e013113626d36a2d"
+            },
+            "type": "bower-asset",
+            "license": [
+                "Apache License, Version 2.0"
+            ]
+        },
+        {
+            "name": "bower-asset/typeahead.js",
+            "version": "v0.11.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:twitter/typeahead.js.git",
+                "reference": "588440f66559714280628a4f9799f0c4eb880a4a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twitter/typeahead.js/zipball/588440f66559714280628a4f9799f0c4eb880a4a",
+                "reference": "588440f66559714280628a4f9799f0c4eb880a4a"
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7"
             },
             "type": "bower-asset"
         },
@@ -731,12 +931,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "9ddb662bdf49fdb671a90853912a40418a26a0dd"
+                "reference": "8aa48bb2e7613db45b3c34f7a9346d7f43b1f4ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/9ddb662bdf49fdb671a90853912a40418a26a0dd",
-                "reference": "9ddb662bdf49fdb671a90853912a40418a26a0dd",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/8aa48bb2e7613db45b3c34f7a9346d7f43b1f4ec",
+                "reference": "8aa48bb2e7613db45b3c34f7a9346d7f43b1f4ec",
                 "shasum": ""
             },
             "suggest": {
@@ -775,7 +975,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2019-03-13T17:14:54+00:00"
+            "time": "2019-05-25T07:25:02+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -783,16 +983,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "dd09e46e618cf1c67a39fac9f38d97a95184fe8a"
+                "reference": "798dcea12997d806da14c5affde2f166338a6d54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/dd09e46e618cf1c67a39fac9f38d97a95184fe8a",
-                "reference": "dd09e46e618cf1c67a39fac9f38d97a95184fe8a",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/798dcea12997d806da14c5affde2f166338a6d54",
+                "reference": "798dcea12997d806da14c5affde2f166338a6d54",
                 "shasum": ""
             },
             "require": {
-                "kartik-v/yii2-krajee-base": ">=1.9"
+                "kartik-v/yii2-krajee-base": ">=1.9",
+                "select2/select2": ">=4.0"
             },
             "type": "yii2-extension",
             "extra": {
@@ -828,7 +1029,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-12-11T10:34:32+00:00"
+            "time": "2019-09-02T12:53:16+00:00"
         },
         {
             "name": "khanamiryan/qrcode-detector-decoder",
@@ -1020,6 +1221,44 @@
                 "sdk"
             ],
             "time": "2019-02-13T01:29:52+00:00"
+        },
+        {
+            "name": "select2/select2",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2.git",
+                "reference": "a389a6da47f613ea9de3efc7a6dcf5cbda167608"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2/zipball/a389a6da47f613ea9de3efc7a6dcf5cbda167608",
+                "reference": "a389a6da47f613ea9de3efc7a6dcf5cbda167608",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/js/select2.js"
+                    ],
+                    "styles": [
+                        "dist/css/select2.css"
+                    ],
+                    "files": [
+                        "dist/js/select2.js",
+                        "dist/js/i18n/*.js",
+                        "dist/css/select2.css"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Select2 is a jQuery based replacement for select boxes.",
+            "homepage": "https://select2.org/",
+            "time": "2019-07-21T03:16:43+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

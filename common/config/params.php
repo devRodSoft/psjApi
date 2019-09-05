@@ -15,4 +15,5 @@ return [
         'private-key' => 'sk_2339c0e7f72b4ff294289f5e1757d028',
         'url' => 'https://sandbox-api.openpay.mx/v1/',
     ],
+    'bsVersion' => '3.x',
 ];

@@ -21,11 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
-        'id',
         'faceUser.nombre',
         'horarioFuncion.fecha',
         'horarioFuncion.hora',
         'reclamado:boolean',
+        'hash',
         //'created_at',
         //'updated_at',
 

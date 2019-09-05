@@ -18,7 +18,7 @@ class BoletoSearch extends Boleto
     {
         return [
             [['id', 'face_user_id', 'horario_funcion_id', 'reclamado'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'hash'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class BoletoSearch extends Boleto
             'face_user_id' => $this->face_user_id,
             'horario_funcion_id' => $this->horario_funcion_id,
             'reclamado' => $this->reclamado,
+            'hash' => $this->hash,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

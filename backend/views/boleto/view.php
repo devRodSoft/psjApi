@@ -29,9 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo DetailView::widget([
     'model' => $model,
     'attributes' => [
-        'id',
         'faceUser.nombre',
-        'horarioFuncion.funcion.pelicula.nombre',
+        'horarioFuncion.pelicula.nombre',
         'horarioFuncion.fecha',
         'horarioFuncion.fHora',
         'reclamado:boolean',

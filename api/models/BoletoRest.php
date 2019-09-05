@@ -37,6 +37,15 @@ class BoletoRest extends \common\models\Boleto
             'pelicula' => function ($m) {
                 return $m->pelicula->nombre;
             },
+            'clasificacion' => function ($m) {
+                return $m->pelicula->clasificacion;
+            },
+            'duracion' => function ($m) {
+                return $m->pelicula->duracion;
+            },
+            'idioma' => function ($m) {
+                return $m->pelicula->idioma;
+            },
             'total',
             'preciosCount',
             'hash',

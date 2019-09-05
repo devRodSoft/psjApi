@@ -61,7 +61,7 @@ class PeliculaController extends BaseCtrl
         }
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
-        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
+        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->orderBy('nombre')->all(), 'id', 'nombre');
         $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'id', 'nombre');
         return $this->render('create', [
             'model' => $model,
@@ -87,7 +87,7 @@ class PeliculaController extends BaseCtrl
         }
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
-        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->all(), 'id', 'nombre');
+        $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->orderBy('nombre')->all(), 'id', 'nombre');
         $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'nombre', 'nombre');
         return $this->render('update', [
             'model' => $model,

@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Promocion */
 
-$this->title = 'Create Promocion';
-$this->params['breadcrumbs'][] = ['label' => 'Promocions', 'url' => ['index']];
+$this->title = 'Crear Promocion';
+$this->params['breadcrumbs'][] = ['label' => 'Promociones', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promocion-create">

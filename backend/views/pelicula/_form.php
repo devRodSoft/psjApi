@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -10,13 +11,23 @@ use yii\widgets\ActiveForm;
 
 <div class="pelicula-form">
 
-    <?php $form = ActiveForm::begin();?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <?php echo $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
     <?php echo $form->field($model, 'genero')->dropDownList($generos, ['prompt' => 'Genero']) ?>
 
-    <?php echo $form->field($model, 'distribuidora_id')->dropDownList($distribuidoras, ['prompt' => 'Distribuidora']) ?>
+    <?php // Usage with ActiveForm and model
+    echo $form->field($model, 'distribuidora_id')->widget(
+        Select2::classname(),
+        [
+            'data' => $distribuidoras,
+            'options' => ['placeholder' => 'Selecciona una distribuidora ...'],
+            'pluginOptions' => [
+                'allowClear' => false
+            ],
+        ]
+    ); ?>
 
     <?php echo $form->field($model, 'clasificacion')->dropDownList($clasificaciones, ['prompt' => 'clasificación']) ?>
 
@@ -35,6 +46,6 @@ use yii\widgets\ActiveForm;
         <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end();?>
+    <?php ActiveForm::end(); ?>
 
 </div>
