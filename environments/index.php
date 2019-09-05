@@ -66,4 +66,22 @@ return [
             'api/config/main-local.php',
         ],
     ],
+    'ProductionCpanel' => [
+        'path' => 'cpanel',
+        'setWritable' => [
+            'backend/runtime',
+            'backend/web/assets',
+            'console/runtime',
+            'taquilla/runtime',
+            'api/runtime',
+        ],
+        'setExecutable' => [
+            'yii',
+        ],
+        'setCookieValidationKey' => [
+            'backend/config/main-local.php',
+            'taquilla/config/main-local.php',
+            'api/config/main-local.php',
+        ],
+    ],
 ];
