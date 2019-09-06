@@ -3,12 +3,13 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\FuncionSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+    /* @var $this yii\web\View */
+    /* @var $searchModel backend\models\FuncionSearch */
+    /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title                   = 'Funciones';
 $this->params['breadcrumbs'][] = $this->title;
+setlocale(LC_ALL, "es_ES");
 ?>
 <div class="funcion-index">
 
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'label' => 'Dia',
             'value' => function ($m) {
-                return \DateTime::createFromFormat('Y-m-d', $m->fecha)->format('l');
+                return Yii::$app->formatter->asDate($m->fecha, 'php:l');
             }
         ],
         'fecha',
