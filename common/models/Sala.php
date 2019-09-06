@@ -48,7 +48,7 @@ class Sala extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'cine_id' => 'Cine ID',
-            'nombre' => 'Nombre',
+            'nombre' => 'Nombre Sala',
             'created_at' => 'Creado',
             'updated_at' => 'Actualizado',
         ];

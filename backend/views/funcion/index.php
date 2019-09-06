@@ -26,8 +26,16 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
-        'cine.nombre',
         'pelicula.nombre',
+        'sala.nombre',
+        [
+            'label' => 'Dia',
+            'value' => function ($m) {
+                return \DateTime::createFromFormat('Y-m-d', $m->fecha)->format('l');
+            }
+        ],
+        'fecha',
+        'hora',
 
         [
             'class' => 'yii\grid\ActionColumn',
