@@ -14,6 +14,7 @@ return [
         'formatter' => [
             'defaultTimeZone' => 'America/Mexico_City',
             'currencyCode' => 'MXN',
+            'locale' => 'es-ES',
         ],
     ],
 ];

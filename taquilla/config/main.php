@@ -50,8 +50,11 @@ return [
                 'GET identity' => 'general/user/current',
                 'OPTIONS identity' => 'general/user/options',
 
+
                 'GET boletos' => 'general/boletos/search',
                 'OPTIONS boletos' => 'general/boletos/options',
+
+
 
                 // 'GET boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/reimpresion',
                 // 'OPTIONS boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/options',

@@ -10,6 +10,8 @@ use yii\helpers\Html;
 $this->title                   = 'Funciones';
 $this->params['breadcrumbs'][] = $this->title;
 setlocale(LC_ALL, "es_ES");
+
+    $dias = ["monday" => "Lunes", "tuesday" => "Martes", "wednesday" => "Miércoles", "thursday" => "Jueves", "friday" => "Viernes", "saturday" => "Sábado", "sunday" => "Domingo"];
 ?>
 <div class="funcion-index">
 
@@ -32,7 +34,8 @@ setlocale(LC_ALL, "es_ES");
         [
             'label' => 'Dia',
             'value' => function ($m) {
-                return Yii::$app->formatter->asDate($m->fecha, 'php:l');
+                $dia = Yii::$app->formatter->asDate($m->fecha, 'php:l');
+                return isset($dias[strtolower($dia)])? $dias[strtolower($dia)] : $dia;
             }
         ],
         'fecha',
