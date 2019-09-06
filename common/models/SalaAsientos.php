@@ -77,7 +77,7 @@ class SalaAsientos extends \yii\db\ActiveRecord
      */
     public function getNombre()
     {
-        return sprintf('%s-%s', $this->fila, $this->numero);
+        return $this->fila . $this->numero;
     }
 
     /**

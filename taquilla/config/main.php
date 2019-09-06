@@ -50,11 +50,14 @@ return [
                 'GET identity' => 'general/user/current',
                 'OPTIONS identity' => 'general/user/options',
 
-                'GET boletos/<email:[^@]+@[^\.]+\..+>/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/boletos/search',
-                'OPTIONS boletos/<email:[^@]+@[^\.]+\..+>/<fecha:\d{4}-\d{2}-\d{2}>' => 'general/boletos/options',
+                'GET boletos' => 'general/boletos/search',
+                'OPTIONS boletos' => 'general/boletos/options',
 
-                'GET boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/reimpresion',
-                'OPTIONS boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/options',
+                // 'GET boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/reimpresion',
+                // 'OPTIONS boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/options',
+
+                'GET boletos/validar/<id:[\-A-Z]+\d+>' => 'general/boletos/validar-boleto',
+                'OPTIONS boletos/validar/<id:[\-A-Z]+\d+>' => 'general/boletos/options',
 
                 'POST boletos/horario/<horarioid:\d+>/pagar' => 'general/boletos/pagar',
                 'OPTIONS boletos/horario/<horarioid:\d+>/pagar' => 'general/boletos/options',

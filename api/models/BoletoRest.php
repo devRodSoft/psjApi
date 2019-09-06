@@ -13,6 +13,9 @@ class BoletoRest extends \common\models\Boleto
             'usuario' => function ($m) {
                 return $m->faceUser->nombre;
             },
+            'fechaDeVenta' => function ($m) {
+                return $m->created_at;
+            },
             'hora' => function ($m) {
                 return $m->horarioFuncion->fHora;
             },

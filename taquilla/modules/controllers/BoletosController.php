@@ -5,6 +5,7 @@ use Yii;
 use common\models\Pago;
 use common\models\Boleto;
 use common\models\Permiso;
+use yii\web\HttpException;
 use common\models\FaceUser;
 use common\models\BoletoPrecio;
 use common\models\SalaAsientos;
@@ -17,7 +18,7 @@ class BoletosController extends BaseAuthController
 {
     public $modelClass = 'common\models\Pago';
 
-    private $paymentTypes = ['taquilla'];
+    private $_paymentTypes = ['taquilla'];
 
     public function actions()
     {
@@ -29,8 +30,11 @@ class BoletosController extends BaseAuthController
             ],
         ];
     }
-    public function actionSearch($email, $fecha)
+    public function actionSearch()
     {
+        $email = Yii::$app->request->getQueryParam('email', null);
+        $fecha = Yii::$app->request->getQueryParam('fecha', date('Y-m-d'));
+
         if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REIMPRESION)) {
             throw new HttpException(403, "No tienes los permisos necesarios");
         }
@@ -41,22 +45,31 @@ class BoletosController extends BaseAuthController
         $today->setTime(0, 0);
 
         if ($date < $today) {
-            throw new \yii\web\HttpException(400, 'Esta fecha es anterior al dia de hoy');
+            throw new HttpException(400, 'Esta fecha es anterior al dia de hoy');
         }
 
-        $data = \api\models\BoletoRest::find()
+        $query = \api\models\BoletoRest::find()
             ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
-            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
-            ->where([
-                'fu.email' => $email,
-                'boleto.reclamado' => 0,
-                'boleto.reimpreso' => 0,
-                'fu.status' => FaceUser::STATUS_ACTIVE,
-            ])
-            ->andWhere('DATE(hf.fecha) = DATE("' . $date->format('Y-m-d') . '")')
-            ->all();
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id');
 
-        return $data;
+        if (empty($email)) {
+            $query->where(['boleto.user_id' => Yii::$app->user->id])
+                ->andWhere('boleto.created_at BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 1 DAY)')
+                ->orderBy('boleto.created_at DESC')
+                ->limit(10);
+        } else {
+            $query->where(
+                [
+                    'fu.email' => $email,
+                    'fu.status' => FaceUser::STATUS_ACTIVE,
+                ]
+            )
+                ->andWhere('DATE(hf.fecha) = DATE("' . $date->format('Y-m-d') . '")');
+        }
+
+        $query->andWhere(['boleto.reclamado' => 0]);
+
+        return $query->all();
     }
 
     public function actionReimpresion($id)
@@ -67,27 +80,63 @@ class BoletosController extends BaseAuthController
         $data = \api\models\BoletoRest::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
             ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
-            ->where([
-                'hash' => $id,
-                'boleto.reclamado' => 0,
-                'fu.status' => FaceUser::STATUS_ACTIVE,
-            ])
+            ->where(
+                [
+                    'boleto.hash' => $id,
+                    'boleto.reclamado' => 0,
+                    'fu.status' => FaceUser::STATUS_ACTIVE,
+                ]
+            )
             ->andWhere('DATE(hf.fecha) >= DATE(NOW())')
             ->one();
 
         if ($data == null) {
-            throw new \yii\web\HttpException(404, 'Este boleto no existe');
+            throw new HttpException(404, 'Este boleto no existe');
             return false;
         } else if ($data->reimpreso == 1) {
-            throw new \yii\web\HttpException(404, 'Este boleto no se puede reimprimir');
+            throw new HttpException(404, 'Este boleto no se puede reimprimir');
         }
 
         $data->reimpreso = 1;
 
         if (!$data->save()) {
-            throw new \yii\web\HttpException(404, 'Error al calcular reimpresion');
+            throw new HttpException(404, 'Error al calcular reimpresion');
         }
 
+        return $data;
+    }
+
+
+    public function actionValidarBoleto($id)
+    {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_VERIFICACION)) {
+            // throw new HttpException(403, "No tienes los permisos necesarios");
+        }
+        $data = \api\models\BoletoRest::find()
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
+            ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
+            ->where(
+                [
+                    'boleto.hash' => $id,
+                ]
+            )
+            ->andWhere('DATE(hf.fecha) >= DATE(NOW())')
+            ->one();
+
+        if ($data == null) {
+            throw new HttpException(402, 'Este boleto no existe o ya no es accesible');
+            return false;
+        } else if ($data->reclamado == 1) {
+            throw new HttpException(410, 'Este boleto ya fue reclamado');
+            return false;
+        }
+
+        $data->reclamado = 1;
+
+        if (!$data->save()) {
+            throw new HttpException(400, 'Error al validar boleto');
+        }
+        Yii::$app->response->statusCode = 202;
         return $data;
     }
 
@@ -100,21 +149,17 @@ class BoletosController extends BaseAuthController
         $precios = [1];
         $type    = Yii::$app->request->getBodyParam('type', false);
 
-        if (
-            !is_array($precios) ||
-            empty($precios) ||
-            empty($salaAsientosID)
-        ) {
-            throw new \yii\web\HttpException(400, 'Hay un error con los datos de la llamada');
+        if (!is_array($precios) || empty($precios) || empty($salaAsientosID)) {
+            throw new HttpException(400, 'Hay un error con los datos de la llamada');
         }
 
-        if ($type == false || !in_array($type, $this->paymentTypes, true)) {
-            throw new \yii\web\HttpException(400, 'Tipo de pago no soportado');
+        if ($type == false || !in_array($type, $this->_paymentTypes, true)) {
+            throw new HttpException(400, 'Tipo de pago no soportado');
         }
 
         $horarioFuncion = HorarioFuncion::findOne($horarioid);
         if (is_null($horarioFuncion)) {
-            throw new \yii\web\HttpException(404, 'Horario no encontrado');
+            throw new HttpException(404, 'Horario no encontrado');
         }
 
         // revisar que todos los asientos estén disponibles en ese horario
@@ -141,10 +186,10 @@ class BoletosController extends BaseAuthController
 
         $NSalaAsientos = count($salaAsientosID);
         if ($comprados > 0 || empty($salaAsientos) || count($salaAsientos) != $NSalaAsientos || $NSalaAsientos > Yii::$app->params['maxBoletos']) {
-            throw new \yii\web\HttpException(409, 'Uno o mas asientos no están disponibles');
+            throw new HttpException(409, 'Uno o mas asientos no están disponibles');
         }
         if (empty($precioHorarios) || count($precioHorarios) !== count(array_unique($precios))) {
-            throw new \yii\web\HttpException(422, 'Error algún precio no es valido');
+            throw new HttpException(422, 'Error algún precio no es valido');
         }
 
         foreach ($precioHorarios as $precioHr) {
@@ -169,7 +214,7 @@ class BoletosController extends BaseAuthController
             $boleto->tipo_pago          = $type;
 
             if (!$boleto->save()) {
-                throw new \yii\web\HttpException(400, 'Hubo un error al guardar tu boleto');
+                throw new HttpException(400, 'Hubo un error al guardar tu boleto');
             }
 
             foreach ($salaAsientos as $salaAsiento) {
@@ -177,7 +222,7 @@ class BoletosController extends BaseAuthController
                 $boletoAsiento->sala_asiento_id = $salaAsiento->id;
                 $boletoAsiento->boleto_id       = $boleto->id;
                 if (!$boletoAsiento->save()) {
-                    throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
+                    throw new HttpException(400, 'Hubo un error al apartar tus asientos');
                 }
             }
 
@@ -187,13 +232,13 @@ class BoletosController extends BaseAuthController
                 $boletoPrecio->boleto_id = $boleto->id;
                 $boletoPrecio->precio    = ($precioHr->usar_especial == 1) ? $precioHr->precio->especial : $precioHr->precio->default;
                 if (!$boletoPrecio->save()) {
-                    throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
+                    throw new HttpException(400, 'Hubo un error al apartar tus asientos');
                 }
             }
 
             $boleto->setQR();
             if (!$boleto->save()) {
-                throw new \yii\web\HttpException(400, 'Hubo un error al guardar tu boleto');
+                throw new HttpException(400, 'Hubo un error al guardar tu boleto');
             }
 
             switch ($type) {
@@ -208,18 +253,18 @@ class BoletosController extends BaseAuthController
                     $pago->tipo_pago       = 'taquilla';
 
                     if (!$pago->save()) {
-                        throw new \yii\web\HttpException(400, 'Hubo un error al procesar tu Pago');
+                        throw new HttpException(400, 'Hubo un error al procesar tu Pago');
                     }
                     break;
 
                 default:
-                    throw new \yii\web\HttpException(422, 'Tipo de pago no valido');
+                    throw new HttpException(422, 'Tipo de pago no valido');
                     break;
             }
 
             $boleto->id_pago = $pago->id;
             if (!$boleto->save()) {
-                throw new \yii\web\HttpException(400, 'Hubo un error al procesar tu boleto');
+                throw new HttpException(400, 'Hubo un error al procesar tu boleto');
             }
 
             $txn->commit();
