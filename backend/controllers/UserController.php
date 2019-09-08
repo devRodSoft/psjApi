@@ -126,7 +126,7 @@ class UserController extends BaseCtrl
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id)->deleteInternal();
 
         return $this->redirect(['index']);
     }
@@ -140,7 +140,7 @@ class UserController extends BaseCtrl
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = User::find()->where(['status' => User::STATUS_ACTIVE])->one($id)) !== null) {
             return $model;
         }
 

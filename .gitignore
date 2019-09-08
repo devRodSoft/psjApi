@@ -43,3 +43,5 @@ phpunit.phar
 oracle.sqlite
 
 /QRImages/*
+.vscode/settings.json
+taquilla/modules/controllers/untitledno.js

@@ -23,40 +23,47 @@ setlocale(LC_ALL, "es_ES");
         <?php echo Html::a('Ver Planner', ['planner'], ['class' => 'btn btn-primary']) ?>
     </p>
 
-    <?php echo GridView::widget([
-    'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-    'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-
-        'pelicula.nombre',
-        'sala.nombre',
+    <?php echo GridView::widget(
         [
-            'label' => 'Dia',
-            'value' => function ($m) {
-                $dia = Yii::$app->formatter->asDate($m->fecha, 'php:l');
-                return isset($dias[strtolower($dia)])? $dias[strtolower($dia)] : $dia;
-            }
-        ],
-        'fecha',
-        'hora',
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-        [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => '{view} {calendar} {update}',
-            'buttons' => [
-                'calendar' => function ($url, $model, $index) {
-                    $urlc = ['funcion/calendar', 'id' => $model->pelicula_id];
-                    return Html::a('<span class="glyphicon glyphicon-calendar"></span>',
-                        $urlc, [
-                            'title' => 'calendar',
-                            'data-pjax' => '0',
-                        ]);
-                },
-            ],
-        ],
-    ],
-]); ?>
+                'pelicula.nombre',
+                'sala.nombre',
+                [
+                    'label' => 'Dia',
+                    'value' => function ($m) {
+                        $dia = Yii::$app->formatter->asDate($m->fecha, 'php:l');
+                        return isset($dias[strtolower($dia)])? $dias[strtolower($dia)] : $dia;
+                    }
+                ],
+                'fecha',
+                'hora',
+
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view} {calendar} {update}',
+                    'buttons' => [
+                        'calendar' => function ($url, $model, $index) {
+                            $urlc = [
+                                'funcion/calendar',
+                                'id' => $model->pelicula_id];
+                                return Html::a(
+                                    '<span class="glyphicon glyphicon-calendar"></span>',
+                                    $urlc,
+                                    [
+                                        'title' => 'calendar',
+                                        'data-pjax' => '0',
+                                    ]
+                                );
+                            },
+                        ],
+                    ],
+                ],
+            ]
+        ); ?>
 </div>
 
 
