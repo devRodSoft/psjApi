@@ -37,8 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'cine.nombre',
                 'pelicula.nombre',
-                'inicio',
-                'fin',
+                'inicio:date',
+                'fin:date',
                 'publicar:boolean',
             ],
         ]

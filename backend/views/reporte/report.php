@@ -1,9 +1,9 @@
 <?php
 
-use dosamigos\datepicker\DatePicker;
-use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\widgets\ActiveForm;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\PromocionSearch */
@@ -18,7 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?php echo Html::encode($this->title) ?></h1>
 
     <p>
-        <?php echo Html::button('imprimir', ['class' => 'btn btn-success', 'onclick' => "var iframe = document.createElement('iframe');
+        <?php echo Html::button(
+            'imprimir',
+            [
+                'class' => 'btn btn-success',
+                'onclick' => "var iframe = document.createElement('iframe');
 iframe.style.display = 'none';
 iframe.src = (window.location.href.indexOf('?') > 0)? window.location.href + '&print=true' : window.location.href + '?print=true';
 iframe.name = 'printf';
@@ -26,34 +30,40 @@ iframe.id = 'printf';
 document.body.appendChild(iframe);
 window.frames['printf'].focus();
 window.frames['printf'].print();
-window.frames['printf'].document.close();"]) ?>
+window.frames['printf'].document.close();"
+            ]
+        ) ?>
     </p>
 
     <div class="funcion-search">
 
-        <?php $form = ActiveForm::begin([
-            'action' => [strtolower($title)],
-            'method' => 'get',
-        ]); ?>
+        <?php $form = ActiveForm::begin(
+            [
+                'action' => [strtolower($title)],
+                'method' => 'get',
+            ]
+        ); ?>
 
         <p>
             Inicio:
             <?= $form->field($widgetData['filterModel'], 'fechaInicio')->widget(
-            DatePicker::className(),
-            [
-                'clientOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
+                DateTimePicker::className(),
+                [
+                    'removeButton' => false,
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd hh:ii'
                     ]
-                    ]
-                ); ?>
+                ]
+            ); ?>
             Fin:
             <?= $form->field($widgetData['filterModel'], 'fechaFin')->widget(
-                DatePicker::className(),
+                DateTimePicker::className(),
                 [
-                    'clientOptions' => [
+                    'removeButton' => false,
+                    'pluginOptions' => [
                         'autoclose' => true,
-                        'format' => 'yyyy-mm-dd'
+                        'format' => 'yyyy-mm-dd hh:ii'
                     ]
                 ]
             ); ?>

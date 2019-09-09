@@ -18,36 +18,39 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php echo Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php echo Html::a('Borrar', ['delete', 'id' => $model->id], [
-    'class' => 'btn btn-danger',
-    'data' => [
-        'confirm' => 'Estas seguro que quieres eliminar este elemento?',
-        'method' => 'post',
-    ],
-]) ?>
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Estas seguro que quieres eliminar este elemento?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
-    <?php echo DetailView::widget([
-    'model' => $model,
-    'attributes' => [
-        'id',
+    <?php echo DetailView::widget(
         [
-            'label' => 'cine',
-            'value' => function ($m) {
-                return $m->cine->nombre;
-            }],
-        [
-            'label' => 'pelicula',
-            'value' => function ($m) {
-                return $m->pelicula->nombre;
-            }],
-        'publicar:boolean',
-        'fecha',
-        'hora',
-    ],
-]) ?>
+            'model' => $model,
+            'attributes' => [
+                'publicar:boolean',
+                [
+                    'label' => 'pelicula',
+                    'value' => function ($m) {
+                        return $m->pelicula->nombre;
+                    }
+                ],
+                [
+                    'label' => 'sala',
+                    'value' => function ($m) {
+                        return $m->sala->nombre;
+                    }
+                ],
+                'fecha:date',
+                'hora',
+            ],
+        ]
+    ) ?>
 
-<h2>Precios</h2>
-<table id="myTable" class="table table-striped table-bordered detail-view">
+    <h2>Precios</h2>
+    <table id="myTable" class="table table-striped table-bordered detail-view">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -59,60 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($model->horarioPrecios as $horarioPrecio): ?>
-            <tr>
-                <td><?php echo $horarioPrecio->precio->nombre ?></td>
-                <td><?php echo $horarioPrecio->precio->codigo ?></td>
-                <td><?php echo ($horarioPrecio->usar_especial) ? $horarioPrecio->precio->especial : $horarioPrecio->precio->default ?></td>
-                <td><?php echo ($horarioPrecio->usar_especial) ? 'si' : 'no' ?></td>
-            </tr>
-            <?php endforeach?>
+            <?php foreach ($model->horarioPrecios as $horarioPrecio) : ?>
+                <tr>
+                    <td><?php echo $horarioPrecio->precio->nombre ?></td>
+                    <td><?php echo $horarioPrecio->precio->codigo ?></td>
+                    <td><?php echo ($horarioPrecio->usar_especial) ? $horarioPrecio->precio->especial : $horarioPrecio->precio->default ?></td>
+                    <td><?php echo ($horarioPrecio->usar_especial) ? 'si' : 'no' ?></td>
+                </tr>
+            <?php endforeach ?>
         </tbody>
     </table>
 
-<!-- <table id="myTable" class=" table order-list">
-        <thead>
-            <tr>
-                <td>Fecha</td>
-                <td>Hora</td>
-                <td>Sala</td>
-
-            </tr>
-        </thead>
-        <tbody>
-            <?php // foreach ($model->horarios as $key => $horario): ?>
-            <tr>
-                <td>
-                    <?php // echo $horario->fecha ?>
-                </td>
-                <td>
-                    <?php // echo Yii::$app->formatter->asTime($horario->hora, 'php:H:i'); ?>
-                </td>
-                <td>
-                    <?php // echo $horario->sala->nombre ?>
-                </td>
-            </tr>
-            <?php // endforeach?>
-        </tbody>
-    </table> -->
 
 </div>
-<!--
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'list' ],
-          defaultView: 'listMonth',
-          forceEventDuration:true,
-          defaultTimedEventDuration:{years: 0, months: 0, days: 0, milliseconds:<?php echo $model->pelicula->duracion * 60000 ?>},
-          events: <?php echo json_encode($hrs) ?>,
-
-        });
-
-        calendar.render();
-      });
-
-</script>
-<div id="calendar"></div> -->

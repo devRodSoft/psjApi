@@ -27,7 +27,11 @@
         "paypal/paypal-checkout-sdk": "dev-master",
         "2amigos/yii2-selectize-widget": "~1.0",
         "2amigos/yii2-type-ahead-widget": "~1.0",
-        "kartik-v/yii2-widget-fileinput": "dev-master"
+        "kartik-v/yii2-widget-fileinput": "dev-master",
+        "bedezign/yii2-audit": "^1.0",
+        "kartik-v/yii2-widget-timepicker": "dev-master",
+        "kartik-v/yii2-widget-datepicker": "dev-master",
+        "kartik-v/yii2-widget-datetimepicker": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-gii": "~2.0.0",

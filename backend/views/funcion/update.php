@@ -14,9 +14,12 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 
     <h1>Actualizar Funcion: <?php echo Html::a(Html::encode($model->pelicula->nombre), ['funcion/calendar', 'id' => $model->pelicula_id]) ?></h1>
 
-    <?php echo $this->render('_form', [
-    'model' => $model,
-    'preciosList' => $preciosList,
-]) ?>
+    <?php echo $this->render(
+        '_update_form',
+        [
+            'model' => $model,
+            'preciosList' => $preciosList,
+        ]
+    ) ?>
 
 </div>

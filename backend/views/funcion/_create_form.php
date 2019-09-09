@@ -5,11 +5,11 @@ use yii\helpers\Html;
 use common\models\Cine;
 use common\models\Sala;
 use common\models\Pelicula;
+use kartik\date\DatePicker;
 use kartik\select2\Select2;
+use kartik\time\TimePicker;
 use yii\widgets\ActiveForm;
 use backend\assets\AppAsset;
-use dosamigos\datepicker\DatePicker;
-use dosamigos\multiselect\MultiSelect;
 
 AppAsset::register($this);
 
@@ -19,13 +19,6 @@ AppAsset::register($this);
 ?>
 
 <div class="funcion-form">
-
-    <?php if (\Yii::$app->session->hasFlash('error')) : ?>
-        <div class="error alert alert-danger alert-dismissible" role="alert">
-            <button id="close-error" type="button" class="error close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <?php echo Yii::$app->session->getFlash('error') ?>
-        </div>
-    <?php endif; ?>
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -54,37 +47,42 @@ AppAsset::register($this);
             ],
         ]
     ); ?>
-
-    <?php echo $form->field($model, 'hora')->textInput(['maxlength' => true, 'type' => 'time']) ?>
-    <?php
-    if (!is_null($model->id)) {
-        echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
-            'language' => 'es',
-            'size' => 'sm',
-            'clientOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'startDate' => date("Y-m-d"),
-            ],
-        ]);
-    } else {
-        echo '<div class="alert alert-warning">
+    <div class="alert alert-warning">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">precaucion:</span>
-        Se creara una función por fecha que sea ingresada (máximo 9 fechas)
-    </div>';
-        echo $form->field($model, 'fecha')->widget(DatePicker::className(), [
+        Se creara una función por fecha y hora que sea ingresada (máximo 9 fechas y horas) con un resultado de 81 funciones
+    </div>
+
+    <?php
+    echo $form->field($model, 'hora')->widget(
+        Select2::classname(),
+        [
+            'data' => $horas,
+            'options' => ['placeholder' => 'Seleciona las horas ...'],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'multiple' => true
+            ],
+        ]
+    );
+    echo $form->field($model, 'fecha')->widget(
+        DatePicker::className(),
+        [
             'language' => 'es',
             'size' => 'sm',
-            'clientOptions' => [
+            'removeButton' => false,
+            'type' => DatePicker::TYPE_INLINE,
+            'pluginOptions' => [
                 'autoclose' => false,
                 'multidate' => 9,
                 'format' => 'yyyy-mm-dd',
                 'startDate' => date("Y-m-d"),
             ],
-        ]);
-    }
-
+            'options' => [
+                'style' => 'display:none'
+            ]
+        ]
+    );
     ?>
 
     <?php echo $form->field($model, 'publicar')->checkbox() ?>
@@ -123,7 +121,7 @@ AppAsset::register($this);
         <tfoot>
             <tr>
                 <td colspan="3" style="text - align:left;">
-                    <input type="button" class="btn btn-lg btn-block" id="addrow" value="Agregar Precio" />
+                    <input type="button" class="btn btn-lg btn-block btn-primary" id="addrow" value="Agregar Precio" />
                 </td>
             </tr>
             <tr>

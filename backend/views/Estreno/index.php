@@ -14,26 +14,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);
+    ?>
 
     <p>
         <?= Html::a('Crear Estreno', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Ver Planner', ['planner'], ['class' => 'btn btn-primary']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'pelicula.nombre',
-            'inicio',
-            'fin',
-            //'created_at',
-            //'updated_at',
-            'publicar:boolean',
+    <?= GridView::widget(
+        [
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'pelicula.nombre',
+                'inicio',
+                'fin',
+                //'created_at',
+                //'updated_at',
+                'publicar:boolean',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]
+    ); ?>
     <?php Pjax::end(); ?>
 </div>

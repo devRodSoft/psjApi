@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use common\models\Cine;
 use kartik\file\FileInput;
 use yii\widgets\ActiveForm;
-use dosamigos\datepicker\DatePicker;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Promocion */
@@ -21,27 +21,29 @@ use dosamigos\datepicker\DatePicker;
 
     <?php
     echo $form->field($model, 'start_date')->widget(
-        DatePicker::className(),
+        DateTimePicker::className(),
         [
             'language' => 'es',
             'size' => 'sm',
-            'clientOptions' => [
+            'removeButton' => false,
+            'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'startDate' => date("Y-m-d"),
+                'format' => 'yyyy-mm-dd hh:ii',
+                'startDate' => date("Y-m-d h:i"),
             ],
         ]
     );
 
     echo $form->field($model, 'end_date')->widget(
-        DatePicker::className(),
+        DateTimePicker::className(),
         [
             'language' => 'es',
             'size' => 'sm',
-            'clientOptions' => [
+            'removeButton' => false,
+            'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'startDate' => date("Y-m-d"),
+                'format' => 'yyyy-mm-dd hh:ii',
+                'startDate' => date("Y-m-d h:i"),
             ],
         ]
     );
