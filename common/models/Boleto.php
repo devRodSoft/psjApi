@@ -172,10 +172,11 @@ class Boleto extends \yii\db\ActiveRecord
 
         $this->hash = strtoupper(
             substr($this->faceUser->username, 0, 1) .
-            '-' .
-            substr($this->faceUser->first_name, 0, 1) .
-            substr($this->faceUser->last_name, 0, 1) .
-            $this->id);
+                '-' .
+                substr($this->faceUser->first_name, 0, 1) .
+                substr($this->faceUser->last_name, 0, 1) .
+                $this->id
+        );
     }
 
     /**
@@ -226,20 +227,20 @@ class Boleto extends \yii\db\ActiveRecord
     {
         $query = new Query;
 
-        $query->select('p.id, p.nombre, p.codigo, count(p.id) AS cantidad')
+        $query->select('p.id, p.nombre, p.codigo, bp.precio')
             ->from(['bp' => BoletoPrecio::tableName()])
             ->innerJoin(['p' => Precio::tableName()], 'bp.precio_id = p.id')
-            ->where(['bp.boleto_id' => $this->id])
-            ->groupBy('p.id, p.nombre, p.codigo');
+            ->where(['bp.boleto_id' => $this->id]);
+        // ->groupBy('p.id, p.nombre, p.codigo');
         $precios = $query->all();
 
         return $precios;
     }
 
-/**
- * {@inheritdoc}
- * @return BoletoQuery the active query used by this AR class.
- */
+    /**
+     * {@inheritdoc}
+     * @return BoletoQuery the active query used by this AR class.
+     */
     public static function find()
     {
         return new BoletoQuery(get_called_class());
