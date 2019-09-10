@@ -26,9 +26,10 @@ class BoletoRest extends \common\models\Boleto
                 return $m->horarioFuncion->sala->nombre;
             },
             'asientos' => function ($m) {
-                return array_map(function ($arr) {
-                    return new SalaAsientos($arr->salaAsientos->attributes);
-                },
+                return array_map(
+                    function ($arr) {
+                        return new SalaAsientos($arr->salaAsientos->attributes);
+                    },
                     $m->boletoAsientos
                 );
             },
