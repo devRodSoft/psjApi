@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 
@@ -17,24 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?php echo Html::encode($this->title) ?></h1>
 
-    <p>
-        <?php echo Html::button(
-            'imprimir',
-            [
-                'class' => 'btn btn-success',
-                'onclick' => "var iframe = document.createElement('iframe');
-iframe.style.display = 'none';
-iframe.src = (window.location.href.indexOf('?') > 0)? window.location.href + '&print=true' : window.location.href + '?print=true';
-iframe.name = 'printf';
-iframe.id = 'printf';
-document.body.appendChild(iframe);
-window.frames['printf'].focus();
-window.frames['printf'].print();
-window.frames['printf'].document.close();"
-            ]
-        ) ?>
-    </p>
-
     <div class="funcion-search">
 
         <?php $form = ActiveForm::begin(
@@ -45,7 +28,6 @@ window.frames['printf'].document.close();"
         ); ?>
 
         <p>
-            Inicio:
             <?= $form->field($widgetData['filterModel'], 'fechaInicio')->widget(
                 DateTimePicker::className(),
                 [
@@ -56,7 +38,6 @@ window.frames['printf'].document.close();"
                     ]
                 ]
             ); ?>
-            Fin:
             <?= $form->field($widgetData['filterModel'], 'fechaFin')->widget(
                 DateTimePicker::className(),
                 [
@@ -68,12 +49,39 @@ window.frames['printf'].document.close();"
                 ]
             ); ?>
 
+            <?php // Usage with ActiveForm and model
+            echo $form->field($widgetData['filterModel'], 'username')->widget(
+                Select2::classname(),
+                [
+                    'data' => $usuarios,
+                    'options' => ['placeholder' => 'Selecciona un Usuario ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]
+            ); ?>
+
         </p>
 
 
         <div class="form-group">
             <?php echo Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
             <?php echo Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+            <?php echo Html::button(
+                'imprimir',
+                [
+                    'class' => 'btn btn-success',
+                    'onclick' => "var iframe = document.createElement('iframe');
+iframe.style.display = 'none';
+iframe.src = (window.location.href.indexOf('?') > 0)? window.location.href + '&print=true' : window.location.href + '?print=true';
+iframe.name = 'printf';
+iframe.id = 'printf';
+document.body.appendChild(iframe);
+window.frames['printf'].focus();
+window.frames['printf'].print();
+window.frames['printf'].document.close();"
+                ]
+            ) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

@@ -3,28 +3,29 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\User;
 use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
 
 /**
-* ReporteController implements the CRUD actions for Reporte model.
-*/
+ * ReporteController implements the CRUD actions for Reporte model.
+ */
 class ReporteController extends BaseCtrl
 {
 
     /**
-    * Lists all Reporte models.
-    * @return mixed
-    */
+     * Lists all Reporte models.
+     * @return mixed
+     */
     public function actionIndex()
     {
         return $this->render('index', []);
     }
 
     /**
-    * Lists all Reporte models.
-    * @return mixed
-    */
+     * Lists all Reporte models.
+     * @return mixed
+     */
     public function actionGeneral()
     {
         $view = 'report';
@@ -40,9 +41,12 @@ class ReporteController extends BaseCtrl
             $view = 'imprimir';
         }
 
+        $usuarios = array_column(User::find()->all(), 'username', 'username');
+
         return $this->render($view, [
-        // return $this->render('general', [
-            'title'=>'General',
+            // return $this->render('general', [
+            'title' => 'General',
+            'usuarios' => $usuarios,
             'widgetData' => [
                 'showHeader' => !$print,
                 'dataProvider' => $dataProvider,
@@ -64,14 +68,14 @@ class ReporteController extends BaseCtrl
     }
 
     /**
-    * Lists all Reporte models.
-    * @return mixed
-    */
+     * Lists all Reporte models.
+     * @return mixed
+     */
     public function actionUsuarios()
     {
         $view = 'report';
         $searchModel  = new ReporteSearch();
-        $dataProvider = $searchModel->searchUsuarios(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchusuarios(Yii::$app->request->queryParams);
         $print = Yii::$app->request->getQueryParam('print', false);
 
         $print = !!$print;
@@ -82,9 +86,12 @@ class ReporteController extends BaseCtrl
             $view = 'imprimir';
         }
 
+        $usuarios = array_column(User::find()->all(), 'username', 'username');
+
         return $this->render($view, [
-        // return $this->render('usuarios', [
-            'title'=>'Usuarios',
+            // return $this->render('usuarios', [
+            'title' => 'usuarios',
+            'usuarios' => $usuarios,
             'widgetData' => [
                 'showHeader' => !$print,
                 'dataProvider' => $dataProvider,
@@ -100,9 +107,9 @@ class ReporteController extends BaseCtrl
     }
 
     /**
-    * Lists all Reporte models.
-    * @return mixed
-    */
+     * Lists all Reporte models.
+     * @return mixed
+     */
     public function actionPelicula()
     {
         $view = 'report';
@@ -118,9 +125,12 @@ class ReporteController extends BaseCtrl
             $view = 'imprimir';
         }
 
+        $usuarios = array_column(User::find()->all(), 'username', 'username');
+
         return $this->render($view, [
-        // return $this->render('pelicula', [
-            'title'=>'Pelicula',
+            // return $this->render('pelicula', [
+            'title' => 'Pelicula',
+            'usuarios' => $usuarios,
             'widgetData' => [
                 'showHeader' => !$print,
                 'dataProvider' => $dataProvider,
@@ -128,8 +138,11 @@ class ReporteController extends BaseCtrl
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     'nombre_pelicula',
-                    'idioma',
                     'nombre_distribuidor',
+                    'fecha:date',
+                    'hora:time',
+                    'nombre',
+                    'precio:currency',
                     'conteo',
                     'total:currency',
                 ],
@@ -138,9 +151,9 @@ class ReporteController extends BaseCtrl
     }
 
     /**
-    * Lists all Reporte models.
-    * @return mixed
-    */
+     * Lists all Reporte models.
+     * @return mixed
+     */
     public function actionDistribuidor()
     {
         $view = 'report';
@@ -156,9 +169,12 @@ class ReporteController extends BaseCtrl
             $view = 'imprimir';
         }
 
+        $usuarios = array_column(User::find()->all(), 'username', 'username');
+
         return $this->render($view, [
-        // return $this->render('distribuidor', [
-            'title'=>'Distribuidor',
+            // return $this->render('distribuidor', [
+            'title' => 'Distribuidor',
+            'usuarios' => $usuarios,
             'widgetData' => [
                 'showHeader' => !$print,
                 'dataProvider' => $dataProvider,

@@ -19,6 +19,7 @@ class ReporteSearch extends Reporte
     public function rules()
     {
         return [
+            [[], 'required'],
             [[
                 'boleto_id',
                 'horario_funcion_id',
@@ -261,7 +262,7 @@ class ReporteSearch extends Reporte
 
     public function searchPelicula($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id']);
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
 
         // add conditions that should always apply here
 
