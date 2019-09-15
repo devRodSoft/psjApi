@@ -1,4 +1,5 @@
 <?php
+
 namespace taquilla\modules\controllers;
 
 use Yii;
@@ -145,8 +146,7 @@ class BoletosController extends BaseAuthController
         $faceUserID     = 8;
         $userID         = Yii::$app->user->id;
         $salaAsientosID = Yii::$app->request->getBodyParam('asientos', []);
-        // $precios        = Yii::$app->request->getBodyParam('precios', []);
-        $precios = [1];
+        $precios        = Yii::$app->request->getBodyParam('precios', []);
         $type    = Yii::$app->request->getBodyParam('type', false);
 
         if (!is_array($precios) || empty($precios) || empty($salaAsientosID)) {

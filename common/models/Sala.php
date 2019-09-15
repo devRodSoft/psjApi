@@ -95,7 +95,7 @@ class Sala extends \yii\db\ActiveRecord
                 ->select(['t.*', 'ocupadoAsiento' => 'if(b.id IS NULL, 0, 1)'])
                 ->join('inner join', ['hf' => 'horario_funcion'], 'hf.sala_id = t.sala_id')
                 ->join('left join', ['ba' => 'boleto_asiento'], 't.id = ba.sala_asiento_id')
-                ->join('left join', ['b' => 'boleto'], 'ba.boleto_id = b.id')
+                ->join('left join', ['b' => 'boleto'], 'ba.boleto_id = b.id AND hf.id = b.horario_funcion_id')
                 ->where(['hf.id' => $horarioID])
                 ->all();
         }
