@@ -101,7 +101,7 @@ class ReporteSearch extends Reporte
      */
     public function search($params)
     {
-        $query = Reporte::find();
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
 
         // add conditions that should always apply here
 
@@ -180,9 +180,9 @@ class ReporteSearch extends Reporte
         return $dataProvider;
     }
 
-    public function searchUsuarios($params)
+    public function searchuFuncion($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, username, COUNT(boleto_id) AS conteo')->groupBy(['empleado_id']);
+        $query = Reporte::find()->select('nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
 
         // add conditions that should always apply here
 

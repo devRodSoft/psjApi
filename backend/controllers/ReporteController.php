@@ -4,8 +4,10 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\User;
+use yii\bootstrap\Html;
 use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
+use kartik\grid\GridView;
 
 /**
  * ReporteController implements the CRUD actions for Reporte model.
@@ -26,84 +28,63 @@ class ReporteController extends BaseCtrl
      * Lists all Reporte models.
      * @return mixed
      */
-    public function actionGeneral()
+    public function actionDia()
     {
-        $view = 'report';
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $print = Yii::$app->request->getQueryParam('print', false);
+        $title = 'Ventas por dia';
+        $url = 'dia';
+        $columns = [
+            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
+            'fecha:date',
+            'hora:time',
+            [
+                'label' => 'Sala',
+                'value' => function ($m) {
+                    return $m->sala->nombre;
+                }
+            ],
+            ['attribute' => 'nombre', 'label' => 'Tipo'],
+            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            'total:currency',
+        ];
 
-        $print = !!$print;
+        // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        if ($print) {
-            $dataProvider->pagination = false;
-            $this->layout = 'print';
-            $view = 'imprimir';
-        }
-
-        $usuarios = array_column(User::find()->all(), 'username', 'username');
-
-        return $this->render($view, [
-            // return $this->render('general', [
-            'title' => 'General',
-            'usuarios' => $usuarios,
-            'widgetData' => [
-                'showHeader' => !$print,
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'nombre_pelicula',
-                    'idioma',
-                    'hora',
-                    'fecha',
-                    'nombre',
-                    'precio',
-                    'tipo_pago',
-                    'username',
-                    'nombre_distribuidor',
-                ],
-            ]
-        ]);
+        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
     }
 
     /**
      * Lists all Reporte models.
      * @return mixed
      */
-    public function actionUsuarios()
+    public function actionFuncion()
     {
-        $view = 'report';
         $searchModel  = new ReporteSearch();
-        $dataProvider = $searchModel->searchusuarios(Yii::$app->request->queryParams);
-        $print = Yii::$app->request->getQueryParam('print', false);
+        $dataProvider = $searchModel->searchuFuncion(Yii::$app->request->queryParams);
+        $title = 'Boletos por funciones';
+        $url = 'funcion';
+        $columns = [
+            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
+            'fecha:date',
+            'hora:time',
+            [
+                'label' => 'Sala',
+                'value' => function ($m) {
+                    return $m->sala->nombre;
+                }
+            ],
+            ['attribute' => 'nombre', 'label' => 'Tipo'],
+            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'conteo', 'label' => 'Entradas'],
+        ];
 
-        $print = !!$print;
+        // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        if ($print) {
-            $dataProvider->pagination = false;
-            $this->layout = 'print';
-            $view = 'imprimir';
-        }
-
-        $usuarios = array_column(User::find()->all(), 'username', 'username');
-
-        return $this->render($view, [
-            // return $this->render('usuarios', [
-            'title' => 'usuarios',
-            'usuarios' => $usuarios,
-            'widgetData' => [
-                'showHeader' => !$print,
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'username',
-                    'conteo',
-                    'total:currency',
-                ],
-            ]
-        ]);
+        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
     }
 
     /**
@@ -112,81 +93,124 @@ class ReporteController extends BaseCtrl
      */
     public function actionPelicula()
     {
-        $view = 'report';
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchPelicula(Yii::$app->request->queryParams);
-        $print = Yii::$app->request->getQueryParam('print', false);
+        $title = 'Boletos por peliculas';
+        $url = 'pelicula';
+        $columns = [
+            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
+            'fecha:date',
+            'hora:time',
+            ['attribute' => 'nombre', 'label' => 'Tipo'],
+            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            'total:currency',
+        ];
 
-        $print = !!$print;
+        // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        if ($print) {
-            $dataProvider->pagination = false;
-            $this->layout = 'print';
-            $view = 'imprimir';
-        }
-
-        $usuarios = array_column(User::find()->all(), 'username', 'username');
-
-        return $this->render($view, [
-            // return $this->render('pelicula', [
-            'title' => 'Pelicula',
-            'usuarios' => $usuarios,
-            'widgetData' => [
-                'showHeader' => !$print,
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'nombre_pelicula',
-                    'nombre_distribuidor',
-                    'fecha:date',
-                    'hora:time',
-                    'nombre',
-                    'precio:currency',
-                    'conteo',
-                    'total:currency',
-                ],
-            ]
-        ]);
+        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
     }
 
     /**
      * Lists all Reporte models.
      * @return mixed
      */
-    public function actionDistribuidor()
+    public function actionVperiodo()
     {
-        $view = 'report';
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchDistribuidor(Yii::$app->request->queryParams);
-        $print = Yii::$app->request->getQueryParam('print', false);
+        $title = 'Ventas por Periodo';
+        $url = 'vperiodo';
+        $columns = [
+            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
+            'fecha:date',
+            'hora:time',
+            [
+                'label' => 'Sala',
+                'value' => function ($m) {
+                    return $m->sala->nombre;
+                }
+            ],
+            ['attribute' => 'nombre', 'label' => 'Tipo'],
+            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'conteo', 'label' => 'Entradas'],
+        ];
 
-        $print = !!$print;
+        // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        if ($print) {
-            $dataProvider->pagination = false;
-            $this->layout = 'print';
-            $view = 'imprimir';
-        }
+        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+    }
 
-        $usuarios = array_column(User::find()->all(), 'username', 'username');
+    public function actionBperiodo()
+    {
+        $searchModel  = new ReporteSearch();
+        $dataProvider = $searchModel->searchDistribuidor(Yii::$app->request->queryParams);
+        $title = 'Boletos por Periodo';
+        $url = 'bperiodo';
+        $columns = [
+            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
+            'fecha:date',
+            'hora:time',
+            [
+                'label' => 'Sala',
+                'value' => function ($m) {
+                    return $m->sala->nombre;
+                }
+            ],
+            ['attribute' => 'nombre', 'label' => 'Tipo'],
+            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'conteo', 'label' => 'Entradas'],
+        ];
 
-        return $this->render($view, [
-            // return $this->render('distribuidor', [
-            'title' => 'Distribuidor',
-            'usuarios' => $usuarios,
-            'widgetData' => [
-                'showHeader' => !$print,
-                'dataProvider' => $dataProvider,
+        // $usuarios = array_column(User::find()->all(), 'username', 'username');
+
+        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+    }
+
+    private function renderReport($title, $url, $searchModel, $dataProvider, $columns)
+    {
+        return $this->render(
+            'report',
+            [
+                // return $this->render('pelicula', [
+                'title' => $title,
                 'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'nombre_distribuidor',
-                    'conteo',
-                    'total:currency',
-
-                ],
+                'widgetData' => [
+                    'export' => [
+                        'label' => 'Exportar reporte'
+                    ],
+                    'exportConfig' => [
+                        GridView::HTML => [],
+                        GridView::PDF => [
+                            'config' => [
+                                'mode' => 'utf-8',
+                                'format' => 'Letter',
+                                'destination' => 'D',
+                                'methods' => [
+                                    'SetHeader' => [$title],
+                                    'SetFooter' => ['{PAGENO}']
+                                ]
+                            ]
+                        ],
+                    ],
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'toolbar' => [
+                        '{export}',
+                    ],
+                    'panel' => [
+                        'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> ' . $title . '</h3>',
+                        'type' => 'success',
+                        'after' => Html::a('<i class="fas fa-redo"></i> Reiniciar filtros', [$url], ['class' => 'btn btn-info']),
+                        'footer' => false
+                    ],
+                    'columns' => $columns,
+                ]
             ]
-        ]);
+        );
     }
 }

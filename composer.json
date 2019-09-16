@@ -31,7 +31,9 @@
         "bedezign/yii2-audit": "^1.0",
         "kartik-v/yii2-widget-timepicker": "dev-master",
         "kartik-v/yii2-widget-datepicker": "dev-master",
-        "kartik-v/yii2-widget-datetimepicker": "dev-master"
+        "kartik-v/yii2-widget-datetimepicker": "dev-master",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-mpdf": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-gii": "~2.0.0",

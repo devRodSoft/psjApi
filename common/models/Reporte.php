@@ -87,4 +87,9 @@ class Reporte extends \yii\db\ActiveRecord
     {
         return new ReportesQuery(get_called_class());
     }
+
+    public function getSala()
+    {
+        return $this->hasOne(Sala::className(), ['id' => 'sala_id']);
+    }
 }

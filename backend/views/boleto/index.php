@@ -1,6 +1,6 @@
 <?php
 
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -13,23 +13,24 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="boleto-index">
 
     <h1><?php echo Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?php echo GridView::widget([
-    'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-    'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
-        'faceUser.nombre',
-        'horarioFuncion.fecha',
-        'horarioFuncion.hora',
-        'reclamado:boolean',
-        'hash',
-        //'created_at',
-        //'updated_at',
+            'faceUser.nombre',
+            'horarioFuncion.fecha',
+            'horarioFuncion.hora',
+            'reclamado:boolean',
+            'hash',
+            //'created_at',
+            //'updated_at',
 
-        ['class' => 'yii\grid\ActionColumn'],
-    ],
-]); ?>
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 </div>
