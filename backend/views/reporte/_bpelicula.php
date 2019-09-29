@@ -9,7 +9,7 @@ use kartik\datetime\DateTimePicker;
     <?php
     $form = ActiveForm::begin(
         [
-            'action' => [strtolower($title)],
+            'action' => [$url],
             'method' => 'get',
         ]
     );

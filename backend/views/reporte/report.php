@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         '_bpelicula.php',
         [
             'filterModel' => $filterModel,
+            'url' => $url
             // 'usuarios' => $usuarios,
         ]
     )  ?>
