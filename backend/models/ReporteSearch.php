@@ -341,7 +341,7 @@ class ReporteSearch extends Reporte
 
     public function searchDistribuidor($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_distribuidor, COUNT(boleto_id) AS conteo')->groupBy(['distribuidora_id']);
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['distribuidora_id']);
 
         // add conditions that should always apply here
 

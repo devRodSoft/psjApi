@@ -1,4 +1,5 @@
 <?php
+
 namespace api\modules\controllers;
 
 use api\controllers\BaseController;
@@ -24,7 +25,6 @@ class SalaController extends BaseController
         $data = SalaRest::find()->all();
 
         return $data;
-
     }
 
     public function actionView($id)
@@ -32,7 +32,6 @@ class SalaController extends BaseController
         $data = SalaRest::find()->where(['id' => $id])->one();
 
         return $data;
-
     }
 
     public function actionOcupados($id)
@@ -42,7 +41,6 @@ class SalaController extends BaseController
         $data = SalaRest::find()->select(['*', 'horario' => '(select ' . $hr->id . ')'])->where(['id' => $hr->sala_id])->all();
 
         return $data;
-
     }
 
     public function actionOcupadosmtx($id)
@@ -54,7 +52,11 @@ class SalaController extends BaseController
             throw new \yii\web\HttpException(404, 'Horario no encontrado');
         }
 
-        return ['id' => $hr->sala->id, 'nombre' => $hr->sala->nombre, 'cine_id' => $hr->sala->cine_id, 'distribucion' => $hr->sala->getAsientosAsMtx($id)];
-
+        return [
+            'id' => $hr->sala->id,
+            'nombre' => $hr->sala->nombre,
+            'cine_id' => $hr->sala->cine_id,
+            'distribucion' => $hr->sala->getAsientosAsMtx($id),
+        ];
     }
 }
