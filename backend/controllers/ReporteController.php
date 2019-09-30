@@ -178,6 +178,7 @@ class ReporteController extends BaseCtrl
             [
                 // return $this->render('pelicula', [
                 'title' => $title,
+                'url' => $url,
                 'filterModel' => $searchModel,
                 'widgetData' => [
                     'export' => [
