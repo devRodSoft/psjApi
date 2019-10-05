@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers;
 
 use yii\rest\ActiveController;
@@ -21,8 +22,13 @@ class BaseController extends ActiveController
                 'Access-Control-Allow-Origin' => ['*'],
                 'Origin' => [
                     'http://localhost:8100',
+                    'http://localhost:4200',
                     'http://api.rodsoft.com.mx:80',
                     'https://api.rodsoft.com.mx:443',
+                    'https://mobil.plazasanjavier.com:443',
+                    'http://plazasanjavier.com:443',
+                    'http://taquilla.plazasanjavier.com:443',
+                    'http://admin.plazasanjavier.com:443',
                     'https://localhost:8100',
                 ],
                 // Allow only POST and PUT methods
@@ -53,4 +59,3 @@ class BaseController extends ActiveController
         return $behaviors;
     }
 }
-
