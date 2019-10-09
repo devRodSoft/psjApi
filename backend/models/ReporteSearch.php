@@ -13,6 +13,7 @@ class ReporteSearch extends Reporte
 {
     public $fechaInicio = null;
     public $fechaFin = null;
+    public $fecha = null;
     /**
      * {@inheritdoc}
      */
@@ -171,6 +172,8 @@ class ReporteSearch extends Reporte
         $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
             ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
 
+        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
+
         $query->andFilterWhere(
             ['like', 'username', $this->username]
         )
@@ -250,6 +253,8 @@ class ReporteSearch extends Reporte
         );
         $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
             ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+
+        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
             ['like', 'username', $this->username]
@@ -331,6 +336,8 @@ class ReporteSearch extends Reporte
         $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
             ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
 
+        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
+
         $query->andFilterWhere(
             ['like', 'username', $this->username]
         )
@@ -409,6 +416,8 @@ class ReporteSearch extends Reporte
         );
         $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
             ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+
+        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
             ['like', 'username', $this->username]

@@ -26,6 +26,17 @@ use kartik\date\DatePicker;
             ]
         ); ?>
 
+        <?php echo $form->field($filterModel, 'username')->widget(
+            Select2::classname(),
+            [
+                'data' => $usuarios,
+                'options' => ['placeholder' => 'Selecciona un vendedor ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]
+        ); ?>
+
     </p>
 
 

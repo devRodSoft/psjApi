@@ -26,6 +26,27 @@ use kartik\date\DatePicker;
             ]
         ); ?>
 
+        <?php echo $form->field($filterModel, 'nombre_distribuidor')->widget(
+            Select2::classname(),
+            [
+                'data' => $distribuidoras,
+                'options' => ['placeholder' => 'Selecciona una distribuidora ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]
+        );  ?>
+        <?php echo $form->field($filterModel, 'nombre_pelicula')->widget(
+            Select2::classname(),
+            [
+                'data' => $peliculas,
+                'options' => ['placeholder' => 'Selecciona una pelicula ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]
+        );  ?>
+
     </p>
 
 

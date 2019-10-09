@@ -7,6 +7,8 @@ use common\models\User;
 use yii\bootstrap\Html;
 use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
+use common\models\Distribuidora;
+use common\models\Pelicula;
 use kartik\grid\GridView;
 
 /**
@@ -51,9 +53,22 @@ class ReporteController extends BaseCtrl
             'total:currency',
         ];
 
-        // $usuarios = array_column(User::find()->all(), 'username', 'username');
+        $searchTemplate = '_bdia.php';
+        $searchTemplateData = [
+            'filterModel' => $searchModel,
+            'url' => $url,
+            'usuarios' => array_column(User::find()->all(), 'username', 'username'),
+        ];
 
-        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+        return $this->renderReport(
+            $title,
+            $url,
+            $searchModel,
+            $dataProvider,
+            $columns,
+            $searchTemplate,
+            $searchTemplateData
+        );
     }
 
     /**
@@ -83,8 +98,23 @@ class ReporteController extends BaseCtrl
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
+        $searchTemplate = '_bfuncion.php';
+        $searchTemplateData = [
+            'filterModel' => $searchModel,
+            'url' => $url,
+            'distribuidoras' => array_column(Distribuidora::find()->all(), 'nombre', 'nombre'),
+            'peliculas' => array_column(Pelicula::find()->all(), 'nombre', 'nombre'),
+        ];
 
-        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+        return $this->renderReport(
+            $title,
+            $url,
+            $searchModel,
+            $dataProvider,
+            $columns,
+            $searchTemplate,
+            $searchTemplateData
+        );
     }
 
     /**
@@ -110,7 +140,20 @@ class ReporteController extends BaseCtrl
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+        $searchTemplate = '_bpelicula.php';
+        $searchTemplateData = [
+            'filterModel' => $searchModel,
+            'url' => $url
+        ];
+        return $this->renderReport(
+            $title,
+            $url,
+            $searchModel,
+            $dataProvider,
+            $columns,
+            $searchTemplate,
+            $searchTemplateData
+        );
     }
 
     /**
@@ -140,8 +183,23 @@ class ReporteController extends BaseCtrl
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
-
-        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+        $searchTemplate = '_bperiodo.php';
+        $searchTemplateData = [
+            'filterModel' => $searchModel,
+            'url' => $url,
+            'distribuidoras' => array_column(Distribuidora::find()->all(), 'nombre', 'nombre'),
+            'peliculas' => array_column(Pelicula::find()->all(), 'nombre', 'nombre'),
+            'usuarios' => array_column(User::find()->all(), 'username', 'username'),
+        ];
+        return $this->renderReport(
+            $title,
+            $url,
+            $searchModel,
+            $dataProvider,
+            $columns,
+            $searchTemplate,
+            $searchTemplateData
+        );
     }
 
     public function actionBperiodo()
@@ -165,13 +223,28 @@ class ReporteController extends BaseCtrl
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
             ['attribute' => 'conteo', 'label' => 'Entradas'],
         ];
-
+        $searchTemplate = '_bperiodo.php';
+        $searchTemplateData = [
+            'filterModel' => $searchModel,
+            'url' => $url,
+            'distribuidoras' => array_column(Distribuidora::find()->all(), 'nombre', 'nombre'),
+            'peliculas' => array_column(Pelicula::find()->all(), 'nombre', 'nombre'),
+            'usuarios' => array_column(User::find()->all(), 'username', 'username'),
+        ];
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        return $this->renderReport($title, $url, $searchModel, $dataProvider, $columns);
+        return $this->renderReport(
+            $title,
+            $url,
+            $searchModel,
+            $dataProvider,
+            $columns,
+            $searchTemplate,
+            $searchTemplateData
+        );
     }
 
-    private function renderReport($title, $url, $searchModel, $dataProvider, $columns)
+    private function renderReport($title, $url, $searchModel, $dataProvider, $columns, $searchTemplate, $searchTemplateData)
     {
         return $this->render(
             'report',
@@ -179,6 +252,8 @@ class ReporteController extends BaseCtrl
                 // return $this->render('pelicula', [
                 'title' => $title,
                 'url' => $url,
+                'searchTemplate' => $searchTemplate,
+                'searchTemplateData' => $searchTemplateData,
                 'filterModel' => $searchModel,
                 'widgetData' => [
                     'export' => [
