@@ -10,6 +10,8 @@ use backend\models\ReporteSearch;
 use common\models\Distribuidora;
 use common\models\Pelicula;
 use kartik\grid\GridView;
+use yii\helpers\ArrayHelper;
+
 
 /**
  * ReporteController implements the CRUD actions for Reporte model.
@@ -37,7 +39,18 @@ class ReporteController extends BaseCtrl
         $title = 'Ventas por dia';
         $url = 'dia';
         $columns = [
-            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            //['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            [
+                'attribute' => 'nombre_pelicula', 
+                'width' => '310px',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'), 
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Any supplier'],
+                'group' => true,  // enable grouping
+            ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             'hora:time',
@@ -123,6 +136,7 @@ class ReporteController extends BaseCtrl
      */
     public function actionPelicula()
     {
+        //group by price type *****
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchPelicula(Yii::$app->request->queryParams);
         $title = 'Boletos por peliculas';
@@ -131,11 +145,11 @@ class ReporteController extends BaseCtrl
             ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
-            'hora:time',
+            //'hora:time',
             ['attribute' => 'nombre', 'label' => 'Tipo'],
-            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+           // ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
             ['attribute' => 'conteo', 'label' => 'Entradas'],
-            'total:currency',
+            //'total:currency',
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
@@ -277,11 +291,12 @@ class ReporteController extends BaseCtrl
                     'filterModel' => $searchModel,
                     'toolbar' => [
                         '{export}',
+                        '{toggleData}'
                     ],
                     'panel' => [
                         'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> ' . $title . '</h3>',
                         'type' => 'success',
-                        'after' => Html::a('<i class="fas fa-redo"></i> Reiniciar filtros', [$url], ['class' => 'btn btn-info']),
+                        'after' => ' {pager}' . '<br>' . Html::a('<i class="fas fa-redo"></i> Reiniciar filtros', [$url], ['class' => 'btn btn-info']),
                         'footer' => false
                     ],
                     'columns' => $columns,
