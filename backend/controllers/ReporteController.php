@@ -54,6 +54,7 @@ class ReporteController extends BaseCtrl
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             'hora:time',
+            //'create_time',
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
