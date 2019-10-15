@@ -74,6 +74,7 @@ class ReporteSearch extends Reporte
                 'nombre_distribuidor',
                 'fechaInicio',
                 'fechaFin',
+                'asiento',
             ], 'safe'],
         ];
     }
@@ -104,7 +105,7 @@ class ReporteSearch extends Reporte
      */
     public function search($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id','nombre', 'fecha', 'hora'])->orderBy('hora');
+        $query = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora'])->orderBy('hora');
 
         // add conditions that should always apply here
 
@@ -128,7 +129,6 @@ class ReporteSearch extends Reporte
                 'boleto_id' => $this->boleto_id,
                 'reclamado' => $this->reclamado,
                 'reimpreso' => $this->reimpreso,
-                //'boleto_creado' => $this->boleto_creado,
                 'boleto_actualizado' => $this->boleto_actualizado,
                 'qr_phat' => $this->qr_phat,
                 'hash' => $this->hash,
@@ -171,12 +171,11 @@ class ReporteSearch extends Reporte
             ]
         );
 
-        $query->andFilterWhere(['DATE(fecha)' => $this->boleto_creado]);
+        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
+            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
 
-        /*$query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);*/
-
-        //$query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
+        $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
+        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
             ['like', 'username', $this->username]
@@ -189,7 +188,7 @@ class ReporteSearch extends Reporte
 
     public function searchuFuncion($params)
     {
-        $query = Reporte::find()->select('nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
+        $query = Reporte::find()->select('nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
 
         // add conditions that should always apply here
 
@@ -213,7 +212,6 @@ class ReporteSearch extends Reporte
                 'boleto_id' => $this->boleto_id,
                 'reclamado' => $this->reclamado,
                 'reimpreso' => $this->reimpreso,
-                'boleto_creado' => $this->boleto_creado,
                 'boleto_actualizado' => $this->boleto_actualizado,
                 'qr_phat' => $this->qr_phat,
                 'hash' => $this->hash,
@@ -221,7 +219,6 @@ class ReporteSearch extends Reporte
                 'sala_id' => $this->sala_id,
                 'cine_id' => $this->cine_id,
                 'hora' => $this->hora,
-                'fecha' => $this->fecha,
                 'publicar' => $this->publicar,
                 'horario_creado' => $this->horario_creado,
                 'horario_actualizado' => $this->horario_actualizado,
@@ -255,9 +252,10 @@ class ReporteSearch extends Reporte
                 'distribuidora_id' => $this->distribuidora_id,
             ]
         );
-        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
+            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
 
+        $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
@@ -271,7 +269,7 @@ class ReporteSearch extends Reporte
 
     public function searchPelicula($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
 
         // add conditions that should always apply here
 
@@ -295,7 +293,6 @@ class ReporteSearch extends Reporte
                 'boleto_id' => $this->boleto_id,
                 'reclamado' => $this->reclamado,
                 'reimpreso' => $this->reimpreso,
-                'boleto_creado' => $this->boleto_creado,
                 'boleto_actualizado' => $this->boleto_actualizado,
                 'qr_phat' => $this->qr_phat,
                 'hash' => $this->hash,
@@ -337,9 +334,10 @@ class ReporteSearch extends Reporte
                 'distribuidora_id' => $this->distribuidora_id,
             ]
         );
-        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
+            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
 
+        $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
@@ -352,7 +350,7 @@ class ReporteSearch extends Reporte
 
     public function searchDistribuidor($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['distribuidora_id']);
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['distribuidora_id']);
 
         // add conditions that should always apply here
 
@@ -376,7 +374,6 @@ class ReporteSearch extends Reporte
                 'boleto_id' => $this->boleto_id,
                 'reclamado' => $this->reclamado,
                 'reimpreso' => $this->reimpreso,
-                'boleto_creado' => $this->boleto_creado,
                 'boleto_actualizado' => $this->boleto_actualizado,
                 'qr_phat' => $this->qr_phat,
                 'hash' => $this->hash,
@@ -418,9 +415,10 @@ class ReporteSearch extends Reporte
                 'distribuidora_id' => $this->distribuidora_id,
             ]
         );
-        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
+            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
 
+        $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
