@@ -104,7 +104,7 @@ class ReporteSearch extends Reporte
      */
     public function search($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, create_time, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
+        $query = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(boleto_id) AS conteo')->groupBy(['pelicula_id','nombre', 'fecha', 'hora'])->orderBy('hora');
 
         // add conditions that should always apply here
 
@@ -128,7 +128,7 @@ class ReporteSearch extends Reporte
                 'boleto_id' => $this->boleto_id,
                 'reclamado' => $this->reclamado,
                 'reimpreso' => $this->reimpreso,
-                'boleto_creado' => $this->boleto_creado,
+                //'boleto_creado' => $this->boleto_creado,
                 'boleto_actualizado' => $this->boleto_actualizado,
                 'qr_phat' => $this->qr_phat,
                 'hash' => $this->hash,
@@ -147,7 +147,7 @@ class ReporteSearch extends Reporte
                 'precio_actualizado' => $this->precio_actualizado,
                 'precio' => $this->precio,
                 'pago_id' => $this->pago_id,
-                //'create_time' => $this->create_time,
+                'create_time' => $this->create_time,
                 'id_pago_externo' => $this->id_pago_externo,
                 'intent' => $this->intent,
                 'state' => $this->state,
@@ -171,18 +171,12 @@ class ReporteSearch extends Reporte
             ]
         );
 
-        if ($this->create_time != "") {
-            $this->start = $this->create_time . " " . "00:00"; 
-            $this->end = $this->create_time . " " . "11:59";            
-        }
-        
-        $query->andFilterWhere(['>=', 'DATE(create_time)', $this->start])
-           ->andFilterWhere(['<=', 'DATE(create_time)', $this->end]);
+        $query->andFilterWhere(['DATE(fecha)' => $this->boleto_creado]);
 
-        $query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);
+        /*$query->andFilterWhere(['>=', 'fecha', $this->fechaInicio])
+            ->andFilterWhere(['<=', 'fecha', $this->fechaFin]);*/
 
-        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
+        //$query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
             ['like', 'username', $this->username]

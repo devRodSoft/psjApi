@@ -43,18 +43,17 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'nombre_pelicula', 
                 'width' => '310px',
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'), 
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Any supplier'],
+                //'filterType' => GridView::FILTER_SELECT2,
+                //'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'), 
+                //'filterWidgetOptions' => [
+                    //'pluginOptions' => ['allowClear' => true],
+                //],
+                //'filterInputOptions' => ['placeholder' => 'Any supplier'],
                 'group' => true,  // enable grouping
             ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             'hora:time',
-            //'create_time',
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
@@ -63,7 +62,7 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            ['attribute' => 'conteo', 'label' => 'Entradas'],            
             'total:currency',
         ];
 
