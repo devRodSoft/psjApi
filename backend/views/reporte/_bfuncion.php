@@ -16,7 +16,7 @@ use kartik\date\DatePicker;
     ?>
 
     <p>
-        <?php echo $form->field($filterModel, 'fecha')->widget(
+        <?php echo $form->field($filterModel, 'boleto_creado')->widget(
             DatePicker::className(),
             [
                 'pluginOptions' => [
