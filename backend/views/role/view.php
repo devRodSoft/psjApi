@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use common\models\Permiso;
 use yii\widgets\DetailView;
+use softark\duallistbox\DualListbox;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Role */
@@ -27,5 +29,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'descripcion',
         ],
     ]) ?>
+
+    <table class="table table-striped table-bordered detail-view">
+        <thead>
+            <tr>
+                <th>Permisos asignados</th>
+            </tr>
+        </thead>
+        <?php foreach ($model->permisos as $permiso) : ?>
+
+            <tr>
+                <td>
+                    <?= $permiso->nombre ?>
+                </td>
+            </tr>
+
+        <?php endforeach; ?>
+    </table>
+
 
 </div>
