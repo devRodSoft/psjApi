@@ -1,4 +1,5 @@
 <?php
+
 namespace api\modules\controllers;
 
 use api\controllers\BaseAuthController;
@@ -141,7 +142,7 @@ class PagoController extends BaseAuthController
                 }
             }
 
-            foreach ($precioHorarios as $precioHr) {
+            foreach ($precios as $precioHr) {
                 $boletoPrecio            = new BoletoPrecio();
                 $boletoPrecio->precio_id = $precioHr->precio->id;
                 $boletoPrecio->boleto_id = $boleto->id;
@@ -273,7 +274,8 @@ class PagoController extends BaseAuthController
             'name' => $openpayData["name"],
             'last_name' => $openpayData["last_name"],
             'phone_number' => $openpayData["phone_number"],
-            'email' => $openpayData["email"]);
+            'email' => $openpayData["email"]
+        );
 
         $chargeData = array(
             'method' => 'card',

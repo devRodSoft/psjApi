@@ -226,7 +226,7 @@ class BoletosController extends BaseAuthController
                 }
             }
 
-            foreach ($precioHorarios as $precioHr) {
+            foreach ($precios as $precioHr) {
                 $boletoPrecio            = new BoletoPrecio();
                 $boletoPrecio->precio_id = $precioHr->precio->id;
                 $boletoPrecio->boleto_id = $boleto->id;
