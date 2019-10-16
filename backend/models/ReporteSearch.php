@@ -105,7 +105,7 @@ class ReporteSearch extends Reporte
      */
     public function search($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora'])->orderBy('hora');
+        $query = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id'])->orderBy('hora');
 
         // add conditions that should always apply here
 
@@ -188,7 +188,7 @@ class ReporteSearch extends Reporte
 
     public function searchuFuncion($params)
     {
-        $query = Reporte::find()->select('nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
+        $query = Reporte::find()->select('nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
 
         // add conditions that should always apply here
 
@@ -269,7 +269,7 @@ class ReporteSearch extends Reporte
 
     public function searchPelicula($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['pelicula_id', 'nombre', 'fecha', 'hora']);
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
 
         // add conditions that should always apply here
 
@@ -350,7 +350,7 @@ class ReporteSearch extends Reporte
 
     public function searchDistribuidor($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(asiento) AS conteo')->groupBy(['distribuidora_id']);
+        $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['distribuidora_id']);
 
         // add conditions that should always apply here
 
