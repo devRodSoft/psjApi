@@ -5,7 +5,6 @@ namespace api\modules\controllers;
 use api\controllers\BaseAuthController;
 use common\models\Boleto;
 use common\models\BoletoAsiento;
-use common\models\BoletoPrecio;
 use common\models\HorarioFuncion;
 use common\models\HorarioPrecio;
 use common\models\Pago;
@@ -133,22 +132,15 @@ class PagoController extends BaseAuthController
                 throw new \yii\web\HttpException(400, 'Hubo un error al guardar tu boleto');
             }
 
-            foreach ($salaAsientos as $salaAsiento) {
+
+            foreach ($salaAsientos as $idx => $salaAsiento) {
                 $boletoAsiento                  = new BoletoAsiento();
                 $boletoAsiento->sala_asiento_id = $salaAsiento->id;
                 $boletoAsiento->boleto_id       = $boleto->id;
+                $boletoAsiento->precio_id       = $precios[$idx]->precio->id;
+                $boletoAsiento->precio          = ($precios[$idx]->usar_especial == 1) ? $precios[$idx]->precio->especial : $precios[$idx]->precio->default;
                 if (!$boletoAsiento->save()) {
-                    throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
-                }
-            }
-
-            foreach ($precios as $precioHr) {
-                $boletoPrecio            = new BoletoPrecio();
-                $boletoPrecio->precio_id = $precioHr->precio->id;
-                $boletoPrecio->boleto_id = $boleto->id;
-                $boletoPrecio->precio    = ($precioHr->usar_especial == 1) ? $precioHr->precio->especial : $precioHr->precio->default;
-                if (!$boletoPrecio->save()) {
-                    throw new \yii\web\HttpException(400, 'Hubo un error al apartar tus asientos');
+                    throw new HttpException(400, 'Hubo un error al apartar tus asientos');
                 }
             }
 

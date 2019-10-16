@@ -31,7 +31,6 @@ use yii\db\Query;
  * @property Pago $pago
  * @property User $user
  * @property BoletoAsiento[] $boletoAsientos
- * @property BoletoPrecio[] $boletoPrecios
  */
 class Boleto extends \yii\db\ActiveRecord
 {
@@ -124,17 +123,9 @@ class Boleto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBoletoPrecios()
-    {
-        return $this->hasMany(BoletoPrecio::className(), ['boleto_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPrecios()
     {
-        return $this->hasMany(Precio::className(), ['id' => 'precio_id'])->via('boletoPrecios');
+        return $this->hasMany(Precio::className(), ['id' => 'precio_id'])->via('boletoAsientos');
     }
 
     /**
@@ -213,10 +204,10 @@ class Boleto extends \yii\db\ActiveRecord
 
         $query = new Query;
 
-        $query->select('SUM(bp.precio)')
-            ->from(['bp' => BoletoPrecio::tableName()])
-            ->where(['bp.boleto_id' => $this->id])
-            ->groupBy('bp.boleto_id');
+        $query->select('SUM(ba.precio)')
+            ->from(['ba' => BoletoAsiento::tableName()])
+            ->where(['ba.boleto_id' => $this->id])
+            ->groupBy('ba.boleto_id');
         return $query->scalar();
     }
 
@@ -227,10 +218,10 @@ class Boleto extends \yii\db\ActiveRecord
     {
         $query = new Query;
 
-        $query->select('p.id, p.nombre, p.codigo, bp.precio')
-            ->from(['bp' => BoletoPrecio::tableName()])
-            ->innerJoin(['p' => Precio::tableName()], 'bp.precio_id = p.id')
-            ->where(['bp.boleto_id' => $this->id]);
+        $query->select('p.id, p.nombre, p.codigo, ba.precio')
+            ->from(['ba' => BoletoAsiento::tableName()])
+            ->innerJoin(['p' => Precio::tableName()], 'ba.precio_id = p.id')
+            ->where(['ba.boleto_id' => $this->id]);
         // ->groupBy('p.id, p.nombre, p.codigo');
         $precios = $query->all();
 

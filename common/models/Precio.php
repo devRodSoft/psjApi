@@ -15,7 +15,6 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property BoletoPrecio[] $boletoPrecios
  * @property HorarioPrecio[] $horarioPrecios
  * @property HorarioFuncion[] $horarios
  */
@@ -71,14 +70,6 @@ class Precio extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBoletoPrecios()
-    {
-        return $this->hasMany(BoletoPrecio::className(), ['precio_id' => 'id']);
     }
 
     /**
