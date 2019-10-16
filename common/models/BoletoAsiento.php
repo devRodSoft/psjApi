@@ -23,17 +23,6 @@ class BoletoAsiento extends \yii\db\ActiveRecord
         return 'boleto_asiento';
     }
 
-    foreach ($salaAsientos as $idx => $salaAsiento) {
-        $boletoAsiento                  = new BoletoAsiento();
-        $boletoAsiento->sala_asiento_id = $salaAsiento->id;
-        $boletoAsiento->boleto_id       = $boleto->id;
-        $boletoAsiento->precio_id = $precios[$idx]->precio->id;
-        $boletoAsiento->precio    = ($precios[$idx]->usar_especial == 1) ? $precios[$idx]->precio->especial : $precios[$idx]->precio->default;
-        if (!$boletoAsiento->save()) {
-            throw new HttpException(400, 'Hubo un error al apartar tus asientos');
-        }
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -41,7 +30,7 @@ class BoletoAsiento extends \yii\db\ActiveRecord
     {
         return [
             [['sala_asiento_id', 'boleto_id', 'precio_id', 'precio'], 'required'],
-            [['sala_asiento_id', 'boleto_id','precio_id'], 'integer'],
+            [['sala_asiento_id', 'boleto_id', 'precio_id'], 'integer'],
             [['precio'], 'number'],
             [['sala_asiento_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalaAsientos::className(), 'targetAttribute' => ['sala_asiento_id' => 'id']],
             [['boleto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Boleto::className(), 'targetAttribute' => ['boleto_id' => 'id']],
@@ -88,6 +77,5 @@ class BoletoAsiento extends \yii\db\ActiveRecord
     {
 
         return ['boleto_id'];
-
     }
 }
