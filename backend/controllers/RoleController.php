@@ -6,6 +6,7 @@ use Yii;
 use common\models\Role;
 use backend\models\RoleSearch;
 use backend\controllers\BaseCtrl;
+use common\models\Permiso;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -51,8 +52,10 @@ class RoleController extends BaseCtrl
     {
         $model = new Role();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save() && $model->savePermisos($_POST['Role']['permisos'])) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -70,9 +73,10 @@ class RoleController extends BaseCtrl
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save() && $model->savePermisos($_POST['Role']['permisos'])) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

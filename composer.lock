@@ -1067,6 +1067,46 @@
             "time": "2018-06-15T07:57:02+00:00"
         },
         {
+            "name": "istvan-ujjmeszaros/bootstrap-duallistbox",
+            "version": "3.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git",
+                "reference": "ab8ba636033dbb294dbbe8342b09758ae43d0485"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/istvan-ujjmeszaros/bootstrap-duallistbox/zipball/ab8ba636033dbb294dbbe8342b09758ae43d0485",
+                "reference": "ab8ba636033dbb294dbbe8342b09758ae43d0485",
+                "shasum": ""
+            },
+            "suggest": {
+                "components/jquery": "2.0.*",
+                "twbs/bootstrap": "3.*"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "István Ujj-Mészáros",
+                    "homepage": "https://github.com/istvan-ujjmeszaros"
+                }
+            ],
+            "description": "A responsive dual listbox widget optimized for Twitter Bootstrap. It works on all modern browsers and on touch devices.",
+            "homepage": "https://www.virtuosoft.eu/code/bootstrap-duallistbox/",
+            "keywords": [
+                "bootstrap",
+                "bootstrap duallistbox",
+                "bootstrap select",
+                "duallistbox",
+                "select"
+            ],
+            "time": "2018-04-10T01:30:27+00:00"
+        },
+        {
             "name": "kartik-v/bootstrap-fileinput",
             "version": "dev-master",
             "source": {
@@ -2191,6 +2231,51 @@
             "time": "2019-01-30T14:11:19+00:00"
         },
         {
+            "name": "softark/yii2-dual-listbox",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/softark/yii2-dual-listbox.git",
+                "reference": "9f594ebdacb3bda4483479848a449ac22ebd7505"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/softark/yii2-dual-listbox/zipball/9f594ebdacb3bda4483479848a449ac22ebd7505",
+                "reference": "9f594ebdacb3bda4483479848a449ac22ebd7505",
+                "shasum": ""
+            },
+            "require": {
+                "istvan-ujjmeszaros/bootstrap-duallistbox": "~3.0.6",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "softark\\duallistbox\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nobuo Kihara",
+                    "email": "softark@gmail.com",
+                    "homepage": "http://softark.net"
+                }
+            ],
+            "description": "Dual Listbox Widget for Yii 2",
+            "keywords": [
+                "dual-listbox",
+                "duallistbox",
+                "widget",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2017-06-27T04:47:12+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "dev-master",
             "source": {
@@ -2881,7 +2966,8 @@
         "kartik-v/yii2-widget-datepicker": 20,
         "kartik-v/yii2-widget-datetimepicker": 20,
         "kartik-v/yii2-grid": 20,
-        "kartik-v/yii2-mpdf": 20
+        "kartik-v/yii2-mpdf": 20,
+        "softark/yii2-dual-listbox": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

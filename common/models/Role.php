@@ -65,6 +65,31 @@ class Role extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function savePermisos($newPermisos)
+    {
+
+        RolePermiso::deleteAll('role_id = :roleID', [':roleID' => $this->id]);
+
+        $permisos = Permiso::find()->where(['in', 'id', $newPermisos])->all();
+
+        foreach ($permisos as $permiso) {
+
+            $roleP             = new RolePermiso();
+            $roleP->role_id    = $this->id;
+            $roleP->permiso_id = $permiso->id;
+
+            if (!$roleP->save()) {
+
+                Yii::$app->session->setFlash('error', "Tienes un error con los permisos que ingresaste");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * {@inheritdoc}
      * @return RoleQuery the active query used by this AR class.
      */
