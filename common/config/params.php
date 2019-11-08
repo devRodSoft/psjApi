@@ -4,7 +4,7 @@ return [
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'faceAppToken' => '',
-    'maxBoletos' => 50,
+    'maxBoletos' => 100,
     'paypal' => [
         'client_id' => 'AcMiNQaFGDgj3ecSX2Ek0JcxmZNSwO2Lq3ZLFeKtCUiPu8E-rHWthRkDNe6z4QCSKHO0Wb3rPTew-4y8',
         'secret' => 'EPhiL5aHRJDxcjgqbbRZO3hNz-lXG2D5Kud1gqcE1VxrySGa6YK4GrNgIsxow78NxAubLI-8V0s_18SV',

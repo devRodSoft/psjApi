@@ -36,6 +36,7 @@ class ReporteController extends BaseCtrl
     {
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $groupDates = $searchModel->getDates(Yii::$app->request->queryParams);
         $title = 'Ventas por dia';
         $url = 'dia';
         $columns = [
@@ -44,15 +45,47 @@ class ReporteController extends BaseCtrl
                 'attribute' => 'nombre_pelicula', 
                 'width' => '310px',
                 //'filterType' => GridView::FILTER_SELECT2,
-                //'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'), 
+                'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'), 
+                'filterWidgetOptions' => [
+                    //'pluginOptions' => ['allowClear' => true],
+                ],
+                //'filterInputOptions' => ['placeholder' => 'Any supplier'],
+                'group' => true,  // enable grouping
+                'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
+                    return [
+                        'mergeColumns' => [[1-6]], // columns to merge in summary
+                        'content' => [             // content to show in each summary cell
+                            //0 => $model->nombre_pelicula,
+                            7 => GridView::F_SUM,
+                            8 => GridView::F_SUM,
+                        ],
+                        'contentFormats' => [      // content reformatting for each summary cell
+                            7 => ['format' => 'number', 'decimals' => 0],
+                            8 => ['format' => 'number', 'decimals' => 0],
+                        ],
+                        'contentOptions' => [      // content html attributes for each summary cell
+                            //1 => ['style' => 'text-align:center'],                            
+                            7 => ['style' => 'text-align:right'],
+                            8 => ['style' => 'text-align:right'],
+                        ],
+                        // html attributes for group summary row
+                        'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
+                    ];
+                }
+            ],
+            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
+            'fecha:date',
+            /*[
+                'attribute' => 'fecha', 
+                'width' => '310px',
+                //'filterType' => GridView::FILTER_SELECT2,
+                //'filter' => ArrayHelper::map($groupDates->getModels(), 'boleto_id', 'fecha'), 
                 //'filterWidgetOptions' => [
                     //'pluginOptions' => ['allowClear' => true],
                 //],
                 //'filterInputOptions' => ['placeholder' => 'Any supplier'],
-                'group' => true,  // enable grouping
-            ],
-            ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
-            'fecha:date',
+                'group' => true,  // enable grouping                
+            ],*/
             'hora:time',
             [
                 'label' => 'Sala',
@@ -61,10 +94,15 @@ class ReporteController extends BaseCtrl
                 }
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
-            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'precio', 'label' => 'Precio'],
             ['attribute' => 'conteo', 'label' => 'Entradas'],            
-            'total:currency',
+            [
+                'class' => '\kartik\grid\DataColumn',
+                'attribute' => 'total',
+                'pageSummary' => true
+            ]
         ];
+
 
         $searchTemplate = '_bdia.php';
         $searchTemplateData = [
@@ -235,7 +273,7 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            ['attribute' => 'conteo', 'label' => 'Entradas', 'pageSummary' => true],
         ];
         $searchTemplate = '_bperiodo.php';
         $searchTemplateData = [
@@ -269,6 +307,7 @@ class ReporteController extends BaseCtrl
                 'searchTemplate' => $searchTemplate,
                 'searchTemplateData' => $searchTemplateData,
                 'filterModel' => $searchModel,
+                'showPageSummary' => true,
                 'widgetData' => [
                     'export' => [
                         'label' => 'Exportar reporte'
@@ -276,6 +315,7 @@ class ReporteController extends BaseCtrl
                     'exportConfig' => [
                         GridView::HTML => [],
                         GridView::PDF => [
+                            'filename' => $title,
                             'config' => [
                                 'mode' => 'utf-8',
                                 'format' => 'Letter',

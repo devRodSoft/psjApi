@@ -32,7 +32,7 @@
         "kartik-v/yii2-widget-timepicker": "dev-master",
         "kartik-v/yii2-widget-datepicker": "dev-master",
         "kartik-v/yii2-widget-datetimepicker": "dev-master",
-        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-grid": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master"
     },
     "require-dev": {
