@@ -64,7 +64,7 @@ class ReporteController extends BaseCtrl
                             8 => ['format' => 'number', 'decimals' => 0],
                         ],
                         'contentOptions' => [      // content html attributes for each summary cell
-                            //1 => ['style' => 'text-align:center'],                            
+                            //1 => ['style' => 'text-align:center'],                           
                             7 => ['style' => 'text-align:right'],
                             8 => ['style' => 'text-align:right'],
                         ],
@@ -95,10 +95,11 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],            
+            ['attribute' => 'conteo', 'label' => 'Entradas'],               
             [
                 'class' => '\kartik\grid\DataColumn',
                 'attribute' => 'total',
+                'format'=>['decimal',0],
                 'pageSummary' => true
             ]
         ];
