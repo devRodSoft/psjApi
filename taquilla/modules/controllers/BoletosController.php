@@ -140,6 +140,45 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
+    public function actionCancelar($asientoId){
+
+        $boletoId = BoletoAsiento::find()->where(['=', 'id', $asientoId])->select('boleto_id')->one();
+        $pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
+
+        //start deleting a sale
+        $txn = Yii::$app->db->beginTransaction();
+        try {
+            //Delete from boleto_asiento
+            \Yii::$app->db
+            ->createCommand()
+            ->delete('boleto_asiento', ['id' => $asientoId])
+            ->execute();
+            
+            //delete from boleto
+            \Yii::$app->db
+            ->createCommand()
+            ->delete('boleto', ['id' => $boletoId->boleto_id])
+            ->execute();
+    
+            //delete from pago
+            \Yii::$app->db
+            ->createCommand()
+            ->delete('pago', ['id' => $pagoId->id_pago])
+            ->execute();
+
+            $txn->commit();
+            
+            Yii::$app->response->statusCode = 200;
+            return "Boleto cancelado";
+        } catch (\Exception $e) {
+            $txn->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $txn->rollBack();
+            throw $e;
+        }
+    }
+
     public function actionPagar($horarioid)
     {
         $faceUserID     = 8;

@@ -67,6 +67,9 @@ return [
 
                 'POST oauth/<action:\w+>' => 'authentication/<action>',
                 'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
+
+                //cancelacion 
+                'DELETE boletos/cancelar/<asientoId:\d+>' => 'general/boletos/cancelar/',
             ],
         ],
 
