@@ -27,7 +27,7 @@ class PublicController extends Controller
                 ],
                 // Allow only POST and PUT methods
                 // 'Access-Control-Request-Method'    => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-                'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS'],
+                'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'],
                 // Allow only headers 'X-Wsse'
                 'Access-Control-Request-Headers' => ['*'],
                 'Access-Control-Allow-Headers' => ['*'],
