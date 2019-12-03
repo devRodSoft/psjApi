@@ -50,7 +50,6 @@ return [
                 'GET identity' => 'general/user/current',
                 'OPTIONS identity' => 'general/user/options',
 
-
                 'GET boletos' => 'general/boletos/search',
                 'OPTIONS boletos' => 'general/boletos/options',
 
@@ -69,9 +68,13 @@ return [
                 //cancelacion 
                 'DELETE boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar/',
                 'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar/',
+
+                //find by code
+                'GET boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
+                'OPTIONS boletos/code/codigoBoleto\d+' => 'general/boletos/code',
+
             ],
         ],
-
     ],
     'modules' => [
         'general' => [

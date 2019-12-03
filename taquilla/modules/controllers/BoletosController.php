@@ -31,6 +31,36 @@ class BoletosController extends BaseAuthController
             ],
         ];
     }
+    
+    public function actionCode($codigoBoleto) {
+        //$codigoBoleto = Yii::$app->request->getQueryParam('codigoBoleto', null);
+
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REIMPRESION)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
+
+        $query = \api\models\BoletoRest::find()
+            ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id');
+
+        if (empty($codigoBoleto)) {
+            $query->where(['boleto.user_id' => Yii::$app->user->id])
+                ->andWhere('boleto.created_at BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 1 DAY)')
+                ->orderBy('boleto.created_at DESC');
+        } else {
+            $query->where(
+                [
+                    'boleto.id' => $codigoBoleto,
+                ]
+            );
+        }
+
+        $query->andWhere(['boleto.reclamado' => 0]);
+
+        return $query->all();
+
+    }
+
     public function actionSearch()
     {
         $email = Yii::$app->request->getQueryParam('email', null);
@@ -56,8 +86,7 @@ class BoletosController extends BaseAuthController
         if (empty($email)) {
             $query->where(['boleto.user_id' => Yii::$app->user->id])
                 ->andWhere('boleto.created_at BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 1 DAY)')
-                ->orderBy('boleto.created_at DESC')
-                ->limit(10);
+                ->orderBy('boleto.created_at DESC');
         } else {
             $query->where(
                 [
