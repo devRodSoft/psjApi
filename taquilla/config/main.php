@@ -69,8 +69,8 @@ return [
                 'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
 
                 //cancelacion 
-                'DELETE boletos/cancelar/<asientoId:\d+>' => 'general/boletos/cancelar/',
-                'OPTIONS boletos/cancelar/<asientoId:\d+>' => 'general/boletos/cancelar/',
+                'DELETE boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar/',
+                'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar/',
             ],
         ],
 
