@@ -70,6 +70,7 @@ return [
 
                 //cancelacion 
                 'DELETE boletos/cancelar/<asientoId:\d+>' => 'general/boletos/cancelar/',
+                'OPTIONS boletos/cancelar/<asientoId:\d+>' => 'general/boletos/cancelar/',
             ],
         ],
 
