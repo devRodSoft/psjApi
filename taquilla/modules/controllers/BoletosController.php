@@ -141,32 +141,33 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
-    public function actionCancelar($asientoId){
-
-        //$boletoId = BoletoAsiento::find()->where(['=', 'id', $asientoId])->select('boleto_id')->one();
-        //$pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
-
+    public function actionCancelar($salaAsientoId, $deleteAll){
         //start deleting a sale
         $txn = Yii::$app->db->beginTransaction();
         try {
             //Delete from boleto_asiento
             \Yii::$app->db
             ->createCommand()
-            ->delete('boleto_asiento', ['sala_asiento_id' => $asientoId])
+            ->delete('boleto_asiento', ['sala_asiento_id' => $salaAsientoId])
             ->execute();
-            
-            //delete from boleto
-            /*\Yii::$app->db
-            ->createCommand()
-            ->delete('boleto', ['id' => $boletoId->boleto_id])
-            ->execute();
-    
-            //delete from pago
-            \Yii::$app->db
-            ->createCommand()
-            ->delete('pago', ['id' => $pagoId->id_pago])
-            ->execute();*/
 
+            //If the sale only have once ticket delete the total sale!
+            if ($deleteAll) {
+                //delete from boleto
+                $boletoId = BoletoAsiento::find()->where(['=', 'sala_asiento_id', $salaAsientoId])->select('boleto_id')->one();
+                \Yii::$app->db
+                ->createCommand()
+                ->delete('boleto', ['id' => $boletoId->boleto_id])
+                ->execute();
+                
+                //delete from pago
+                $pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
+                \Yii::$app->db
+                ->createCommand()
+                ->delete('pago', ['id' => $pagoId->id_pago])
+                ->execute();
+            }
+            
             $txn->commit();
             
             Yii::$app->response->statusCode = 200;
