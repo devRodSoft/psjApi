@@ -145,6 +145,12 @@ class BoletosController extends BaseAuthController
         //start deleting a sale
         $txn = Yii::$app->db->beginTransaction();
         try {
+
+            //delete from boleto
+            $boletoId = BoletoAsiento::find()->where(['=', 'id', $boletoAsientoId])->select('boleto_id')->one();
+            //delete from pago
+            $pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
+
             //Delete from boleto_asiento
             \Yii::$app->db
             ->createCommand()
@@ -153,15 +159,13 @@ class BoletosController extends BaseAuthController
 
             //If the sale only have once ticket delete the total sale!
             if ($deleteAll) {
-                //delete from boleto
-                $boletoId = BoletoAsiento::find()->where(['=', 'id', $boletoAsientoId])->select('boleto_id')->one();
+                
                 \Yii::$app->db
                 ->createCommand()
                 ->delete('boleto', ['id' => $boletoId->boleto_id])
                 ->execute();
                 
-                //delete from pago
-                $pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
+                
                 \Yii::$app->db
                 ->createCommand()
                 ->delete('pago', ['id' => $pagoId->id_pago])
