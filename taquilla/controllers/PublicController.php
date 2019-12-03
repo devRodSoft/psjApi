@@ -21,6 +21,7 @@ class PublicController extends Controller
                 'Access-Control-Allow-Origin' => ['*'],
                 'Origin' => [
                     'http://localhost:8100',
+                    'http://localhost:4200',
                     'http://api.rodsoft.com.mx:80',
                     'https://api.rodsoft.com.mx:443',
                     'https://localhost:8100',
