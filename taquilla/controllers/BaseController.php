@@ -2,6 +2,7 @@
 
 namespace taquilla\controllers;
 
+use yii\filters\Cors;
 use yii\rest\ActiveController;
 
 class BaseController extends ActiveController
@@ -32,7 +33,7 @@ class BaseController extends ActiveController
                     'https://localhost:8100',
                 ],
                 // Allow only POST and PUT methods
-                'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS'],
+                'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'],
                 // Allow only headers 'X-Wsse'
                 'Access-Control-Request-Headers' => ['*'],
                 'Access-Control-Allow-Headers' => ['*'],
