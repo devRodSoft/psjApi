@@ -71,7 +71,7 @@ return [
 
                 //find by code
                 'GET boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
-                'OPTIONS boletos/code/codigoBoleto\d+' => 'general/boletos/code',
+                'OPTIONS boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
 
             ],
         ],
