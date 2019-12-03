@@ -54,8 +54,6 @@ return [
                 'GET boletos' => 'general/boletos/search',
                 'OPTIONS boletos' => 'general/boletos/options',
 
-
-
                 // 'GET boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/reimpresion',
                 // 'OPTIONS boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/options',
 

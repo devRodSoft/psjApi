@@ -165,7 +165,6 @@ class BoletosController extends BaseAuthController
                 ->delete('boleto', ['id' => $boletoId->boleto_id])
                 ->execute();
                 
-                
                 \Yii::$app->db
                 ->createCommand()
                 ->delete('pago', ['id' => $pagoId->id_pago])
