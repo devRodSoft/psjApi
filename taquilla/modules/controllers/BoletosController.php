@@ -143,8 +143,8 @@ class BoletosController extends BaseAuthController
 
     public function actionCancelar($asientoId){
 
-        $boletoId = BoletoAsiento::find()->where(['=', 'id', $asientoId])->select('boleto_id')->one();
-        $pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
+        //$boletoId = BoletoAsiento::find()->where(['=', 'id', $asientoId])->select('boleto_id')->one();
+        //$pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
 
         //start deleting a sale
         $txn = Yii::$app->db->beginTransaction();
@@ -156,7 +156,7 @@ class BoletosController extends BaseAuthController
             ->execute();
             
             //delete from boleto
-            \Yii::$app->db
+            /*\Yii::$app->db
             ->createCommand()
             ->delete('boleto', ['id' => $boletoId->boleto_id])
             ->execute();
@@ -165,7 +165,7 @@ class BoletosController extends BaseAuthController
             \Yii::$app->db
             ->createCommand()
             ->delete('pago', ['id' => $pagoId->id_pago])
-            ->execute();
+            ->execute();*/
 
             $txn->commit();
             
@@ -244,17 +244,17 @@ class BoletosController extends BaseAuthController
 
         try {
 
-            $boleto = new Boleto();
+                $boleto = new Boleto();
 
-            $boleto->face_user_id       = $faceUserID;
-            $boleto->horario_funcion_id = $horarioFuncion->id;
-            $boleto->reclamado          = 0;
-            $boleto->user_id            = $userID;
-            $boleto->tipo_pago          = $type;
+                $boleto->face_user_id       = $faceUserID;
+                $boleto->horario_funcion_id = $horarioFuncion->id;
+                $boleto->reclamado          = 0;
+                $boleto->user_id            = $userID;
+                $boleto->tipo_pago          = $type;
 
-            if (!$boleto->save()) {
-                throw new HttpException(400, 'Hubo un error al guardar tu boleto');
-            }
+                if (!$boleto->save()) {
+                    throw new HttpException(400, 'Hubo un error al guardar tu boleto');
+                }
 
             foreach ($salaAsientos as $idx => $salaAsiento) {
                 $boletoAsiento                  = new BoletoAsiento();
