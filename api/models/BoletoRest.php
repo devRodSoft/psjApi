@@ -3,6 +3,8 @@
 namespace api\models;
 
 use common\models\SalaAsientos;
+use Yii as Yii;
+use yii\helpers\Url as Url;
 
 class BoletoRest extends \common\models\Boleto
 {
@@ -27,8 +29,10 @@ class BoletoRest extends \common\models\Boleto
             },
             'asientos' => function ($m) {
                 return array_map(
-                    function ($arr) {
-                        return new SalaAsientos($arr->salaAsientos->attributes);
+                    function ($boletoAsiento) {
+                        $salaAsiento                     = new SalaAsientosRest($boletoAsiento->salaAsientos->attributes);
+                        $salaAsiento->id_relacion_boleto = $boletoAsiento->id;
+                        return $salaAsiento;
                     },
                     $m->boletoAsientos
                 );
