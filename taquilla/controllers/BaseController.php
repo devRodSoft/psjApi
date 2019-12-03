@@ -2,6 +2,7 @@
 
 namespace taquilla\controllers;
 
+use yii\filters\Cors;
 use yii\rest\ActiveController;
 
 class BaseController extends ActiveController
