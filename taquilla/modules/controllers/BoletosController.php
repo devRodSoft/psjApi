@@ -86,7 +86,8 @@ class BoletosController extends BaseAuthController
         if (empty($email)) {
             $query->where(['boleto.user_id' => Yii::$app->user->id])
                 ->andWhere('boleto.created_at BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 1 DAY)')
-                ->orderBy('boleto.created_at DESC');
+                ->orderBy('boleto.created_at DESC')
+                ->limit(10);
         } else {
             $query->where(
                 [
