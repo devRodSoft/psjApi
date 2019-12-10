@@ -2,6 +2,9 @@
 
 namespace common\models;
 
+use common\models\Boleto;
+use common\models\HorarioFuncion;
+use common\models\SalaAsientos;
 use Yii;
 
 /**
@@ -32,6 +35,7 @@ class BoletoAsiento extends \yii\db\ActiveRecord
             [['sala_asiento_id', 'boleto_id', 'precio_id', 'precio'], 'required'],
             [['sala_asiento_id', 'boleto_id', 'precio_id'], 'integer'],
             [['precio'], 'number'],
+            [['horario_funcion_id'], 'exist', 'skipOnError' => true, 'targetClass' => HorarioFuncion::className(), 'targetAttribute' => ['horario_funcion_id' => 'id']],
             [['sala_asiento_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalaAsientos::className(), 'targetAttribute' => ['sala_asiento_id' => 'id']],
             [['boleto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Boleto::className(), 'targetAttribute' => ['boleto_id' => 'id']],
         ];
@@ -45,6 +49,7 @@ class BoletoAsiento extends \yii\db\ActiveRecord
         return [
             'sala_asiento_id' => 'Sala Asiento ID',
             'boleto_id' => 'Boleto ID',
+            'horario_funcion_id' => 'Horario funcion ID',
         ];
     }
 

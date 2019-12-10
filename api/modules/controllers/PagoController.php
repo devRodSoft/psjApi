@@ -13,6 +13,7 @@ use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use Yii;
+use yii\web\HttpException;
 
 class PagoController extends BaseAuthController
 {
@@ -80,8 +81,7 @@ class PagoController extends BaseAuthController
 
         // revisar que todos los asientos estén disponibles en ese horario
         $comprados = BoletoAsiento::find()
-            ->innerJoin(['b' => 'boleto'], 'b.id = boleto_asiento.boleto_id')
-            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = b.horario_funcion_id')
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto_asiento.horario_funcion_id')
             ->where(['in', 'boleto_asiento.sala_asiento_id', $salaAsientosID])
             ->andWhere(['hf.id' => $horarioid])
             ->count();
@@ -132,13 +132,13 @@ class PagoController extends BaseAuthController
                 throw new \yii\web\HttpException(400, 'Hubo un error al guardar tu boleto');
             }
 
-
             foreach ($salaAsientos as $idx => $salaAsiento) {
-                $boletoAsiento                  = new BoletoAsiento();
-                $boletoAsiento->sala_asiento_id = $salaAsiento->id;
-                $boletoAsiento->boleto_id       = $boleto->id;
-                $boletoAsiento->precio_id       = $precios[$idx]->precio->id;
-                $boletoAsiento->precio          = ($precios[$idx]->usar_especial == 1) ? $precios[$idx]->precio->especial : $precios[$idx]->precio->default;
+                $boletoAsiento                     = new BoletoAsiento();
+                $boletoAsiento->sala_asiento_id    = $salaAsiento->id;
+                $boletoAsiento->horario_funcion_id = $boleto->horario_funcion_id;
+                $boletoAsiento->boleto_id          = $boleto->id;
+                $boletoAsiento->precio_id          = $precios[$idx]->precio->id;
+                $boletoAsiento->precio             = ($precios[$idx]->usar_especial == 1) ? $precios[$idx]->precio->especial : $precios[$idx]->precio->default;
                 if (!$boletoAsiento->save()) {
                     throw new HttpException(400, 'Hubo un error al apartar tus asientos');
                 }
@@ -262,21 +262,21 @@ class PagoController extends BaseAuthController
 
         // var_dump($openpay);die();
 
-        $customer = array(
+        $customer = [
             'name' => $openpayData["name"],
             'last_name' => $openpayData["last_name"],
             'phone_number' => $openpayData["phone_number"],
-            'email' => $openpayData["email"]
-        );
+            'email' => $openpayData["email"],
+        ];
 
-        $chargeData = array(
+        $chargeData = [
             'method' => 'card',
             'source_id' => $openpayData["token_id"],
             'amount' => (float) $boleto->total,
             'description' => 'boletos: ' . $boleto->pelicula->nombre,
             'device_session_id' => $openpayData["device_session_id"],
             'customer' => $customer,
-        );
+        ];
         try {
             $charge = $openpay->charges->create($chargeData);
         } catch (\Exception $e) {
