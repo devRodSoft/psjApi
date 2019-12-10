@@ -93,7 +93,10 @@ class ReporteController extends BaseCtrl
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
-                    return $m->sala->nombre;
+                    if (!empty($m->sala_id)) {
+                        return $m->sala->nombre;
+                    }
+                    return "";
                 },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
@@ -143,7 +146,10 @@ class ReporteController extends BaseCtrl
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
-                    return $m->sala->nombre;
+                    if (!empty($m->sala_id)) {
+                        return $m->sala->nombre;
+                    }
+                    return "";
                 },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
@@ -229,7 +235,10 @@ class ReporteController extends BaseCtrl
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
-                    return $m->sala->nombre;
+                    if (!empty($m->sala_id)) {
+                        return $m->sala->nombre;
+                    }
+                    return "";
                 },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
@@ -271,7 +280,10 @@ class ReporteController extends BaseCtrl
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
-                    return $m->sala->nombre;
+                    if (!empty($m->sala_id)) {
+                        return $m->sala->nombre;
+                    }
+                    return "";
                 },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
