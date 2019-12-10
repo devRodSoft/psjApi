@@ -2,17 +2,17 @@
 
 namespace taquilla\modules\controllers;
 
-use Yii;
-use common\models\Pago;
 use common\models\Boleto;
-use common\models\Permiso;
-use yii\web\HttpException;
-use common\models\FaceUser;
-use common\models\SalaAsientos;
 use common\models\BoletoAsiento;
-use common\models\HorarioPrecio;
+use common\models\FaceUser;
 use common\models\HorarioFuncion;
+use common\models\HorarioPrecio;
+use common\models\Pago;
+use common\models\Permiso;
+use common\models\SalaAsientos;
 use taquilla\controllers\BaseAuthController;
+use Yii;
+use yii\web\HttpException;
 
 class BoletosController extends BaseAuthController
 {
@@ -31,8 +31,9 @@ class BoletosController extends BaseAuthController
             ],
         ];
     }
-    
-    public function actionCode($codigoBoleto) {
+
+    public function actionCode($codigoBoleto)
+    {
         //$codigoBoleto = Yii::$app->request->getQueryParam('codigoBoleto', null);
 
         if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REIMPRESION)) {
@@ -137,7 +138,6 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
-
     public function actionValidarBoleto($id)
     {
         if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_VERIFICACION)) {
@@ -171,7 +171,8 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
-    public function actionCancelar($boletoAsientoId, $deleteAll){   
+    public function actionCancelar($boletoAsientoId, $deleteAll)
+    {
         //start deleting a sale
         $txn = Yii::$app->db->beginTransaction();
         try {
@@ -183,26 +184,26 @@ class BoletosController extends BaseAuthController
 
             //Delete from boleto_asiento
             \Yii::$app->db
-            ->createCommand()
-            ->delete('boleto_asiento', ['id' => $boletoAsientoId])
-            ->execute();
+                ->createCommand()
+                ->delete('boleto_asiento', ['id' => $boletoAsientoId])
+                ->execute();
 
             //If the sale only have once ticket delete the total sale!
             if ($deleteAll) {
-                
+
                 \Yii::$app->db
-                ->createCommand()
-                ->delete('boleto', ['id' => $boletoId->boleto_id])
-                ->execute();
-                
+                    ->createCommand()
+                    ->delete('boleto', ['id' => $boletoId->boleto_id])
+                    ->execute();
+
                 \Yii::$app->db
-                ->createCommand()
-                ->delete('pago', ['id' => $pagoId->id_pago])
-                ->execute();
+                    ->createCommand()
+                    ->delete('pago', ['id' => $pagoId->id_pago])
+                    ->execute();
             }
-            
+
             $txn->commit();
-            
+
             Yii::$app->response->statusCode = 200;
             return "Boleto cancelado";
         } catch (\Exception $e) {
@@ -220,7 +221,7 @@ class BoletosController extends BaseAuthController
         $userID         = Yii::$app->user->id;
         $salaAsientosID = Yii::$app->request->getBodyParam('asientos', []);
         $precios        = Yii::$app->request->getBodyParam('precios', []);
-        $type    = Yii::$app->request->getBodyParam('type', false);
+        $type           = Yii::$app->request->getBodyParam('type', false);
 
         if (!is_array($precios) || empty($precios) || empty($salaAsientosID)) {
             throw new HttpException(400, 'Hay un error con los datos de la llamada');
@@ -278,24 +279,25 @@ class BoletosController extends BaseAuthController
 
         try {
 
-                $boleto = new Boleto();
+            $boleto = new Boleto();
 
-                $boleto->face_user_id       = $faceUserID;
-                $boleto->horario_funcion_id = $horarioFuncion->id;
-                $boleto->reclamado          = 0;
-                $boleto->user_id            = $userID;
-                $boleto->tipo_pago          = $type;
+            $boleto->face_user_id       = $faceUserID;
+            $boleto->horario_funcion_id = $horarioFuncion->id;
+            $boleto->reclamado          = 0;
+            $boleto->user_id            = $userID;
+            $boleto->tipo_pago          = $type;
 
-                if (!$boleto->save()) {
-                    throw new HttpException(400, 'Hubo un error al guardar tu boleto');
-                }
+            if (!$boleto->save()) {
+                throw new HttpException(400, 'Hubo un error al guardar tu boleto');
+            }
 
             foreach ($salaAsientos as $idx => $salaAsiento) {
-                $boletoAsiento                  = new BoletoAsiento();
-                $boletoAsiento->sala_asiento_id = $salaAsiento->id;
-                $boletoAsiento->boleto_id       = $boleto->id;
-                $boletoAsiento->precio_id       = $precios[$idx]->precio->id;
-                $boletoAsiento->precio          = ($precios[$idx]->usar_especial == 1) ? $precios[$idx]->precio->especial : $precios[$idx]->precio->default;
+                $boletoAsiento                     = new BoletoAsiento();
+                $boletoAsiento->sala_asiento_id    = $salaAsiento->id;
+                $boletoAsiento->horario_funcion_id = $boleto->horario_funcion_id;
+                $boletoAsiento->boleto_id          = $boleto->id;
+                $boletoAsiento->precio_id          = $precios[$idx]->precio->id;
+                $boletoAsiento->precio             = ($precios[$idx]->usar_especial == 1) ? $precios[$idx]->precio->especial : $precios[$idx]->precio->default;
                 if (!$boletoAsiento->save()) {
                     throw new HttpException(400, 'Hubo un error al apartar tus asientos');
                 }
