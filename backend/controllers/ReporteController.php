@@ -39,7 +39,6 @@ class ReporteController extends BaseCtrl
         $title   = 'Ventas por dia';
         $url     = 'dia';
         $columns = [
-            //['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             [
                 'attribute' => 'nombre_pelicula',
                 'contentOptions' => function ($m) {
@@ -110,6 +109,9 @@ class ReporteController extends BaseCtrl
                 'attribute' => 'total',
                 'format' => ['decimal', 0],
                 'pageSummary' => true,
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
             ],
         ];
 
@@ -142,7 +144,13 @@ class ReporteController extends BaseCtrl
         $title        = 'Boletos por funciones';
         $url          = 'funcion';
         $columns      = [
-            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            [
+                'attribute' => 'nombre_pelicula',
+                'label' => 'Pelicula',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             'hora:time',
@@ -157,7 +165,13 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            [
+                'attribute' => 'conteo',
+                'label' => 'Entradas',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
@@ -192,13 +206,26 @@ class ReporteController extends BaseCtrl
         $title        = 'Boletos por peliculas';
         $url          = 'pelicula';
         $columns      = [
-            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            [
+                'attribute' => 'nombre_pelicula',
+                'label' => 'Pelicula',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             //'hora:time',
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             // ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            [
+                'attribute' => 'conteo',
+                'label' => 'Entradas',
+
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
             //'total:currency',
         ];
 
@@ -231,7 +258,13 @@ class ReporteController extends BaseCtrl
         $title        = 'Ventas por Periodo';
         $url          = 'vperiodo';
         $columns      = [
-            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            [
+                'attribute' => 'nombre_pelicula',
+                'label' => 'Pelicula',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             'hora:time',
@@ -246,7 +279,13 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'total', 'label' => 'Total'],
+            [
+                'attribute' => 'total',
+                'label' => 'Total',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
@@ -276,7 +315,13 @@ class ReporteController extends BaseCtrl
         $title        = 'Boletos por Periodo';
         $url          = 'bperiodo';
         $columns      = [
-            ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
+            [
+                'attribute' => 'nombre_pelicula',
+                'label' => 'Pelicula',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             'hora:time',
@@ -291,7 +336,14 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'conteo', 'label' => 'Entradas', 'pageSummary' => true],
+            [
+                'attribute' => 'conteo',
+                'label' => 'Entradas',
+                'pageSummary' => true,
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
+            ],
         ];
         $searchTemplate     = '_bperiodo.php';
         $searchTemplateData = [
