@@ -42,6 +42,9 @@ class ReporteController extends BaseCtrl
             //['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             [
                 'attribute' => 'nombre_pelicula',
+                'contentOptions' => function ($m) {
+                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                },
                 'width' => '310px',
                 //'filterType' => GridView::FILTER_SELECT2,
                 'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'),
