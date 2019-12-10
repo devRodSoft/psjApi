@@ -41,9 +41,6 @@ class ReporteController extends BaseCtrl
         $columns = [
             [
                 'attribute' => 'nombre_pelicula',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
                 'width' => '310px',
                 //'filterType' => GridView::FILTER_SELECT2,
                 'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'),
@@ -109,9 +106,6 @@ class ReporteController extends BaseCtrl
                 'attribute' => 'total',
                 'format' => ['decimal', 0],
                 'pageSummary' => true,
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
         ];
 
@@ -147,9 +141,6 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'nombre_pelicula',
                 'label' => 'Pelicula',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -168,9 +159,6 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'conteo',
                 'label' => 'Entradas',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
         ];
 
@@ -209,9 +197,6 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'nombre_pelicula',
                 'label' => 'Pelicula',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -222,9 +207,6 @@ class ReporteController extends BaseCtrl
                 'attribute' => 'conteo',
                 'label' => 'Entradas',
 
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
             //'total:currency',
         ];
@@ -261,9 +243,6 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'nombre_pelicula',
                 'label' => 'Pelicula',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -282,9 +261,6 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'total',
                 'label' => 'Total',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
         ];
 
@@ -318,9 +294,6 @@ class ReporteController extends BaseCtrl
             [
                 'attribute' => 'nombre_pelicula',
                 'label' => 'Pelicula',
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -340,9 +313,6 @@ class ReporteController extends BaseCtrl
                 'attribute' => 'conteo',
                 'label' => 'Entradas',
                 'pageSummary' => true,
-                'contentOptions' => function ($m) {
-                    return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
-                },
             ],
         ];
         $searchTemplate     = '_bperiodo.php';
@@ -399,6 +369,9 @@ class ReporteController extends BaseCtrl
                     ],
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
+                    'rowOptions' => function ($m) {
+                        return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                    },
                     'toolbar' => [
                         '{export}',
                         '{toggleData}',
