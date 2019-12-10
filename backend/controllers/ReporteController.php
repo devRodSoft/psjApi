@@ -224,7 +224,7 @@ class ReporteController extends BaseCtrl
     public function actionVperiodo()
     {
         $searchModel  = new ReporteSearch();
-        $dataProvider = $searchModel->searchDistribuidor(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchPeriodo(Yii::$app->request->queryParams);
         $title        = 'Ventas por Periodo';
         $url          = 'vperiodo';
         $columns      = [
@@ -243,7 +243,7 @@ class ReporteController extends BaseCtrl
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],
+            ['attribute' => 'total', 'label' => 'Total'],
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
@@ -269,7 +269,7 @@ class ReporteController extends BaseCtrl
     public function actionBperiodo()
     {
         $searchModel  = new ReporteSearch();
-        $dataProvider = $searchModel->searchDistribuidor(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchPeriodo(Yii::$app->request->queryParams);
         $title        = 'Boletos por Periodo';
         $url          = 'bperiodo';
         $columns      = [

@@ -172,8 +172,7 @@ class ReporteSearch extends Reporte
             ]
         );
 
-        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
+        $query->andFilterWhere(['between', 'DATE(boleto_creado)', $this->fechaInicio, $this->fechaFin]);
 
         $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
@@ -271,8 +270,7 @@ class ReporteSearch extends Reporte
             ]
         );
 
-        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
+        $query->andFilterWhere(['between', 'DATE(boleto_creado)', $this->fechaInicio, $this->fechaFin]);
 
         $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
@@ -307,6 +305,10 @@ class ReporteSearch extends Reporte
 
             ]
         );
+
+        if (empty($this->boleto_creado)) {
+            $this->boleto_creado = date('Y-m-d');
+        }
 
         $this->load($params);
 
@@ -362,8 +364,7 @@ class ReporteSearch extends Reporte
                 'distribuidora_id' => $this->distribuidora_id,
             ]
         );
-        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
+        $query->andFilterWhere(['between', 'DATE(boleto_creado)', $this->fechaInicio, $this->fechaFin]);
 
         $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
@@ -405,6 +406,10 @@ class ReporteSearch extends Reporte
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if (empty($this->boleto_creado)) {
+            $this->boleto_creado = date('Y-m-d');
         }
 
         // grid filtering conditions
@@ -454,8 +459,7 @@ class ReporteSearch extends Reporte
                 'distribuidora_id' => $this->distribuidora_id,
             ]
         );
-        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
+        $query->andFilterWhere(['between', 'DATE(boleto_creado)', $this->fechaInicio, $this->fechaFin]);
 
         $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
@@ -546,8 +550,111 @@ class ReporteSearch extends Reporte
                 'distribuidora_id' => $this->distribuidora_id,
             ]
         );
-        $query->andFilterWhere(['>=', 'DATE(boleto_creado)', $this->fechaInicio])
-            ->andFilterWhere(['<=', 'DATE(boleto_creado)', $this->fechaFin]);
+        $query->andFilterWhere(['between', 'DATE(boleto_creado)', $this->fechaInicio, $this->fechaFin]);
+
+        $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
+        $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
+
+        $query->andFilterWhere(
+            ['like', 'username', $this->username]
+        )
+            ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
+            ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
+
+        $query2->where = $query->where;
+
+        return $dataProvider;
+    }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchPeriodo($params)
+    {
+
+        $query  = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
+        $query2 = Reporte::find()->select('SUM(precio) AS total, ("") AS boleto_id, ("' . static::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS sala_id, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
+
+        $unionQuery = $query->union($query2);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => $unionQuery,
+                'pagination' => false,
+
+            ]
+        );
+
+        $this->load($params);
+
+        if (empty($this->fechaInicio)) {
+            $this->fechaInicio = date('Y-m-d');
+        }
+        if (empty($this->fechaFin)) {
+            $this->fechaFin = date('Y-m-d');
+        }
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere(
+            [
+                'boleto_id' => $this->boleto_id,
+                'reclamado' => $this->reclamado,
+                'reimpreso' => $this->reimpreso,
+                'boleto_actualizado' => $this->boleto_actualizado,
+                'qr_phat' => $this->qr_phat,
+                'hash' => $this->hash,
+                'horario_funcion_id' => $this->horario_funcion_id,
+                'sala_id' => $this->sala_id,
+                'cine_id' => $this->cine_id,
+                'hora' => $this->hora,
+                'fecha' => $this->fecha,
+                'publicar' => $this->publicar,
+                'horario_creado' => $this->horario_creado,
+                'horario_actualizado' => $this->horario_actualizado,
+                'precio_id' => $this->precio_id,
+                'nombre' => $this->nombre,
+                'codigo' => $this->codigo,
+                'precio_creado' => $this->precio_creado,
+                'precio_actualizado' => $this->precio_actualizado,
+                'precio' => $this->precio,
+                'pago_id' => $this->pago_id,
+                'create_time' => $this->create_time,
+                'id_pago_externo' => $this->id_pago_externo,
+                'intent' => $this->intent,
+                'state' => $this->state,
+                'pago_creado' => $this->pago_creado,
+                'pago_actualizado' => $this->pago_actualizado,
+                'tipo_pago' => $this->tipo_pago,
+                'empleado_id' => $this->empleado_id,
+                'empleado_status' => $this->empleado_status,
+                'empleado_creado' => $this->empleado_creado,
+                'empleado_actualizado' => $this->empleado_actualizado,
+                'cliente_id' => $this->cliente_id,
+                'cliente_status' => $this->cliente_status,
+                'cliente_creado' => $this->cliente_creado,
+                'cliente_actualizado' => $this->cliente_actualizado,
+                'pelicula_id' => $this->pelicula_id,
+                'genero' => $this->genero,
+                'clasificacion' => $this->clasificacion,
+                'idioma' => $this->idioma,
+                'duracion' => $this->duracion,
+                'distribuidora_id' => $this->distribuidora_id,
+            ]
+        );
+
+        $query->andFilterWhere(['between', 'DATE(boleto_creado)', $this->fechaInicio, $this->fechaFin]);
 
         $query->andFilterWhere(['DATE(boleto_creado)' => $this->boleto_creado]);
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
