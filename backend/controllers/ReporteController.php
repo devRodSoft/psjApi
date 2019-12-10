@@ -2,16 +2,15 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\User;
-use yii\bootstrap\Html;
 use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
 use common\models\Distribuidora;
 use common\models\Pelicula;
+use common\models\User;
 use kartik\grid\GridView;
+use Yii;
+use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
-
 
 /**
  * ReporteController implements the CRUD actions for Reporte model.
@@ -36,76 +35,79 @@ class ReporteController extends BaseCtrl
     {
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $groupDates = $searchModel->getDates(Yii::$app->request->queryParams);
-        $title = 'Ventas por dia';
-        $url = 'dia';
+        // $groupDates = $searchModel->getDates(Yii::$app->request->queryParams);
+        $title   = 'Ventas por dia';
+        $url     = 'dia';
         $columns = [
             //['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             [
-                'attribute' => 'nombre_pelicula', 
+                'attribute' => 'nombre_pelicula',
                 'width' => '310px',
                 //'filterType' => GridView::FILTER_SELECT2,
-                'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'), 
+                'filter' => ArrayHelper::map(Pelicula::find()->orderBy('nombre')->asArray()->all(), 'id', 'nombre'),
                 'filterWidgetOptions' => [
                     //'pluginOptions' => ['allowClear' => true],
                 ],
                 //'filterInputOptions' => ['placeholder' => 'Any supplier'],
-                'group' => true,  // enable grouping
-                'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
+                'group' => true, // enable grouping
+                'groupFooter' => function ($model, $key, $index, $widget) {
+                    if ($model->nombre_pelicula == ReporteSearch::HEADER_TOTALES) {
+                        return false;
+                    }
+                    // Closure method
                     return [
-                        'mergeColumns' => [[1-6]], // columns to merge in summary
-                        'content' => [             // content to show in each summary cell
+                        'mergeColumns' => [[0, 6]], // columns to merge in summary
+                        'content' => [ // content to show in each summary cell
                             //0 => $model->nombre_pelicula,
                             7 => GridView::F_SUM,
                             8 => GridView::F_SUM,
                         ],
-                        'contentFormats' => [      // content reformatting for each summary cell
+                        'contentFormats' => [ // content reformatting for each summary cell
                             7 => ['format' => 'number', 'decimals' => 0],
                             8 => ['format' => 'number', 'decimals' => 0],
                         ],
-                        'contentOptions' => [      // content html attributes for each summary cell
-                            //1 => ['style' => 'text-align:center'],                           
+                        'contentOptions' => [ // content html attributes for each summary cell
+                            //1 => ['style' => 'text-align:center'],
                             7 => ['style' => 'text-align:right'],
                             8 => ['style' => 'text-align:right'],
                         ],
                         // html attributes for group summary row
-                        'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
+                        'options' => ['class' => 'info table-info', 'style' => 'font-weight:bold;'],
                     ];
-                }
+                },
             ],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             /*[
-                'attribute' => 'fecha', 
-                'width' => '310px',
-                //'filterType' => GridView::FILTER_SELECT2,
-                //'filter' => ArrayHelper::map($groupDates->getModels(), 'boleto_id', 'fecha'), 
-                //'filterWidgetOptions' => [
-                    //'pluginOptions' => ['allowClear' => true],
-                //],
-                //'filterInputOptions' => ['placeholder' => 'Any supplier'],
-                'group' => true,  // enable grouping                
+            'attribute' => 'fecha',
+            'width' => '310px',
+            //'filterType' => GridView::FILTER_SELECT2,
+            //'filter' => ArrayHelper::map($groupDates->getModels(), 'boleto_id', 'fecha'),
+            //'filterWidgetOptions' => [
+            //'pluginOptions' => ['allowClear' => true],
+            //],
+            //'filterInputOptions' => ['placeholder' => 'Any supplier'],
+            'group' => true,  // enable grouping
             ],*/
             'hora:time',
             [
                 'label' => 'Sala',
                 'value' => function ($m) {
                     return $m->sala->nombre;
-                }
+                },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio'],
-            ['attribute' => 'conteo', 'label' => 'Entradas'],               
+            ['attribute' => 'conteo', 'label' => 'Entradas'],
             [
                 'class' => '\kartik\grid\DataColumn',
                 'attribute' => 'total',
-                'format'=>['decimal',0],
-                'pageSummary' => true
-            ]
+                'format' => ['decimal', 0],
+                'pageSummary' => true,
+            ],
         ];
 
-
-        $searchTemplate = '_bdia.php';
+        $searchTemplate     = '_bdia.php';
         $searchTemplateData = [
             'filterModel' => $searchModel,
             'url' => $url,
@@ -131,9 +133,9 @@ class ReporteController extends BaseCtrl
     {
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchuFuncion(Yii::$app->request->queryParams);
-        $title = 'Boletos por funciones';
-        $url = 'funcion';
-        $columns = [
+        $title        = 'Boletos por funciones';
+        $url          = 'funcion';
+        $columns      = [
             ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -142,7 +144,7 @@ class ReporteController extends BaseCtrl
                 'label' => 'Sala',
                 'value' => function ($m) {
                     return $m->sala->nombre;
-                }
+                },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
@@ -150,7 +152,7 @@ class ReporteController extends BaseCtrl
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
-        $searchTemplate = '_bfuncion.php';
+        $searchTemplate     = '_bfuncion.php';
         $searchTemplateData = [
             'filterModel' => $searchModel,
             'url' => $url,
@@ -178,25 +180,25 @@ class ReporteController extends BaseCtrl
         //group by price type *****
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchPelicula(Yii::$app->request->queryParams);
-        $title = 'Boletos por peliculas';
-        $url = 'pelicula';
-        $columns = [
+        $title        = 'Boletos por peliculas';
+        $url          = 'pelicula';
+        $columns      = [
             ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
             //'hora:time',
             ['attribute' => 'nombre', 'label' => 'Tipo'],
-           // ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            // ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
             ['attribute' => 'conteo', 'label' => 'Entradas'],
             //'total:currency',
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
 
-        $searchTemplate = '_bpelicula.php';
+        $searchTemplate     = '_bpelicula.php';
         $searchTemplateData = [
             'filterModel' => $searchModel,
-            'url' => $url
+            'url' => $url,
         ];
         return $this->renderReport(
             $title,
@@ -217,9 +219,9 @@ class ReporteController extends BaseCtrl
     {
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchDistribuidor(Yii::$app->request->queryParams);
-        $title = 'Ventas por Periodo';
-        $url = 'vperiodo';
-        $columns = [
+        $title        = 'Ventas por Periodo';
+        $url          = 'vperiodo';
+        $columns      = [
             ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -228,7 +230,7 @@ class ReporteController extends BaseCtrl
                 'label' => 'Sala',
                 'value' => function ($m) {
                     return $m->sala->nombre;
-                }
+                },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
@@ -236,7 +238,7 @@ class ReporteController extends BaseCtrl
         ];
 
         // $usuarios = array_column(User::find()->all(), 'username', 'username');
-        $searchTemplate = '_bperiodo.php';
+        $searchTemplate     = '_bperiodo.php';
         $searchTemplateData = [
             'filterModel' => $searchModel,
             'url' => $url,
@@ -259,9 +261,9 @@ class ReporteController extends BaseCtrl
     {
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->searchDistribuidor(Yii::$app->request->queryParams);
-        $title = 'Boletos por Periodo';
-        $url = 'bperiodo';
-        $columns = [
+        $title        = 'Boletos por Periodo';
+        $url          = 'bperiodo';
+        $columns      = [
             ['attribute' => 'nombre_pelicula', 'label' => 'Pelicula'],
             ['attribute' => 'nombre_distribuidor', 'label' => 'Distribuidora'],
             'fecha:date',
@@ -270,13 +272,13 @@ class ReporteController extends BaseCtrl
                 'label' => 'Sala',
                 'value' => function ($m) {
                     return $m->sala->nombre;
-                }
+                },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
             ['attribute' => 'conteo', 'label' => 'Entradas', 'pageSummary' => true],
         ];
-        $searchTemplate = '_bperiodo.php';
+        $searchTemplate     = '_bperiodo.php';
         $searchTemplateData = [
             'filterModel' => $searchModel,
             'url' => $url,
@@ -311,7 +313,7 @@ class ReporteController extends BaseCtrl
                 'showPageSummary' => true,
                 'widgetData' => [
                     'export' => [
-                        'label' => 'Exportar reporte'
+                        'label' => 'Exportar reporte',
                     ],
                     'exportConfig' => [
                         GridView::HTML => [],
@@ -323,25 +325,25 @@ class ReporteController extends BaseCtrl
                                 'destination' => 'D',
                                 'methods' => [
                                     'SetHeader' => [$title],
-                                    'SetFooter' => ['{PAGENO}']
-                                ]
-                            ]
+                                    'SetFooter' => ['{PAGENO}'],
+                                ],
+                            ],
                         ],
                     ],
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'toolbar' => [
                         '{export}',
-                        '{toggleData}'
+                        '{toggleData}',
                     ],
                     'panel' => [
                         'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> ' . $title . '</h3>',
                         'type' => 'success',
-                        'after' => ' {pager}' . '<br>' . Html::a('<i class="fas fa-redo"></i> Reiniciar filtros', [$url], ['class' => 'btn btn-info']),
-                        'footer' => false
+                        'after' => '{pager}' . '<br>' . Html::a('<i class="fas fa-redo skip-export"></i> Reiniciar filtros', [$url], ['class' => 'btn btn-info']),
+                        'footer' => false,
                     ],
                     'columns' => $columns,
-                ]
+                ],
             ]
         );
     }

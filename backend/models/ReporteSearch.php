@@ -2,9 +2,9 @@
 
 namespace backend\models;
 
+use common\models\Reporte;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Reporte;
 
 /**
  * ReporteSearch represents the model behind the search form of `common\models\Reporte`.
@@ -12,10 +12,12 @@ use common\models\Reporte;
 class ReporteSearch extends Reporte
 {
     public $fechaInicio = null;
-    public $fechaFin = null;
-    public $fecha = null;
-    public $start = null;
-    public $end = null;
+    public $fechaFin    = null;
+    public $fecha       = null;
+    public $start       = null;
+    public $end         = null;
+
+    const HEADER_TOTALES = 'Totales';
     /**
      * {@inheritdoc}
      */
@@ -111,6 +113,7 @@ class ReporteSearch extends Reporte
         $dataProvider = new ActiveDataProvider(
             [
                 'query' => $query,
+                'pagination' => false,
             ]
         );
 
@@ -135,7 +138,6 @@ class ReporteSearch extends Reporte
                 'sala_id' => $this->sala_id,
                 'cine_id' => $this->cine_id,
                 'hora' => $this->hora,
-                'fecha' => $this->fecha,
                 'publicar' => $this->publicar,
                 'horario_creado' => $this->horario_creado,
                 'horario_actualizado' => $this->horario_actualizado,
@@ -193,17 +195,27 @@ class ReporteSearch extends Reporte
      */
     public function search($params)
     {
-        $query = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
+
+        $query  = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
+        $query2 = Reporte::find()->select('SUM(precio) AS total, ("") AS boleto_id, ("' . static::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS sala_id, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
+
+        $unionQuery = $query->union($query2);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => $query,
+                'query' => $unionQuery,
+                'pagination' => false,
+
             ]
         );
 
         $this->load($params);
+
+        if (empty($this->boleto_creado)) {
+            $this->boleto_creado = date('Y-m-d');
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -270,6 +282,8 @@ class ReporteSearch extends Reporte
         )
             ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
             ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
+
+        $query2->where = $query->where;
 
         return $dataProvider;
     }
@@ -278,11 +292,19 @@ class ReporteSearch extends Reporte
     {
         $query = Reporte::find()->select('nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
 
+        $query2 = Reporte::find()->select('("' . ReporteSearch::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS sala_id, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
+
+        // add conditions that should always apply here
+
+        $unionQuery = $query->union($query2);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => $query,
+                'query' => $unionQuery,
+                'pagination' => false,
+
             ]
         );
 
@@ -351,6 +373,8 @@ class ReporteSearch extends Reporte
         )
             ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
             ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
+
+        $query2->where = $query->where;
 
         return $dataProvider;
     }
@@ -359,11 +383,19 @@ class ReporteSearch extends Reporte
     {
         $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
 
+        $query2 = Reporte::find()->select('SUM(precio) AS total, ("' . ReporteSearch::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
+
+        // add conditions that should always apply here
+
+        $unionQuery = $query->union($query2);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => $query,
+                'query' => $unionQuery,
+                'pagination' => false,
+
             ]
         );
 
@@ -433,6 +465,9 @@ class ReporteSearch extends Reporte
         )
             ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
             ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
+
+        $query2->where = $query->where;
+
         return $dataProvider;
     }
 
@@ -440,11 +475,19 @@ class ReporteSearch extends Reporte
     {
         $query = Reporte::find()->select('SUM(precio) AS total, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['distribuidora_id']);
 
+        $query2 = Reporte::find()->select('SUM(precio) AS total, ("' . ReporteSearch::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS sala_id, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
+
+        // add conditions that should always apply here
+
+        $unionQuery = $query->union($query2);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => $query,
+                'query' => $unionQuery,
+                'pagination' => false,
+
             ]
         );
 
@@ -514,6 +557,8 @@ class ReporteSearch extends Reporte
         )
             ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
             ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
+
+        $query2->where = $query->where;
 
         return $dataProvider;
     }

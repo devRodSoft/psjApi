@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\Sala as Sala;
 use Yii;
 use yii\db\Query;
 
@@ -12,7 +13,7 @@ use yii\db\Query;
 class Reporte extends \yii\db\ActiveRecord
 {
     public $conteo = 0;
-    public $total = 0;
+    public $total  = 0;
     /**
      * {@inheritdoc}
      */
@@ -30,7 +31,7 @@ class Reporte extends \yii\db\ActiveRecord
             'boleto_id' => 'Boleto ID',
             'reclamado' => 'Reclamado',
             'reimpreso' => 'Reimpreso',
-            'boleto_creado' => 'Boleto creado',
+            'boleto_creado' => 'Fecha de venta de boleto',
             'boleto_actualizado' => 'Boleto actualizado',
             'qr_phat' => 'Qr phat',
             'hash' => 'Hash',
@@ -77,7 +78,6 @@ class Reporte extends \yii\db\ActiveRecord
             'total' => 'Total',
         ];
     }
-
 
     /**
      * {@inheritdoc}
