@@ -11,8 +11,8 @@ return [
         'url' => 'https://api.sandbox.paypal.com/v2/',
     ],
     'openpay' => [
-        'merchant-id' => 'mi0icmae89efvmyw0cpf',
-        'private-key' => 'sk_2339c0e7f72b4ff294289f5e1757d028',
+        'merchant-id' => 'mabnaynuvydupx3jhqvb',
+        'private-key' => 'sk_4bc216af2c4c49f8a306f31a33afed72',
         'url' => 'https://sandbox-api.openpay.mx/v1/',
     ],
     'bsVersion' => '3.x',
