@@ -2,6 +2,9 @@
 
 namespace common\models;
 
+use common\models\PermisoQuery as PermisoQuery;
+use common\models\Role as Role;
+//use yii\rbac\Role as Role;
 use Yii;
 
 /**
@@ -18,10 +21,13 @@ use Yii;
 class Permiso extends \yii\db\ActiveRecord
 {
 
-    const ACCESS_TAQUILLA = 'acceso_taquilla';
-    const ACCESS_REIMPRESION = 'acceso_reimpresion';
-    const ACCESS_ADMIN = 'acceso_admin';
-    const ACCESS_VERIFICACION = 'acceso_verificacion';
+    const ACCESS_TAQUILLA       = 'acceso_taquilla';
+    const ACCESS_REIMPRESION    = 'acceso_reimpresion';
+    const ACCESS_ADMIN          = 'acceso_admin';
+    const ACCESS_VERIFICACION   = 'acceso_verificacion';
+    const ACCESS_APARTAR        = 'access_apartar';
+    const ACCESS_NUEVO_APARTADO = 'access_nuevo_apartado';
+
     /**
      * {@inheritdoc}
      */
@@ -62,7 +68,7 @@ class Permiso extends \yii\db\ActiveRecord
     {
         return [
             'nombre',
-            'key'
+            'key',
         ];
     }
 

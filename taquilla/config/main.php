@@ -63,15 +63,23 @@ return [
                 'OPTIONS boletos/horario/<horarioid:\d+>/pagar' => 'general/boletos/options',
 
                 'POST oauth/<action:\w+>' => 'authentication/<action>',
-                'OPTIONS oauth/<action:\w+>' => 'authentication/<action>',
+                'OPTIONS oauth/<action:\w+>' => 'authentication/options',
 
-                //cancelacion 
-                'DELETE boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar/',
-                'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar/',
+                //cancelacion
+                'DELETE boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar',
+                'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/options',
 
                 //find by code
                 'GET boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
-                'OPTIONS boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
+                'OPTIONS boletos/code/<codigoBoleto\d+>' => 'general/boletos/options',
+
+                //apartar
+                'POST apartados/horario/<horarioid:\d+>' => 'general/apartados/apartar',
+                'OPTIONS apartados/horario/<horarioid:\d+>' => 'general/apartados/options',
+
+                //listado apartar
+                'GET apartados/horario/<horarioid:\d+>' => 'general/apartados/listar-apartados',
+                'OPTIONS apartados/horario/<horarioid:\d+>' => 'general/apartados/options',
 
             ],
         ],
