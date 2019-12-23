@@ -2,6 +2,9 @@
 
 namespace common\models;
 
+use common\models\Cine as Cine;
+use common\models\SalaAsientos as SalaAsientos;
+use common\models\SalaQuery as SalaQuery;
 use Yii;
 
 /**
@@ -91,11 +94,12 @@ class Sala extends \yii\db\ActiveRecord
             $salaAsientos = $this->getSalaAsientos()
                 ->orderBy(['orden_fila' => SORT_DESC, 'orden_columna' => SORT_ASC])
                 ->alias('t')
-                ->select(['t.*', 'ocupadoAsiento' => 'MAX(IF(b.id IS NULL, 0, 1))'])
+                ->select(['t.*', 'ocupadoAsiento' => 'MAX(IF(ba.id IS NULL, 0, 1))', 'apartadoAsiento' => 'MAX(IF(aa.id IS NULL, 0, 1))'])
                 ->join('inner join', ['hf' => 'horario_funcion'], 'hf.sala_id = t.sala_id')
-                ->join('left join', ['ba' => 'boleto_asiento'], 't.id = ba.sala_asiento_id')
-                ->join('left join', ['b' => 'boleto'], 'ba.boleto_id = b.id AND hf.id = b.horario_funcion_id')
+                ->join('left join', ['ba' => 'boleto_asiento'], 't.id = ba.sala_asiento_id AND ba.horario_funcion_id = hf.id')
+                ->join('left join', ['aa' => 'apartado_asiento'], 't.id = aa.sala_asiento_id AND aa.horario_funcion_id = hf.id')
                 ->where(['hf.id' => $horarioID])
+
                 ->groupBy('t.id')
                 ->all();
         }

@@ -2,6 +2,9 @@
 
 namespace common\models;
 
+use common\models\HorarioFuncion;
+use common\models\Sala;
+use common\models\SalaAsientosQuery;
 use Yii;
 
 /**
@@ -15,7 +18,8 @@ use Yii;
  */
 class SalaAsientos extends \yii\db\ActiveRecord
 {
-    public $ocupadoAsiento = null;
+    public $ocupadoAsiento  = null;
+    public $apartadoAsiento = null;
     /**
      * {@inheritdoc}
      */
@@ -68,6 +72,9 @@ class SalaAsientos extends \yii\db\ActiveRecord
             'orden_columna',
             'ocupado' => function ($m) {
                 return $m->ocupadoAsiento == null ? null : ($m->ocupadoAsiento == '0' ? false : true);
+            },
+            'apartado' => function ($m) {
+                return $m->apartadoAsiento == null ? null : ($m->apartadoAsiento == '0' ? false : true);
             },
         ];
     }

@@ -19,6 +19,7 @@ use Yii;
 class SalaAsientosRest extends \yii\db\ActiveRecord
 {
     public $ocupadoAsiento     = true;
+    public $apartadoAsiento    = null;
     public $id_relacion_boleto = null;
     /**
      * {@inheritdoc}
