@@ -37,7 +37,7 @@ class ApartadosController extends BaseAuthController
 
         $query = Apartado::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = apartado.horario_funcion_id')
-            ->andWhere('hf.fecha BETWEEN NOW() AND (NOW() + INTERVAL 2 DAY)')
+            ->andWhere('hf.fecha BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 2 DAY)')
             ->andFilterWhere(['nombre' => $nombre])
             ->orderBy('hf.fecha DESC');
 

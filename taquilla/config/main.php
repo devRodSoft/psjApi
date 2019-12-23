@@ -78,8 +78,8 @@ return [
                 'OPTIONS apartados/horario/<horarioid:\d+>' => 'general/apartados/options',
 
                 //listado apartar
-                'GET apartados/horario/<horarioid:\d+>' => 'general/apartados/listar-apartados',
-                'OPTIONS apartados/horario/<horarioid:\d+>' => 'general/apartados/options',
+                'GET apartados' => 'general/apartados/listar-apartados',
+                'OPTIONS apartados' => 'general/apartados/options',
 
             ],
         ],
