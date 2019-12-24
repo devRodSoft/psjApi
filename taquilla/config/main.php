@@ -76,6 +76,8 @@ return [
                 //apartar
                 'POST apartados/horario/<horarioid:\d+>' => 'general/apartados/apartar',
                 'OPTIONS apartados/horario/<horarioid:\d+>' => 'general/apartados/options',
+                'DELETE apartados/cancelar/<id:\d+>' => 'general/apartados/cancelar',
+                'OPTIONS apartados/cancelar/<id:\d+>' => 'general/apartados/cancelar',
 
                 //listado apartar
                 'GET apartados' => 'general/apartados/listar-apartados',
