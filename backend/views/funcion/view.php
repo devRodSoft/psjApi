@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?php echo Html::a(Html::encode($model->pelicula->nombre), ['funcion/calendar', 'id' => $model->pelicula_id]) ?></h1>
 
     <p>
+        <?php echo Html::a('Crear Función', ['create'], ['class' => 'btn btn-success']) ?>
         <?php echo Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php echo Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
