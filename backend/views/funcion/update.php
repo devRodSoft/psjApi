@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Funcion */
 
 $this->title                   = 'Actualizar Funcion: ' . $model->pelicula->nombre;
-$this->params['breadcrumbs'][] = ['label' => 'Funcions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Funcion', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>

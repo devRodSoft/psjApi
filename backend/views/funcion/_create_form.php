@@ -22,7 +22,7 @@ AppAsset::register($this);
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php echo $form->field($model, 'cine_id')->dropDownList(array_column(Cine::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un cine']) ?>
+    <?php echo $form->field($model, 'cine_id')->dropDownList(array_column(Cine::Find()->All(), 'nombre', 'id'), ['prompt' => 'selecciona un cine'])->label("Cine") ?>
 
     <?php // Usage with ActiveForm and model
     echo $form->field($model, 'pelicula_id')->widget(
@@ -34,7 +34,7 @@ AppAsset::register($this);
                 'allowClear' => false
             ],
         ]
-    ); ?>
+    )->label('Pelicula'); ?>
 
     <?php // Usage with ActiveForm and model
     echo $form->field($model, 'sala_id')->widget(
@@ -46,7 +46,7 @@ AppAsset::register($this);
                 'allowClear' => false
             ],
         ]
-    ); ?>
+    )->label('Sala'); ?>
     <div class="alert alert-warning">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">precaucion:</span>
@@ -85,7 +85,7 @@ AppAsset::register($this);
     );
     ?>
 
-    <?php echo $form->field($model, 'publicar')->checkbox() ?>
+    <?php echo $form->field($model, 'publicar')->checkbox(["checked"=>true]) ?>
 
 
     <?php /* echo $form->field($model, 'precio[]')->widget(MultiSelect::className(), [

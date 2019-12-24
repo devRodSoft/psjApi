@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Funcion */
 
 $this->title                   = $model->pelicula->nombre;
-$this->params['breadcrumbs'][] = ['label' => 'Funcions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Funcion', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?php echo Html::a(Html::encode($model->pelicula->nombre), ['funcion/calendar', 'id' => $model->pelicula_id]) ?></h1>
 
     <p>
-        <?php echo Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php echo Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php echo Html::a('Borrar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [

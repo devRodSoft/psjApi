@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
 
     <?php echo $form->field($model, 'idioma')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'duracion')->textInput(['type' => 'number', "placeholder" => "120", "min" => "30", "step" => "5"]) ?>
+    <?php echo $form->field($model, 'duracion')->textInput(['type' => 'number', "placeholder" => "120", "min" => "30", "step" => "1"]) ?>
 
     <?php echo $form->field($model, 'sinopsis')->textarea(['rows' => 6]) ?>
 

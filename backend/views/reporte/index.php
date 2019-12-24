@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?=Html::a('1 - VENTAS P/ DIA:', ['dia'], ['class' => 'btn btn-primary col-md-4'])?>
     </p>
     <p class="col-md-12">
-        <?=Html::a('2 - BOELTOS P/ FUNCIONES:', ['funcion'], ['class' => 'btn btn-primary col-md-4'])?>
+        <?=Html::a('2 - BOLETOS P/ FUNCIONES:', ['funcion'], ['class' => 'btn btn-primary col-md-4'])?>
     </p>
     <p class="col-md-12">
         <?=Html::a('3 - BOLETOS P/ PELICULAS:', ['pelicula'], ['class' => 'btn btn-primary col-md-4'])?>
@@ -26,6 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?=Html::a('4 - VENTAS P/ PERIODO:', ['vperiodo'], ['class' => 'btn btn-primary col-md-4'])?>
     </p>
     <p class="col-md-12">
-        <?=Html::a('5 - BOELTOS POR PERIODO:', ['bperiodo'], ['class' => 'btn btn-primary col-md-4'])?>
+        <?=Html::a('5 - BOLETOS POR PERIODO:', ['bperiodo'], ['class' => 'btn btn-primary col-md-4'])?>
     </p>
 </div>

@@ -26,7 +26,7 @@ $form = ActiveForm::begin(
     ]
 ); ?>
 
-        <?php echo $form->field($filterModel, 'username')->widget(
+    <?php echo $form->field($filterModel, 'username')->widget(
     Select2::classname(),
     [
         'data' => $usuarios,
