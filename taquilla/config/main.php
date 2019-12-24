@@ -81,6 +81,10 @@ return [
                 'GET apartados' => 'general/apartados/listar-apartados',
                 'OPTIONS apartados' => 'general/apartados/options',
 
+                //Reportes
+                'GET /reportes/ventas/dia' => 'general/reportes/ventas-dia',
+                'OPTIONS /reportes/ventas/dia' => 'general/reportes/options',
+
             ],
         ],
     ],

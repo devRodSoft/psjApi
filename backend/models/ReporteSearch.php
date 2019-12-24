@@ -13,7 +13,6 @@ class ReporteSearch extends Reporte
 {
     public $fechaInicio = null;
     public $fechaFin    = null;
-    public $fecha       = null;
     public $start       = null;
     public $end         = null;
 
@@ -195,8 +194,8 @@ class ReporteSearch extends Reporte
     public function search($params)
     {
 
-        $query  = Reporte::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
-        $query2 = Reporte::find()->select('SUM(precio) AS total, ("") AS boleto_id, ("' . static::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS sala_id, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
+        $query  = static::find()->select('SUM(precio) AS total, boleto_id, nombre_pelicula, idioma, nombre_distribuidor, fecha, sala_id, hora, precio, nombre, COUNT(precio_id) AS conteo')->groupBy(['pelicula_id', 'fecha', 'hora', 'precio_id']);
+        $query2 = static::find()->select('SUM(precio) AS total, ("") AS boleto_id, ("' . static::HEADER_TOTALES . '") AS nombre_pelicula, ("") AS idioma, ("") AS nombre_distribuidor, ("") AS fecha, ("") AS sala_id, ("") AS hora, ("") AS precio, ("") AS nombre, COUNT(precio_id) AS conteo');
 
         $unionQuery = $query->union($query2);
 
