@@ -31,17 +31,18 @@ class ReportesController extends BaseAuthController
         foreach ($dataProvider->getModels() as $funcion) {
 
             if (!isset($data[$funcion->nombre_pelicula])) {
-                $data[$funcion->nombre_pelicula] = ['funciones' => [], 'total' => 0, 'entradas' => 0];
+                $data[$funcion->nombre_pelicula] = ['nombre' => '', 'funciones' => [], 'total' => 0, 'entradas' => 0];
             }
             if ($funcion->boleto_id != null) {
                 $data[$funcion->nombre_pelicula]['funciones'][] = $funcion;
             }
 
+            $data[$funcion->nombre_pelicula]['nombre'] = $funcion->nombre_pelicula;
             $data[$funcion->nombre_pelicula]['total'] += $funcion->total;
             $data[$funcion->nombre_pelicula]['entradas'] += $funcion->conteo;
         }
 
-        return $data;
+        return array_values($data);
 
     }
 
