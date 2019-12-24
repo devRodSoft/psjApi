@@ -142,4 +142,37 @@ class ApartadosController extends BaseAuthController
             throw $e;
         }
     }
+
+    public function actionCancelar($id) {
+        
+        $txn = Yii::$app->db->beginTransaction();
+
+        try{
+            //Find the apartado row
+            $apartadoId = Apartado::find()->where(['=', 'id', $id])->select('id')->one();
+        
+            //Delete apartado asiento rows (all of them)
+            \Yii::$app->db
+                ->createCommand()
+                ->delete('apartado_asiento', ['apartado_id' => $apartadoId])
+                ->execute();
+
+                \Yii::$app->db
+                ->createCommand()
+                ->delete('apartado', ['id' => $apartadoId])
+                ->execute();
+
+
+            $txn->commit();
+
+            Yii::$app->response->statusCode = 200;
+            return "Apartado cancelado";
+        } catch (\Exception $e) {
+            $txn->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $txn->rollBack();
+            throw $e;
+        }
+    }
 }
