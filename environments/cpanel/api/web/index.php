@@ -14,6 +14,4 @@ $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../config/main-local.php'
 );
 
-taquilla\controllers
-
 (new yii\web\Application($config))->run();
