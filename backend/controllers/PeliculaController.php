@@ -2,16 +2,18 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Genero;
-use yii\web\UploadedFile;
-use common\models\Pelicula;
-use yii\helpers\ArrayHelper;
-use common\models\Clasificacion;
-use common\models\Distribuidora;
 use backend\controllers\BaseCtrl;
 use backend\models\PeliculaSearch;
+use common\models\Clasificacion;
+use common\models\Distribuidora;
+use common\models\Genero;
+use common\models\Pelicula;
+use common\models\Permiso;
+use Yii;
+use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * PeliculaController implements the CRUD actions for Pelicula model.
@@ -19,6 +21,15 @@ use yii\web\NotFoundHttpException;
 class PeliculaController extends BaseCtrl
 {
 
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PELICULAS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Pelicula models.
@@ -55,6 +66,9 @@ class PeliculaController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PELICULAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Pelicula();
 
         if (Yii::$app->request->isPost) {
@@ -69,7 +83,7 @@ class PeliculaController extends BaseCtrl
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
         $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->orderBy('nombre')->all(), 'id', 'nombre');
-        $generos  = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'nombre', 'nombre');
+        $generos         = ArrayHelper::map(Genero::find()->select('id, nombre')->all(), 'nombre', 'nombre');
         return $this->render('create', [
             'model' => $model,
             'clasificaciones' => $clasificaciones,
@@ -87,6 +101,9 @@ class PeliculaController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PELICULAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isPost) {
@@ -102,7 +119,7 @@ class PeliculaController extends BaseCtrl
 
         $clasificaciones = ArrayHelper::map(Clasificacion::find()->select('id, nombre')->orderBy('orden')->all(), 'nombre', 'nombre');
         $distribuidoras  = ArrayHelper::map(Distribuidora::find()->select('id, nombre')->orderBy('nombre')->all(), 'id', 'nombre');
-        $generos  = ArrayHelper::map(Genero::find()->select('nombre, nombre')->all(), 'nombre', 'nombre');
+        $generos         = ArrayHelper::map(Genero::find()->select('nombre, nombre')->all(), 'nombre', 'nombre');
         return $this->render('update', [
             'model' => $model,
             'clasificaciones' => $clasificaciones,

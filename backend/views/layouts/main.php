@@ -4,9 +4,9 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
+use common\models\Permiso as Permiso;
 use common\widgets\Alert;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use yii\bootstrap\Nav;use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
@@ -59,24 +59,31 @@ $menuItems = [
 if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
-    $menuItems[] = ['label' => 'Usuarios', 'items' => [
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS), 'label' => 'Usuarios', 'items' => [
         ['label' => 'Empleados', 'url' => ['/user']],
         ['label' => 'Clientes', 'url' => ['/face-user']],
     ]];
-    $menuItems[] = ['label' => 'Peliculas', 'url' => ['/pelicula']];
-    $menuItems[] = ['label' => 'Estrenos', 'url' => ['/estreno']];
-    $menuItems[] = ['label' => 'Funciones', 'url' => ['/funcion/planner']];
-    $menuItems[] = ['label' => 'Promociones', 'url' => ['/promocion']];
-    $menuItems[] = ['label' => 'Reportes', 'url' => ['/reporte']];
-    $menuItems[] = ['label' => 'Boletos', 'url' => ['/boleto']];
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PELICULAS), 'label' => 'Peliculas', 'url' => ['/pelicula']];
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ESTRENOS), 'label' => 'Estrenos', 'url' => ['/estreno']];
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_FUNCIONES), 'label' => 'Funciones', 'url' => ['/funcion/planner']];
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PROMOCIONES), 'label' => 'Promociones', 'url' => ['/promocion']];
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REPORTES), 'label' => 'Reportes', 'url' => ['/reporte']];
+    $menuItems[] = ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_BOLETOS), 'label' => 'Boletos', 'url' => ['/boleto']];
     $menuItems[] = ['label' => 'Utilidades', 'items' => [
-        ['label' => 'Distribuidoras', 'url' => ['/distribuidora']],
-        ['label' => 'Clasificaciones', 'url' => ['/clasificacion']],
-        ['label' => 'Generos', 'url' => ['/genero']],
-        ['label' => 'Roles', 'url' => ['/role']],
-        ['label' => 'Salas', 'url' => ['/sala']],
-        ['label' => 'Precios', 'url' => ['/precio']],
-        ['label' => 'Cines', 'url' => ['/cine']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_DISTRIBUIDORAS), 'label' => 'Distribuidoras
+        ', 'url' => ['/distribuidora']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CLASIFICACIONES), 'label' => 'Clasificaciones
+        ', 'url' => ['/clasificacion']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_GENEROS), 'label' => 'Generos
+        ', 'url' => ['/genero']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ROLES), 'label' => 'Roles
+        ', 'url' => ['/role']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_SALAS), 'label' => 'Salas
+        ', 'url' => ['/sala']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PRECIOS), 'label' => 'Precios
+        ', 'url' => ['/precio']],
+        ['visible' => Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CINES), 'label' => 'Cines
+        ', 'url' => ['/cine']],
     ]];
     $menuItems[] = '<li>'
     . Html::beginForm(['/site/logout'], 'post')

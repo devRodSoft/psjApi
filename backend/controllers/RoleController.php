@@ -2,11 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Role;
-use backend\models\RoleSearch;
 use backend\controllers\BaseCtrl;
+use backend\models\RoleSearch;
 use common\models\Permiso;
+use common\models\Role;
+use Yii;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -14,6 +15,15 @@ use yii\web\NotFoundHttpException;
  */
 class RoleController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ROLES)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Role models.
@@ -21,7 +31,7 @@ class RoleController extends BaseCtrl
      */
     public function actionIndex()
     {
-        $searchModel = new RoleSearch();
+        $searchModel  = new RoleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -50,6 +60,9 @@ class RoleController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ROLES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Role();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -72,6 +85,9 @@ class RoleController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ROLES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save() && $model->savePermisos($_POST['Role']['permisos'])) {

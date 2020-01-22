@@ -6,17 +6,29 @@ use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
 use common\models\Distribuidora;
 use common\models\Pelicula;
+use common\models\Permiso;
 use common\models\User;
 use kartik\grid\GridView;
 use Yii;
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 
 /**
  * ReporteController implements the CRUD actions for Reporte model.
  */
 class ReporteController extends BaseCtrl
 {
+
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REPORTES)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Reporte models.

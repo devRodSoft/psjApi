@@ -2,24 +2,36 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Distribuidora;
 use backend\controllers\BaseCtrl;
-use yii\web\NotFoundHttpException;
 use backend\models\DistribuidoraSearch;
+use common\models\Distribuidora;
+use common\models\Permiso as Permiso;
+use Yii;
+use yii\web\HttpException as HttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * DistribuidoraController implements the CRUD actions for Distribuidora model.
  */
 class DistribuidoraController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_DISTRIBUIDORAS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
+
     /**
      * Lists all Distribuidora models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DistribuidoraSearch();
+        $searchModel  = new DistribuidoraSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,6 +60,9 @@ class DistribuidoraController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_DISTRIBUIDORAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Distribuidora();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -68,6 +83,9 @@ class DistribuidoraController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_DISTRIBUIDORAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -88,6 +106,9 @@ class DistribuidoraController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_DISTRIBUIDORAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

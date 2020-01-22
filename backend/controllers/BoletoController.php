@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Boleto;
-use backend\models\BoletoSearch;
 use backend\controllers\BaseCtrl;
+use backend\models\BoletoSearch;
+use common\models\Boleto;
+use common\models\Permiso as Permiso;
+use Yii;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -13,6 +15,16 @@ use yii\web\NotFoundHttpException;
  */
 class BoletoController extends BaseCtrl
 {
+
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_BOLETOS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Boleto models.
@@ -69,6 +81,9 @@ class BoletoController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_BOLETOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

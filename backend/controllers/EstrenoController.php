@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Estreno;
 use backend\controllers\BaseCtrl;
 use backend\models\EstrenoSearch;
+use common\models\Estreno;
+use common\models\Permiso;
+use Yii;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -14,13 +16,23 @@ use yii\web\NotFoundHttpException;
 class EstrenoController extends BaseCtrl
 {
 
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ESTRENOS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
+
     /**
      * Lists all Estreno models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new EstrenoSearch();
+        $searchModel  = new EstrenoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,6 +61,9 @@ class EstrenoController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ESTRENOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Estreno();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -69,6 +84,9 @@ class EstrenoController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ESTRENOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -89,6 +107,9 @@ class EstrenoController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_ESTRENOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

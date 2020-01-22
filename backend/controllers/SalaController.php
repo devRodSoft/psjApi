@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Sala;
-use backend\models\SalaSearch;
 use backend\controllers\BaseCtrl;
+use backend\models\SalaSearch;
+use common\models\Permiso as Permiso;
+use common\models\Sala;
+use Yii;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -13,6 +15,15 @@ use yii\web\NotFoundHttpException;
  */
 class SalaController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_SALAS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Sala models.
@@ -49,6 +60,9 @@ class SalaController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_SALAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Sala();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -69,6 +83,9 @@ class SalaController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_SALAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -89,6 +106,9 @@ class SalaController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_SALAS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

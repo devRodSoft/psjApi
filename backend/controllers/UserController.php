@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\User;
-use yii\filters\VerbFilter;
-use backend\models\UserSearch;
-use yii\filters\AccessControl;
 use backend\controllers\BaseCtrl;
+use backend\models\UserSearch;
+use common\models\Permiso;
+use common\models\User;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -15,6 +17,16 @@ use yii\web\NotFoundHttpException;
  */
 class UserController extends BaseCtrl
 {
+
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
     /**
      * {@inheritdoc}
      */
@@ -74,6 +86,9 @@ class UserController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new User();
 
         if (Yii::$app->request->isPost) {
@@ -101,6 +116,9 @@ class UserController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
@@ -126,6 +144,9 @@ class UserController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->deleteInternal();
 
         return $this->redirect(['index']);
@@ -140,7 +161,7 @@ class UserController extends BaseCtrl
      */
     protected function findModel($id)
     {
-        if (($model = User::find()->where(['status' => User::STATUS_ACTIVE])->one($id)) !== null) {
+        if (($model = User::find()->where(['status' => User::STATUS_ACTIVE, 'id' => $id])->one()) !== null) {
             return $model;
         }
 

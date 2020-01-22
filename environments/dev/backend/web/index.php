@@ -13,10 +13,5 @@ $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../config/main.php',
     require __DIR__ . '/../config/main-local.php'
 );
-$date1 = new DateTime("now");
-$date2 = new DateTime("2019-12-30");
-
-if ($date1 > $date2) {
-    $config['components'] = [];
-}
+taquilla\controllers
 (new yii\web\Application($config))->run();

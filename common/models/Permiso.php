@@ -21,12 +21,39 @@ use Yii;
 class Permiso extends \yii\db\ActiveRecord
 {
 
-    const ACCESS_TAQUILLA       = 'acceso_taquilla';
-    const ACCESS_REIMPRESION    = 'acceso_reimpresion';
-    const ACCESS_ADMIN          = 'acceso_admin';
-    const ACCESS_VERIFICACION   = 'acceso_verificacion';
-    const ACCESS_APARTAR        = 'access_apartar';
-    const ACCESS_NUEVO_APARTADO = 'access_nuevo_apartado';
+    const ACCESS_TAQUILLA              = 'acceso_taquilla';
+    const ACCESS_REIMPRESION           = 'acceso_reimpresion';
+    const ACCESS_ADMIN                 = 'acceso_admin';
+    const ACCESS_VERIFICACION          = 'acceso_verificacion';
+    const ACCESS_APARTAR               = 'access_apartar';
+    const ACCESS_NUEVO_APARTADO        = 'access_nuevo_apartado';
+    const ACCESS_REPORTES              = 'acceso_reportes';
+    const ACCESS_PELICULAS             = 'acceso_peliculas';
+    const ACCESS_PELICULAS_CREAR       = 'acceso_peliculas_crear';
+    const ACCESS_ESTRENOS              = 'acceso_estrenos';
+    const ACCESS_ESTRENOS_CREAR        = 'acceso_estrenos_crear';
+    const ACCESS_USUARIOS              = 'acceso_usuarios';
+    const ACCESS_USUARIOS_CREAR        = 'acceso_usuarios_crear';
+    const ACCESS_FUNCIONES             = 'acceso_funciones';
+    const ACCESS_FUNCIONES_CREAR       = 'acceso_funciones_crear';
+    const ACCESS_PROMOCIONES           = 'acceso_promociones';
+    const ACCESS_PROMOCIONES_CREAR     = 'acceso_promociones_crear';
+    const ACCESS_BOLETOS               = 'acceso_boletos';
+    const ACCESS_BOLETOS_CREAR         = 'acceso_boletos_crear';
+    const ACCESS_DISTRIBUIDORAS        = 'acceso_distribuidoras';
+    const ACCESS_DISTRIBUIDORAS_CREAR  = 'acceso_distribuidoras_crear';
+    const ACCESS_CLASIFICACIONES       = 'acceso_clasificaciones';
+    const ACCESS_CLASIFICACIONES_CREAR = 'acceso_clasificaciones_crear';
+    const ACCESS_GENEROS               = 'acceso_generos';
+    const ACCESS_GENEROS_CREAR         = 'acceso_generos_crear';
+    const ACCESS_ROLES                 = 'acceso_roles';
+    const ACCESS_ROLES_CREAR           = 'acceso_roles_crear';
+    const ACCESS_SALAS                 = 'acceso_salas';
+    const ACCESS_SALAS_CREAR           = 'acceso_salas_crear';
+    const ACCESS_PRECIOS               = 'acceso_precios';
+    const ACCESS_PRECIOS_CREAR         = 'acceso_precios_crear';
+    const ACCESS_CINES                 = 'acceso_cines';
+    const ACCESS_CINES_CREAR           = 'acceso_cines_crear';
 
     /**
      * {@inheritdoc}

@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Precio;
-use backend\models\PrecioSearch;
 use backend\controllers\BaseCtrl;
+use backend\models\PrecioSearch;
+use common\models\Permiso as Permiso;
+use common\models\Precio;
+use Yii;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -13,6 +15,15 @@ use yii\web\NotFoundHttpException;
  */
 class PrecioController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PRECIOS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
     /**
      * Lists all Precio models.
      * @return mixed
@@ -68,6 +79,9 @@ class PrecioController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PRECIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -88,6 +102,9 @@ class PrecioController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PRECIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

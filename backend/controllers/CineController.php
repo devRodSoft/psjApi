@@ -2,11 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Cine;
-use backend\models\CineSearch;
-use yii\filters\AccessControl;
 use backend\controllers\BaseCtrl;
+use backend\models\CineSearch;
+use common\models\Cine;
+use common\models\Permiso as Permiso;
+use Yii;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -14,6 +15,15 @@ use yii\web\NotFoundHttpException;
  */
 class CineController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CINES)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Cine models.
@@ -50,6 +60,9 @@ class CineController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CINES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Cine();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -70,6 +83,9 @@ class CineController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CINES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -90,6 +106,9 @@ class CineController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CINES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

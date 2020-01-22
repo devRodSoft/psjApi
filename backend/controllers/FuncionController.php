@@ -2,22 +2,33 @@
 
 namespace backend\controllers;
 
+use backend\controllers\BaseCtrl;
+use backend\models\HorarioFuncionSearch;
+use common\models\HorarioFuncion;
+use common\models\HorarioPrecio;
+use common\models\Pelicula;
+use common\models\Permiso as Permiso;
+use common\models\Precio;
 use Yii;
 use yii\db\Query;
 use yii\helpers\Url;
-use common\models\Precio;
-use common\models\Pelicula;
-use common\models\HorarioPrecio;
-use backend\controllers\BaseCtrl;
-use common\models\HorarioFuncion;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
-use backend\models\HorarioFuncionSearch;
 
 /**
  * FuncionController implements the CRUD actions for Funcion model.
  */
 class FuncionController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_FUNCIONES)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     private $horas = [
         '01' => [1 => '01:00', 2 => '01:05', 3 => '01:10', 4 => '01:15', 5 => '01:20', 6 => '01:25', 7 => '01:30', 8 => '01:35', 9 => '01:40', 10 => '01:45', 11 => '01:50', 12 => '01:55', 13 => '01:60'],
@@ -42,7 +53,7 @@ class FuncionController extends BaseCtrl
         '20' => [248 => '20:00', 249 => '20:05', 250 => '20:10', 251 => '20:15', 252 => '20:20', 253 => '20:25', 254 => '20:30', 255 => '20:35', 256 => '20:40', 257 => '20:45', 258 => '20:50', 259 => '20:55', 260 => '20:60'],
         '21' => [261 => '21:00', 262 => '21:05', 263 => '21:10', 264 => '21:15', 265 => '21:20', 266 => '21:25', 267 => '21:30', 268 => '21:35', 269 => '21:40', 270 => '21:45', 271 => '21:50', 272 => '21:55', 273 => '21:60'],
         '22' => [274 => '22:00', 275 => '22:05', 276 => '22:10', 277 => '22:15', 278 => '22:20', 279 => '22:25', 280 => '22:30', 281 => '22:35', 282 => '22:40', 283 => '22:45', 284 => '22:50', 285 => '22:55', 286 => '22:60'],
-        '23' => [287 => '23:00', 288 => '23:05', 289 => '23:10', 290 => '23:15', 291 => '23:20', 292 => '23:25', 293 => '23:30', 294 => '23:35', 295 => '23:40', 296 => '23:45', 297 => '23:50', 298 => '23:55', 299 => '23:60']
+        '23' => [287 => '23:00', 288 => '23:05', 289 => '23:10', 290 => '23:15', 291 => '23:20', 292 => '23:25', 293 => '23:30', 294 => '23:35', 295 => '23:40', 296 => '23:45', 297 => '23:50', 298 => '23:55', 299 => '23:60'],
     ];
     /**
      * Lists all Funcion models.
@@ -124,11 +135,14 @@ class FuncionController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_FUNCIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new HorarioFuncion();
 
         // die();
         if ($model->load(Yii::$app->request->post()) && $model->fecha != '') {
-            $data = Yii::$app->request->getBodyParam('HorarioFuncion', []);
+            $data    = Yii::$app->request->getBodyParam('HorarioFuncion', []);
             $precios = Yii::$app->request->getBodyParam('horarioPrecio', []);
             if (empty($data['hora'])) {
                 Yii::$app->session->setFlash('error', "es necesario ingresar al menos una hora");
@@ -192,6 +206,9 @@ class FuncionController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_FUNCIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -228,6 +245,9 @@ class FuncionController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_FUNCIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

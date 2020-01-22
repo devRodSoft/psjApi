@@ -2,17 +2,28 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Clasificacion;
 use backend\controllers\BaseCtrl;
-use yii\web\NotFoundHttpException;
 use backend\models\ClasificacionSearch;
+use common\models\Clasificacion;
+use common\models\Permiso as Permiso;
+use Yii;
+use yii\web\HttpException as HttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * ClasificacionController implements the CRUD actions for Clasificacion model.
  */
 class ClasificacionController extends BaseCtrl
 {
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CLASIFICACIONES)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all Clasificacion models.
@@ -20,7 +31,7 @@ class ClasificacionController extends BaseCtrl
      */
     public function actionIndex()
     {
-        $searchModel = new ClasificacionSearch();
+        $searchModel  = new ClasificacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,6 +60,9 @@ class ClasificacionController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CLASIFICACIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Clasificacion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -69,6 +83,9 @@ class ClasificacionController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CLASIFICACIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -89,6 +106,9 @@ class ClasificacionController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CLASIFICACIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

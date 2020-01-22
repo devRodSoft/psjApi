@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
-use yii\web\UploadedFile;
-use common\models\Promocion;
 use backend\controllers\BaseCtrl;
-use yii\web\NotFoundHttpException;
 use backend\models\PromocionSearch;
+use common\models\Permiso as Permiso;
+use common\models\Promocion;
+use Yii;
+use yii\web\HttpException as HttpException;
+use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * PromocionController implements the CRUD actions for Promocion model.
@@ -15,13 +17,23 @@ use backend\models\PromocionSearch;
 class PromocionController extends BaseCtrl
 {
 
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PROMOCIONES)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
+
     /**
      * Lists all Promocion models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PromocionSearch();
+        $searchModel  = new PromocionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -50,6 +62,9 @@ class PromocionController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PROMOCIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new Promocion();
 
         if (Yii::$app->request->isPost) {
@@ -76,6 +91,9 @@ class PromocionController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PROMOCIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isPost) {
@@ -103,6 +121,9 @@ class PromocionController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_PROMOCIONES_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

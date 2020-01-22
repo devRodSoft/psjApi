@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\FaceUser;
 use backend\controllers\BaseCtrl;
 use backend\models\FaceUserSearch;
+use common\models\FaceUser;
+use common\models\Permiso as Permiso;
+use Yii;
+use yii\web\HttpException as HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -13,6 +15,16 @@ use yii\web\NotFoundHttpException;
  */
 class FaceUserController extends BaseCtrl
 {
+
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user && !Yii::$app->user->isGuest) {
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS)) {
+                throw new HttpException(403, "No tienes los permisos necesarios");
+            }
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Lists all FaceUser models.
@@ -49,6 +61,9 @@ class FaceUserController extends BaseCtrl
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = new FaceUser();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -69,6 +84,9 @@ class FaceUserController extends BaseCtrl
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -89,6 +107,9 @@ class FaceUserController extends BaseCtrl
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_USUARIOS_CREAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
