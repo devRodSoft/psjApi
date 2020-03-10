@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Distribuidora */
 
-$this->title                   = 'Create Distribuidora';
+$this->title                   = 'Crear Distribuidora';
 $this->params['breadcrumbs'][] = ['label' => 'Distribuidoras', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

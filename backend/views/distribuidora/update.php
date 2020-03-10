@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Distribuidora */
 
-$this->title                   = 'Update Distribuidora: ' . $model->id;
+$this->title                   = 'Editar Distribuidora: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Distribuidoras', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="distribuidora-update">
 

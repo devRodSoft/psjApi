@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title                   = 'Actualizar Boleto: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Boletos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="boleto-update">
 

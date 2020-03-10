@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <p>
-        <?php echo Html::a('Create Distribuidora', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Crear Distribuidora', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php echo GridView::widget([

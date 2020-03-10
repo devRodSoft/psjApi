@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $searchModel backend\models\ClasificacionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Clasificacions';
+$this->title = 'Clasificaciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="clasificacion-index">

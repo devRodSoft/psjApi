@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <?php echo $form->field($model, 'nombre')->textInput() ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?php echo Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end();?>

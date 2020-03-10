@@ -28,7 +28,7 @@ AppAsset::register($this);
     echo $form->field($model, 'pelicula_id')->widget(
         Select2::classname(),
         [
-            'data' => array_column(Pelicula::Find()->orderBy('id DESC')->limit(15)->All(), 'nombre', 'id'),
+            'data' => array_column(Pelicula::Find()->orderBy('id DESC')->limit(50)->All(), 'nombre', 'id'),
             'options' => ['placeholder' => 'Selecciona una pelicula ...'],
             'pluginOptions' => [
                 'allowClear' => false

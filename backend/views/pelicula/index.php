@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'visible' => Yii::$app->user->isGuest ? false : true,
-                'template' => '{view} {update}',
+                'template' => '{view} {update} {delete}',
             ],
         ],
     ]); ?>

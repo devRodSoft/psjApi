@@ -45,7 +45,7 @@ $dias = ["monday" => "Lunes", "tuesday" => "Martes", "wednesday" => "Miércoles"
 
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {calendar} {update}',
+                    'template' => '{view} {calendar} {update} {delete}',
                     'buttons' => [
                         'calendar' => function ($url, $model, $index) {
                             $urlc = [
