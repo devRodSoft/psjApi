@@ -47,7 +47,7 @@ class ReporteController extends BaseCtrl
     {
         $searchModel  = new ReporteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        // $groupDates = $searchModel->getDates(Yii::$app->request->queryParams);
+
         $title   = 'Ventas por dia';
         $url     = 'dia';
         $columns = [
@@ -260,7 +260,12 @@ class ReporteController extends BaseCtrl
                 'subGroupOf' => 0,
                 'group'      => true,
             ],
-            'fecha:date',
+            [
+                'attribute'  => 'fecha',
+                'subGroupOf' => 0,
+                'group'      => true,
+                'format'     => 'date',
+            ],
             //'hora:time',
             ['attribute' => 'nombre', 'label' => 'Tipo'],
             // ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
@@ -391,8 +396,8 @@ class ReporteController extends BaseCtrl
         $url          = 'bperiodo';
         $columns      = [
             [
-                'attribute'   => 'nombre_pelicula',
-                'label'       => 'Pelicula',
+                'attribute'   => 'fecha_venta',
+                'format'      => 'date',
                 'group'       => true,
                 'groupFooter' => function ($model, $key, $index, $widget) {
                     if ($model->nombre_pelicula == ReporteSearch::HEADER_TOTALES) {
@@ -400,20 +405,20 @@ class ReporteController extends BaseCtrl
                     }
                     // Closure method
                     return [
-                        'mergeColumns'   => [[0, 5]], // columns to merge in summary
+                        'mergeColumns'   => [[0, 6]], // columns to merge in summary
                         'content'        => [ // content to show in each summary cell
                             //0 => $model->nombre_pelicula,
-                            6 => GridView::F_SUM,
                             7 => GridView::F_SUM,
+                            8 => GridView::F_SUM,
                         ],
                         'contentFormats' => [ // content reformatting for each summary cell
-                            6 => ['format' => 'number', 'decimals' => 0],
                             7 => ['format' => 'number', 'decimals' => 0],
+                            8 => ['format' => 'number', 'decimals' => 0],
                         ],
                         'contentOptions' => [ // content html attributes for each summary cell
                             //1 => ['style' => 'text-align:center'],
-                            6 => ['style' => 'text-align:right'],
                             7 => ['style' => 'text-align:right'],
+                            8 => ['style' => 'text-align:right'],
                         ],
                         // html attributes for group summary row
                         'options'        => ['class' => 'info table-info', 'style' => 'font-weight:bold;'],
@@ -421,10 +426,37 @@ class ReporteController extends BaseCtrl
                 },
             ],
             [
-                'attribute'  => 'nombre_distribuidor',
-                'label'      => 'Distribuidora',
-                'subGroupOf' => 0,
-                'group'      => true,
+                'attribute'   => 'nombre_pelicula',
+                'label'       => 'Pelicula',
+                'subGroupOf'  => 0,
+                'group'       => true,
+                'groupFooter' => function ($model, $key, $index, $widget) {
+                    if ($model->nombre_pelicula == ReporteSearch::HEADER_TOTALES) {
+                        return false;
+                    }
+                    // Closure method
+                    return [
+                        'mergeColumns'   => [[1, 6]], // columns to merge in summary
+                        'content'        => [ // content to show in each summary cell
+                            7 => GridView::F_SUM,
+                            8 => GridView::F_SUM,
+                        ],
+                        'contentFormats' => [ // content reformatting for each summary cell
+                            7 => ['format' => 'number', 'decimals' => 0],
+                            8 => ['format' => 'number', 'decimals' => 0],
+                        ],
+                        'contentOptions' => [ // content html attributes for each summary cell
+                            7 => ['style' => 'text-align:right'],
+                            8 => ['style' => 'text-align:right'],
+                        ],
+                        // html attributes for group summary row
+                        'options'        => ['class' => 'info table-info', 'style' => 'font-weight:bold;'],
+                    ];
+                },
+            ],
+            [
+                'attribute' => 'nombre_distribuidor',
+                'label'     => 'Distribuidora',
             ],
             [
                 'attribute' => 'fecha',
@@ -445,7 +477,7 @@ class ReporteController extends BaseCtrl
                 },
             ],
             ['attribute' => 'nombre', 'label' => 'Tipo'],
-            ['attribute' => 'precio', 'label' => 'Precio', 'format' => 'currency'],
+            ['attribute' => 'precio', 'label' => 'Precio', 'format' => ['decimal', 2]],
             [
                 'attribute'   => 'conteo',
                 'label'       => 'Entradas',
