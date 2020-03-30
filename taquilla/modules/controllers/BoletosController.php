@@ -4,13 +4,13 @@ namespace taquilla\modules\controllers;
 
 use common\models\Boleto;
 use common\models\BoletoAsiento;
+use common\models\Cancelacion;
 use common\models\FaceUser;
 use common\models\HorarioFuncion;
 use common\models\HorarioPrecio;
 use common\models\Pago;
 use common\models\Permiso;
 use common\models\SalaAsientos;
-use common\models\Cancelacion;
 use taquilla\controllers\BaseAuthController;
 use Yii;
 use yii\web\HttpException;
@@ -175,6 +175,10 @@ class BoletosController extends BaseAuthController
     public function actionCancelar($boletoAsientoId, $deleteAll)
     {
 
+        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CANCELAR)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }
+
         //this code is for cancelation with who the ticket its over!
         $boleto         = BoletoAsiento::find()->where(['=', 'id', $boletoAsientoId])->one();
         $funcionId      = Boleto::find()->where(['=', 'id', $boleto->boleto_id])->select('horario_funcion_id')->one();
@@ -182,7 +186,7 @@ class BoletosController extends BaseAuthController
         $asiento        = SalaAsientos::find()->where(['=', 'id', $boleto->sala_asiento_id])->one();
 
         $cancelacionModel = new Cancelacion();
-    
+
         $cancelacionModel->fechaCancelacion = date('Y/m/d h:i:sa');
         $cancelacionModel->nombreUsuario    = Yii::$app->user->identity->username;
         $cancelacionModel->pelicula         = $detalleFuncion->pelicula->nombre;

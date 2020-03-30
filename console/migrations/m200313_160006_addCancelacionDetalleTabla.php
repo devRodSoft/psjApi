@@ -20,10 +20,10 @@ class m200313_160006_addCancelacionDetalleTabla extends Migration
             'pelicula'         => $this->string()->notNull(),
             'funcionFecha'     => $this->string()->notNull(),
             'funcionHora'      => $this->string()->notNull(),
-            'sala'             => $this->string()->notNull(),      
-            'asiento'          => $this->string()->notNull(),      
+            'sala'             => $this->string()->notNull(),
+            'asiento'          => $this->string()->notNull(),
             'codigoBoleto'     => $this->string()->notNull(),
-            'motivo'           => $this->string()->notNull(), 
+            'motivo'           => $this->string()->notNull(),
         ]);
     }
 

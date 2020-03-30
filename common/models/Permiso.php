@@ -23,6 +23,7 @@ class Permiso extends \yii\db\ActiveRecord
 
     const ACCESS_TAQUILLA              = 'acceso_taquilla';
     const ACCESS_REIMPRESION           = 'acceso_reimpresion';
+    const ACCESS_CANCELAR              = 'acceso_taquilla_boletos_cancelar';
     const ACCESS_ADMIN                 = 'acceso_admin';
     const ACCESS_VERIFICACION          = 'acceso_verificacion';
     const ACCESS_APARTAR               = 'access_apartar';
