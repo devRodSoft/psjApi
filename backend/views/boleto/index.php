@@ -21,7 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+            [
+                'label' => 'Código',
+                'attribute' => 'id'
+            ],
+            [
+                'label' => 'Fecha Venta',
+                'attribute' => 'pago.create_time'
+            ],
             [
                 'label' => 'Vendedor',
                 'attribute' => 'user.username'
@@ -33,10 +40,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->user->username != 'App' ? '' : $model->faceUser->nombre;
                 }
             ],
+            [
+                'label' => 'Pelicula',
+                'attribute' => 'pelicula.nombre'
+            ],
             'horarioFuncion.fecha',
-            'horarioFuncion.hora',
+            [
+                'label' => 'Función',
+                'attribute' => 'horarioFuncion.hora'
+            ],
+            [
+                'label' => 'Sala',
+                'attribute' => 'horarioFuncion.sala.nombre'
+            ],
+
             'reclamado:boolean',
-            'hash',
+            //'hash',
             //'created_at',
             //'updated_at',
 
