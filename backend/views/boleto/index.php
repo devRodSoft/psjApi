@@ -21,8 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'faceUser.nombre',
+            'id',
+            [
+                'label' => 'Vendedor',
+                'attribute' => 'user.username'
+            ],                    
+            [
+                'label' => 'Nombre',
+                'attribute' => 'faceUser.nombre',
+                'value' => function ($model) {
+                    return $model->user->username != 'App' ? '' : $model->faceUser->nombre;
+                }
+            ],
             'horarioFuncion.fecha',
             'horarioFuncion.hora',
             'reclamado:boolean',
