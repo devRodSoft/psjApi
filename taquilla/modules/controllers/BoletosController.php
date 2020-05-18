@@ -194,7 +194,8 @@ class BoletosController extends BaseAuthController
             throw new HttpException(403, "Credenciales incorrectas");
         }
 
-        if ($userModel->hasPermission(Permiso::ACCESS_CANCELAR)) {
+     
+        if (!$userModel->hasPermission(Permiso::ACCESS_CANCELAR)) {
             throw new HttpException(403, "No tienes los permisos necesarios");
         }
 
