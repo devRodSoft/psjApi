@@ -43,8 +43,7 @@ class UserController extends BaseAuthController
             ->with(['horarioFuncion', 'salaAsientos'])
             ->joinWith(['horarioFuncion AS hf', 'salaAsientos AS sa'], true, 'INNER JOIN')
             ->where(['boleto.face_user_id' => Yii::$app->user->id])
-            ->orderBy(['boleto.reclamado' => SORT_ASC, 'hf.fecha' => SORT_ASC])
-            //->orderBy(['boleto.reclamado' => SORT_ASC, 'hf.fecha' => SORT_DESC, 'hf.hora' => SORT_DESC])
+            ->orderBy(['boleto.reclamado' => SORT_ASC, 'hf.fecha' => SORT_ASC, 'hf.hora' => SORT_ASC])
             ->all();
         return $boletos;
     }
