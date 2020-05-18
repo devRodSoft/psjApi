@@ -2,8 +2,11 @@
 
 namespace backend\controllers;
 
+use app\models\Cancelaciones;
+use app\models\CancelacionesSearch as ModelsCancelacionesSearch;
 use backend\controllers\BaseCtrl;
 use backend\models\ReporteSearch;
+use backend\models\CancelacionesSearch;
 use common\models\Distribuidora;
 use common\models\Pelicula;
 use common\models\Permiso;
@@ -388,6 +391,41 @@ class ReporteController extends BaseCtrl
         );
     }
 
+
+    public function actionCancelados() {
+        
+        $searchModel  = new ModelsCancelacionesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $title        = 'Boletos Cancelados';
+        $url          = 'cancelar';
+        $columns      = [
+            
+                        'fechaCancelacion',
+                        'nombreUsuario',
+                        'pelicula', 
+                        'funcionFecha',
+                        'funcionHora', 
+                        'sala',
+                        'asiento', 
+                        'codigoBoleto',
+                        'motivo'
+            
+        ];
+
+        $searchTemplate     = '_bcancelado.php';
+        $searchTemplateData = [];
+        return $this->renderReport(
+            $title,
+            $url,
+            $searchModel,
+            $dataProvider,
+            $columns,
+            $searchTemplate,
+            $searchTemplateData
+        );
+    }
+
     public function actionBperiodo()
     {
         $searchModel  = new ReporteSearch();
@@ -539,7 +577,8 @@ class ReporteController extends BaseCtrl
                     'dataProvider' => $dataProvider,
                     'filterModel'  => $searchModel,
                     'rowOptions'   => function ($m) {
-                        return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
+                        if (isset($m->nombre_pelicula))
+                            return ($m->nombre_pelicula == ReporteSearch::HEADER_TOTALES) ? ['style' => 'font-weight: 700'] : [];
                     },
                     'toolbar'      => [
                         '{export}',

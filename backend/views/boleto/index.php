@@ -2,7 +2,8 @@
 
 use kartik\grid\GridView;
 use yii\helpers\Html;
-
+use common\models\User;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\BoletoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,6 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?php echo Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
+        $listUsers = User::find()->all();
+        $user = ArrayHelper::map($listUsers,'id','username');
     ?>
 
     <?php echo GridView::widget([
@@ -31,14 +34,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Vendedor',
-                'attribute' => 'user.username'
+                'attribute' => 'user_id',
+                'value' => 'user.username',
+                'filter' => $user,
             ],                    
             [
                 'label' => 'Nombre',
                 'attribute' => 'faceUser.nombre',
                 'value' => function ($model) {
                     return $model->user->username != 'App' ? '' : $model->faceUser->nombre;
-                }
+                },
+                'filter' => true
             ],
             [
                 'label' => 'Pelicula',

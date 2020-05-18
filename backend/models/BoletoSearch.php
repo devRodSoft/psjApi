@@ -17,8 +17,8 @@ class BoletoSearch extends Boleto
     public function rules()
     {
         return [
-            [['id', 'face_user_id', 'horario_funcion_id', 'reclamado'], 'integer'],
-            [['created_at', 'updated_at', 'hash'], 'safe'],
+            [['id', 'face_user_id', 'horario_funcion_id', 'reclamado', 'user_id'], 'integer'],
+            [['created_at', 'updated_at', 'hash', 'user_id'], 'safe'],
         ];
     }
 
@@ -42,12 +42,22 @@ class BoletoSearch extends Boleto
     {
         $query = Boleto::find();
 
+
+        //$query->joinWith(['user']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
+
+       // Lets do the same with country now
+       $dataProvider->sort->attributes['user'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
+                
+      
         $this->load($params);
 
         if (!$this->validate()) {
@@ -58,11 +68,12 @@ class BoletoSearch extends Boleto
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'boleto.id' => $this->id,
             'face_user_id' => $this->face_user_id,
             'horario_funcion_id' => $this->horario_funcion_id,
             'reclamado' => $this->reclamado,
             'hash' => $this->hash,
+            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

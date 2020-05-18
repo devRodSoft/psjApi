@@ -11,6 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Reportes', 'url' => ['/reporte']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promocion-index">
-    <?php echo $this->render($searchTemplate, $searchTemplateData) ?>
+    <?php echo $this->render($searchTemplate, $searchTemplateData);
+    ?>
     <?php echo GridView::widget($widgetData); ?>
 </div>

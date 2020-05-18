@@ -28,4 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p class="col-md-12">
         <?=Html::a('5 - BOLETOS POR PERIODO:', ['bperiodo'], ['class' => 'btn btn-primary col-md-4'])?>
     </p>
+    <p class="col-md-12">
+        <?=Html::a('6 - BOLETOS POR CANCELADOS:', ['cancelados'], ['class' => 'btn btn-primary col-md-4'])?>
+    </p>
 </div>

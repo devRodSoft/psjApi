@@ -33,7 +33,7 @@ use yii\db\Query;
  * @property BoletoAsiento[] $boletoAsientos
  */
 class Boleto extends \yii\db\ActiveRecord
-{
+{    
     /**
      * {@inheritdoc}
      */
