@@ -58,6 +58,7 @@ class AuthenticationController extends BaseController
     public function actionToken()
     {
         $data = Yii::$app->request->getBodyParams();
+        die(var_dump($data));
 
         //get user by email
         $user = User::findByUsername($data['username']);

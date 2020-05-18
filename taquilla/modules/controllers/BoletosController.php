@@ -11,6 +11,7 @@ use common\models\HorarioPrecio;
 use common\models\Pago;
 use common\models\Permiso;
 use common\models\SalaAsientos;
+use common\models\User;
 use taquilla\controllers\BaseAuthController;
 use Yii;
 use yii\web\HttpException;
@@ -139,6 +140,7 @@ class BoletosController extends BaseAuthController
         return $data;
     }
 
+    /* Boleto de la app */
     public function actionValidarBoleto($id)
     {
         if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_VERIFICACION)) {
@@ -175,9 +177,27 @@ class BoletosController extends BaseAuthController
     public function actionCancelar($boletoAsientoId, $deleteAll)
     {
 
-        if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_CANCELAR)) {
+        $user = Yii::$app->request->post('user', null);
+        $pass = Yii::$app->request->post('pass', null);
+        $motivo = Yii::$app->request->post('motivo', null);
+        /*CHECK IF USER CAN CANCEL */
+
+
+        $userModel = User::findByUsername($user);
+
+
+        if (empty($userModel)) {
+            throw new HttpException(403, "Credenciales incorrectas");
+        }
+
+        if (!$userModel->validatePassword($pass)) {
+            throw new HttpException(403, "Credenciales incorrectas");
+        }
+
+        if ($userModel->hasPermission(Permiso::ACCESS_CANCELAR)) {
             throw new HttpException(403, "No tienes los permisos necesarios");
         }
+
 
         //this code is for cancelation with who the ticket its over!
         $boleto         = BoletoAsiento::find()->where(['=', 'id', $boletoAsientoId])->one();
@@ -188,17 +208,15 @@ class BoletosController extends BaseAuthController
         $cancelacionModel = new Cancelacion();
 
         $cancelacionModel->fechaCancelacion = date('Y/m/d h:i:sa');
-        $cancelacionModel->nombreUsuario    = Yii::$app->user->identity->username;
+        $cancelacionModel->nombreUsuario    = $user;
         $cancelacionModel->pelicula         = $detalleFuncion->pelicula->nombre;
         $cancelacionModel->funcionFecha     = $detalleFuncion->fecha;
         $cancelacionModel->funcionHora      = $detalleFuncion->hora;
         $cancelacionModel->sala             = $detalleFuncion->sala->nombre;
         $cancelacionModel->asiento          = $asiento->fila . $asiento->numero;
         $cancelacionModel->codigoBoleto     = $boleto->id . $asiento->fila . $asiento->numero;
-        $cancelacionModel->motivo           = "hardcoded Motivo";
+        $cancelacionModel->motivo           = $motivo;
 
-        var_dump($cancelacionModel->save());
-        die();
         //start deleting a sale
         $txn = Yii::$app->db->beginTransaction();
         try {
@@ -228,6 +246,10 @@ class BoletosController extends BaseAuthController
                     ->execute();
             }
 
+            //Save the cancelation in the cancelation tables, here if where superamdin do notthin 
+            $cancelacionModel->save();
+
+            
             $txn->commit();
 
             Yii::$app->response->statusCode = 200;

@@ -66,7 +66,11 @@ return [
                 'OPTIONS oauth/<action:\w+>' => 'authentication/options',
 
                 //cancelacion
-                'DELETE boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar',
+                //'DELETE boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>/<user:[\-A-Z]+>/<password:[\-A-Z]+>/<motivo:[\-A-Z]+>' => 'general/boletos/cancelar',
+                //'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>/<user:[\-A-Z]+>/<password:[\-A-Z]+>/<motivo:[\-A-Z]+>' => 'general/boletos/options',
+
+                //Cancelacion
+                'POST boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar',
                 'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/options',
 
                 //find by code

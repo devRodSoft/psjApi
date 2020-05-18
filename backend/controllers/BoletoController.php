@@ -34,6 +34,8 @@ class BoletoController extends BaseCtrl
     {
         $searchModel  = new BoletoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // set default sorting
+        $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
 
         return $this->render('index', [
             'searchModel' => $searchModel,

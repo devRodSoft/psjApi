@@ -25,6 +25,7 @@ class PublicController extends Controller
                     'http://api.rodsoft.com.mx:80',
                     'https://api.rodsoft.com.mx:443',
                     'https://localhost:8100',
+                    
                 ],
                 // Allow only POST and PUT methods
                 // 'Access-Control-Request-Method'    => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
