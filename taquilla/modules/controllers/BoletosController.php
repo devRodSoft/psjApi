@@ -208,7 +208,7 @@ class BoletosController extends BaseAuthController
 
         $cancelacionModel = new Cancelacion();
 
-        $cancelacionModel->fechaCancelacion = date('Y-m-d h:i:sa');
+        $cancelacionModel->fechaCancelacion = date('Y-m-d H:i:s');
         $cancelacionModel->nombreUsuario    = $user;
         $cancelacionModel->pelicula         = $detalleFuncion->pelicula->nombre;
         $cancelacionModel->funcionFecha     = $detalleFuncion->fecha;
