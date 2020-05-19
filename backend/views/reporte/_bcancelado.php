@@ -8,6 +8,5 @@ use yii\widgets\ActiveForm;
 <div>
     <?php
     ?>
-    <h1>Boletos concacelados</h1>
 
 </div>
