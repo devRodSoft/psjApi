@@ -397,6 +397,8 @@ class ReporteController extends BaseCtrl
         $searchModel  = new ModelsCancelacionesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
+        $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
+        
         $title        = 'Boletos Cancelados';
         $url          = 'cancelar';
         $columns      = [
