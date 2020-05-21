@@ -50,7 +50,6 @@ class UserController extends BaseAuthController
 
     public function actionView()
     {
-
         return UserRest::getUser();
     }
 

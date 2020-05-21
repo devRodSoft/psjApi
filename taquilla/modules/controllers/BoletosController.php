@@ -47,6 +47,7 @@ class BoletosController extends BaseAuthController
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id');
 
         if (empty($codigoBoleto)) {
+
             $query->where(['boleto.user_id' => Yii::$app->user->id])
                 ->andWhere('boleto.created_at BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 1 DAY)')
                 ->orderBy('boleto.created_at DESC');
@@ -54,6 +55,7 @@ class BoletosController extends BaseAuthController
             $query->where(
                 [
                     'boleto.id' => $codigoBoleto,
+                    'boleto.user_id' => Yii::$app->user->id
                 ]
             );
         }
