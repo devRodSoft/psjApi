@@ -55,7 +55,6 @@ class BoletosController extends BaseAuthController
             $query->where(
                 [
                     'boleto.id' => $codigoBoleto,
-                    'boleto.user_id' => Yii::$app->user->id
                 ]
             );
         }
