@@ -18,7 +18,9 @@ class BoletoRest extends \common\models\Boleto
             'vendedor' => function ($m) {
                 return  $m->user->username;
             },
-            'user_id',
+            'user_id' => function ($m) {
+                return $m->user->id;
+            } 
             'fechaDeVenta' => function ($m) {
                 return $m->created_at;
             },
