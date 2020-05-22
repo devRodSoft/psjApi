@@ -16,10 +16,10 @@ class BoletoRest extends \common\models\Boleto
                 return $m->faceUser->nombre;
             },
             'vendedor' => function ($m) {
-                return  $m->user->username;
+                return  isset($m->user->username) ?  $m->user->username : "";
             },
             'user_id' => function ($m) {
-                return $m->user->id;
+                return  isset($m->user->id) ?  $m->user->id : "";
             },
             'fechaDeVenta' => function ($m) {
                 return $m->created_at;
