@@ -59,7 +59,7 @@ class BoletosController extends BaseAuthController
             );
         }
 
-        $query->andWhere(['boleto.reclamado' => 0]);
+        //$query->andWhere(['boleto.reclamado' => 0]);
 
         return $query->all();
 
@@ -102,7 +102,7 @@ class BoletosController extends BaseAuthController
                 ->andWhere('DATE(hf.fecha) = DATE("' . $date->format('Y-m-d') . '")');
         }
 
-        $query->andWhere(['boleto.reclamado' => 0]);
+        //$query->andWhere(['boleto.reclamado' => 0]);
 
         return $query->all();
     }
