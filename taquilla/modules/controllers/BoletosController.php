@@ -28,7 +28,6 @@ class BoletosController extends BaseAuthController
             'search',
             'pagar',
             'cancelar',
-            'validar',
             'options' => [
                 'class' => 'yii\rest\OptionsAction',
             ],
@@ -146,7 +145,7 @@ class BoletosController extends BaseAuthController
     public function actionValidar($id)
     {
         if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_VERIFICACION)) {
-            // throw new HttpException(403, "No tienes los permisos necesarios");
+            throw new HttpException(403, "No tienes los permisos necesarios");
         }
         $data = \api\models\BoletoRest::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
