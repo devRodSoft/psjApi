@@ -145,7 +145,7 @@ class BoletosController extends BaseAuthController
     public function actionValidarBoleto($id)
     {
         if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_VERIFICACION)) {
-            // throw new HttpException(403, "No tienes los permisos necesarios");
+             throw new HttpException(403, "No tienes los permisos necesarios");
         }
         $data = \api\models\BoletoRest::find()
             ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id')
@@ -171,7 +171,7 @@ class BoletosController extends BaseAuthController
         if (!$data->save()) {
             throw new HttpException(400, 'Error al validar boleto');
         }
-        Yii::$app->response->statusCode = 202;
+        Yii::$app->response->statusCode = 200;
         return $data;
     }
 
