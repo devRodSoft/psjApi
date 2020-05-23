@@ -28,6 +28,7 @@ class BoletosController extends BaseAuthController
             'search',
             'pagar',
             'cancelar',
+            'validar',
             'options' => [
                 'class' => 'yii\rest\OptionsAction',
             ],
