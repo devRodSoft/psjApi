@@ -56,7 +56,7 @@ return [
                 // 'GET boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/reimpresion',
                 // 'OPTIONS boletos/<id:[\-A-Z]+\d+>' => 'general/boletos/options',
 
-                'GET boletos/validar/<id:[\-A-Z]+\d+>' => 'general/boletos/validar-boleto',
+                'GET boletos/validar/<id:[\-A-Z]+\d+>' => 'general/boletos/validar',
                 'OPTIONS boletos/validar/<id:[\-A-Z]+\d+>' => 'general/boletos/options',
 
                 'POST boletos/horario/<horarioid:\d+>/pagar' => 'general/boletos/pagar',
