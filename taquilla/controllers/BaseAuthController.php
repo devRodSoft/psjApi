@@ -32,7 +32,8 @@ class BaseAuthController extends BaseController
     public function beforeAction($action)
     {
         if ($action->id != 'options' && Yii::$app->user && !Yii::$app->user->isGuest) {
-            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_TAQUILLA)) {
+            
+            if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_TAQUILLA)){
                 throw new HttpException(403, "No tienes los permisos necesarios");
             }
         }
