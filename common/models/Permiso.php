@@ -56,6 +56,7 @@ class Permiso extends \yii\db\ActiveRecord
     const ACCESS_CINES                 = 'acceso_cines';
     const ACCESS_CINES_CREAR           = 'acceso_cines_crear';
     const ACCESS_PRINTCODE             = 'acceso_impresionCodigo';
+    const ACCESS_CAMBIOBOLETO          = 'acceso_cambio';
 
     /**
      * {@inheritdoc}
