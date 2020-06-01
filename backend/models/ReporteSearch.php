@@ -275,7 +275,7 @@ class ReporteSearch extends Reporte
         $query->andFilterWhere(['DATE(fecha)' => $this->fecha]);
 
         $query->andFilterWhere(
-            ['like', 'username', $this->username]
+            ['=', 'username', $this->username]
         )
             ->andFilterWhere(['like', 'nombre_distribuidor', $this->nombre_distribuidor])
             ->andFilterWhere(['like', 'nombre_pelicula', $this->nombre_pelicula]);
