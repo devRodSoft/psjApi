@@ -188,12 +188,9 @@ class Boleto extends \yii\db\ActiveRecord
         $this->setHash();
 
         $this->qr_phat = '/' . $this->id_pago . (new \DateTime())->getTimestamp() . '.png';
-               
-        //dont change the other of this string we use te , to separate and got it in the seatControl app
-        $dataString = $this->hash . "," . $this->pelicula->nombre  . "," . $this->horarioFuncion->hora . "," .  $this->horarioFuncion->fecha . ",". $this->horarioFuncion->sala->nombre ."," . $this->id . "," . $this->getPreciosTypeCount(); 
 
         Yii::$app->get('qr')
-            ->setText($dataString)
+            ->setText($this->hash)
             ->setSize(500)
             ->setMargin(10)
             ->writeFile($storagePath . $this->qr_phat);
@@ -243,11 +240,10 @@ class Boleto extends \yii\db\ActiveRecord
         $precios = $query->all();
 
         foreach($precios as $precio) {
-            $stringPrecios = $stringPrecios . " " . $precio['nombre'] . "  " . $precio['total'];
+            $stringPrecios = $stringPrecios . "  " . $precio['nombre'] . " " . $precio['total'];
         }
 
         return $stringPrecios;
-
     }
 
     /**
