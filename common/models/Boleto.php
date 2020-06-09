@@ -188,9 +188,12 @@ class Boleto extends \yii\db\ActiveRecord
         $this->setHash();
 
         $this->qr_phat = '/' . $this->id_pago . (new \DateTime())->getTimestamp() . '.png';
+               
+        //dont change the other of this string we use te , to separate and got it in the seatControl app
+        $dataString = $this->hash . "," . $this->pelicula->nombre  . "," . $this->horarioFuncion->hora . "," .  $this->horarioFuncion->fecha . ",". $this->horarioFuncion->sala->nombre ."," . $this->id . "," . $this->getPreciosTypeCount(); 
 
         Yii::$app->get('qr')
-            ->setText($this->hash)
+            ->setText($dataString)
             ->setSize(500)
             ->setMargin(10)
             ->writeFile($storagePath . $this->qr_phat);
@@ -222,10 +225,29 @@ class Boleto extends \yii\db\ActiveRecord
             ->from(['ba' => BoletoAsiento::tableName()])
             ->innerJoin(['p' => Precio::tableName()], 'ba.precio_id = p.id')
             ->where(['ba.boleto_id' => $this->id]);
-        // ->groupBy('p.id, p.nombre, p.codigo');
+         //->groupBy('p.id, p.nombre, p.codigo');
         $precios = $query->all();
 
         return $precios;
+    }
+
+    public function getPreciosTypeCount() {
+        $stringPrecios = "";
+
+        $query = new Query;
+        $query->select('p.nombre, COUNT(p.nombre) as total')
+            ->from(['ba' => BoletoAsiento::tableName()])
+            ->innerJoin(['p' => Precio::tableName()], 'ba.precio_id = p.id')
+            ->where(['ba.boleto_id' => $this->id])
+         ->groupBy('p.id, p.nombre, p.codigo');
+        $precios = $query->all();
+
+        foreach($precios as $precio) {
+            $stringPrecios = $stringPrecios . " " . $precio['nombre'] . "  " . $precio['total'];
+        }
+
+        return $stringPrecios;
+
     }
 
     /**
