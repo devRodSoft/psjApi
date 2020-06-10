@@ -62,7 +62,36 @@ class BoletosController extends BaseAuthController
         //$query->andWhere(['boleto.reclamado' => 0]);
 
         return $query->all();
+    }
 
+    public function actionHash($hash)
+    {
+        //$codigoBoleto = Yii::$app->request->getQueryParam('codigoBoleto', null);
+
+        /*if (!Yii::$app->user->identity->hasPermission(Permiso::ACCESS_REIMPRESION)) {
+            throw new HttpException(403, "No tienes los permisos necesarios");
+        }*/
+
+        $query = \api\models\BoletoRest::find()
+            ->innerJoin(['fu' => 'face_user'], 'fu.id = boleto.face_user_id')
+            ->innerJoin(['hf' => 'horario_funcion'], 'hf.id = boleto.horario_funcion_id');
+
+        if (empty($hash)) {
+
+            $query->where(['boleto.user_id' => Yii::$app->user->id])
+                ->andWhere('boleto.created_at BETWEEN (NOW() - INTERVAL 1 DAY) AND (NOW() + INTERVAL 1 DAY)')
+                ->orderBy('boleto.created_at DESC');
+        } else {
+            $query->where(
+                [
+                    'boleto.hash' => $hash,
+                ]
+            );
+        }
+
+        //$query->andWhere(['boleto.reclamado' => 0]);
+
+        return $query->all();
     }
 
     public function actionSearch()

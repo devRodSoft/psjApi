@@ -77,6 +77,10 @@ return [
                 'GET boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
                 'OPTIONS boletos/code/<codigoBoleto\d+>' => 'general/boletos/options',
 
+                //find by hash
+                'GET boletos/hash/<hash\d+>' => 'general/boletos/hash',
+                'OPTIONS boletos/hash/<hash\d+>' => 'general/boletos/options',
+
                 //apartar
                 'POST apartados/horario/<horarioid:\d+>' => 'general/apartados/apartar',
                 'OPTIONS apartados/horario/<horarioid:\d+>' => 'general/apartados/options',
