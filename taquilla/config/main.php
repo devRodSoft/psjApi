@@ -95,6 +95,11 @@ return [
                 'GET /reportes/ventas/dia' => 'general/reportes/ventas-dia',
                 'OPTIONS /reportes/ventas/dia' => 'general/reportes/options',
 
+                
+                
+                
+                
+
             ],
         ],
     ],
