@@ -43,7 +43,6 @@ class FaceUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['status'], 'integer'],
             [['username', 'first_name', 'last_name', 'email', 'avatar'], 'string', 'max' => 255],
             [['username'], 'unique'],
-            [['email'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
