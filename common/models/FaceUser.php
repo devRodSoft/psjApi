@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\FaceUserQuery as FaceUserQuery;
 use Yii;
 
 /**
@@ -37,12 +38,12 @@ class FaceUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['username', 'first_name', 'last_name', 'email', 'avatar'], 'required'],
+            [['username', 'first_name', 'last_name', 'avatar'], 'required'],
             [['cumpleaños', 'created_at', 'updated_at'], 'safe'],
             [['status'], 'integer'],
             [['username', 'first_name', 'last_name', 'email', 'avatar'], 'string', 'max' => 255],
             [['username'], 'unique'],
-            [['email'], 'unique'],
+            [['username'], 'default', 'value' => rand() . "@default.com"],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
