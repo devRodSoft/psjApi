@@ -293,6 +293,56 @@ class BoletosController extends BaseAuthController
             throw $e;
         }
     }
+    
+    //this remove the seat without fill cancelation detail table
+    public function actionCambio($boletoAsientoId, $deleteAll) {
+        //this code is for cancelation with who the ticket its over!
+        $boleto         = BoletoAsiento::find()->where(['=', 'id', $boletoAsientoId])->one();
+        $funcionId      = Boleto::find()->where(['=', 'id', $boleto->boleto_id])->select('horario_funcion_id')->one();
+        $detalleFuncion = HorarioFuncion::find()->where(['=', 'id', $funcionId->horario_funcion_id])->one();
+        $asiento        = SalaAsientos::find()->where(['=', 'id', $boleto->sala_asiento_id])->one();
+
+        //start deleting a sale
+        $txn = Yii::$app->db->beginTransaction();
+        try {
+
+            //delete from boleto
+            $boletoId = BoletoAsiento::find()->where(['=', 'id', $boletoAsientoId])->select('boleto_id')->one();
+            //delete from pago
+            $pagoId = Boleto::find()->where(['=', 'id', $boletoId->boleto_id])->select('id_pago')->one();
+
+            //Delete from boleto_asiento
+            \Yii::$app->db
+                ->createCommand()
+                ->delete('boleto_asiento', ['id' => $boletoAsientoId])
+                ->execute();
+
+            //If the sale only have once ticket delete the total sale!
+            if ($deleteAll) {
+
+                \Yii::$app->db
+                    ->createCommand()
+                    ->delete('boleto', ['id' => $boletoId->boleto_id])
+                    ->execute();
+
+                \Yii::$app->db
+                    ->createCommand()
+                    ->delete('pago', ['id' => $pagoId->id_pago])
+                    ->execute();
+            }
+            
+            $txn->commit();
+
+            Yii::$app->response->statusCode = 200;
+            return "Boleto cancelado";
+        } catch (\Exception $e) {
+            $txn->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $txn->rollBack();
+            throw $e;
+        }
+    }
 
     public function actionPagar($horarioid)
     {

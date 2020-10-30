@@ -73,6 +73,10 @@ return [
                 'POST boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cancelar',
                 'OPTIONS boletos/cancelar/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/options',
 
+                //Cambio
+                'POST boletos/cambio/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/cambio',
+                'OPTIONS boletos/cambio/<boletoAsientoId:\d+>/<deleteAll:\d+>' => 'general/boletos/options',
+
                 //find by code
                 'GET boletos/code/<codigoBoleto\d+>' => 'general/boletos/code',
                 'OPTIONS boletos/code/<codigoBoleto\d+>' => 'general/boletos/options',
