@@ -22,7 +22,7 @@ b.updated_at as boleto_actualizado,
 b.qr_phat,
 b.hash,
 b.horario_funcion_id,
-ba.sala_asiento_id as sala_id,
+sa.sala_id as sala_id,
 f.cine_id as cine_id,
 f.hora,
 f.fecha,
@@ -72,6 +72,7 @@ inner join `user` u on u.id = b.user_id
 INNER JOIN face_user fu on fu.id = pa.face_user_id
 INNER JOIN pelicula pe on pe.id = f.pelicula_id
 INNER join distribuidora d on d.id = pe.distribuidora_id
+INNER join sala_asientos sa on sa.id = ba.sala_asiento_id 
 ");
     
     }

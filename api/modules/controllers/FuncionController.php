@@ -38,7 +38,7 @@ class FuncionController extends BaseController
 
     public function actionIndexnow()
     {
-
+        date_default_timezone_set('America/Mexico_City');
         return $this->actionIndex(date('Y-m-d'));
     }
 
