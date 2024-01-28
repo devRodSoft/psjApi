@@ -21,17 +21,7 @@ class BaseController extends ActiveController
             'cors' => [
                 // restrict access to
                 'Access-Control-Allow-Origin' => ['*'],
-                'Origin' => [
-                    'http://localhost:8100',
-                    'http://localhost:4200',
-                    'http://api.rodsoft.com.mx:80',
-                    'https://api.rodsoft.com.mx:443',
-                    'https://mobile.plazasanjavier.com:443',
-                    'http://plazasanjavier.com:443',
-                    'http://taquilla.plazasanjavier.com:443',
-                    'http://admin.plazasanjavier.com:443',
-                    'https://localhost:8100',
-                ],
+                // 'Origin' => ['*'],
                 // Allow only POST and PUT methods
                 'Access-Control-Request-Method' => ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'],
                 // Allow only headers 'X-Wsse'

@@ -1,4 +1,5 @@
 Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET,PATCH,OPTIONS,PUT,POST,DELETE"
 
 RewriteEngine on
 # If a directory or a file exists, use it directly
